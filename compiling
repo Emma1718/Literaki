@@ -1,0 +1,1 @@
+g++ main.cpp Game.cpp Gtk.cpp Map.cpp WordBonus.cpp CharBonus.cpp Field.cpp Character.cpp -o Main `pkg-config --cflags --libs gtk+-3.0`
