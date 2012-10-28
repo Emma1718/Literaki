@@ -4,7 +4,7 @@
 
 /// class TripleBonus - 
 class WordBonus : public Field {
-  int multiplier;
+  //  int multiplier;
   // Operations
 public:
   WordBonus(int a);

@@ -6,7 +6,7 @@
 /// class TripleBonus -                                                                                                                                                 
 class CharBonus : public Field {
 
-  int multiplier;
+  //  int multiplier;
   int which_char;
 
 

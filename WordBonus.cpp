@@ -2,6 +2,7 @@
 
 WordBonus::WordBonus(int a)
 {
+  this->id = 2;
   this->multiplier=a;
 }
 

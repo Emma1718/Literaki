@@ -13,6 +13,8 @@ protected:
   // Operations
 public:
   GtkWidget *button;
+  int multiplier;
+  int id;
   Field ();
   // ~Field ();
   virtual void calculate ();
