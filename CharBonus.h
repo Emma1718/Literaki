@@ -6,16 +6,15 @@
 /// class TripleBonus -                                                                                                                                                 
 class CharBonus : public Field {
 
-  //  int multiplier;
-  // int which_char;
-
-
+ protected:
+  int which_char;
   // Operations                                                                                                                                                         
  public:
   //    int which_char;
     CharBonus(int a, int b);
     ~CharBonus();
  void calculate ();
+ GtkWidget *draw(Gtk *graphic);
 };
 
 #endif 

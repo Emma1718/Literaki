@@ -10,18 +10,17 @@ class Field {
   // Attributes
 protected:
    Character c;
-  // Operations
+   int multiplier;
+   GtkWidget *button;
+ // Operations
 public:
-  GtkWidget *button;
-  int multiplier;
-  int id;
-  int which_char;
+ 
   Field ();
   // ~Field ();
   virtual void calculate ();
+  virtual GtkWidget *draw(Gtk *graphic);
   //  void insert (Character c);
   /* void clear (); */
-  /* void draw (); */
 };
 
 #endif 

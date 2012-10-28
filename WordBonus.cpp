@@ -2,11 +2,17 @@
 
 WordBonus::WordBonus(int a)
 {
-  this->id = 2;
   this->multiplier=a;
 }
 
 void WordBonus::calculate()
 {
   //
+}
+
+GtkWidget *WordBonus::draw(Gtk *graphic)
+{
+  this->button = graphic->Create_Button();
+  graphic->ChangeColor(this->button,"grey");
+  return this->button;
 }

@@ -4,12 +4,13 @@
 
 /// class TripleBonus - 
 class WordBonus : public Field {
-  //  int multiplier;
+
   // Operations
 public:
   WordBonus(int a);
   //  ~WordBonus();
-void  calculate ();
+  void  calculate ();
+  GtkWidget *draw(Gtk *graphic);
 };
 
 #endif 
