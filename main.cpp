@@ -3,7 +3,7 @@
 int main(int argc, char * argv[])
 {
   Game game(argc, argv);
-   game.run();
+  game.run();
   return 0;
   // Dictionary dict;
   // dict.load("plik.txt");
