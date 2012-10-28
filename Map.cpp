@@ -47,7 +47,10 @@ void Map::draw(Gtk *graphic)
   for(int i=0; i<this->width; i++)
     for(int j=0; j<this->height; j++)
       {
-	this->matrix[i][j]-> button = graphic->Create_Button(this->board, i, j, this->matrix[i][j]->id);
+	if (this->matrix[i][j]->id!=1) 
+	  matrix[i][j]->button = graphic->Create_Button(this->board, i, j, this->matrix[i][j]->id);
+	else
+ 	  matrix[i][j]->button = graphic->Create_Button(this->board, i, j, this->matrix[i][j]->id, this->matrix[i][j]->which_char);
       }
   graphic->Table_into_window(this->board);
 }

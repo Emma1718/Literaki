@@ -7,13 +7,14 @@
 class CharBonus : public Field {
 
   //  int multiplier;
-  int which_char;
+  // int which_char;
 
 
   // Operations                                                                                                                                                         
  public:
-  CharBonus(int a, int b);
-  ~CharBonus();
+  //    int which_char;
+    CharBonus(int a, int b);
+    ~CharBonus();
  void calculate ();
 };
 

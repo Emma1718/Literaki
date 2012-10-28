@@ -15,6 +15,7 @@ public:
   GtkWidget *button;
   int multiplier;
   int id;
+  int which_char;
   Field ();
   // ~Field ();
   virtual void calculate ();
