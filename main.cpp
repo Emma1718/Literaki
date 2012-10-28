@@ -2,7 +2,7 @@
 
 int main(int argc, char * argv[])
 {
-  Game game(argc, argv);
+  Game game(argc, argv,"matrix");
   game.run();
   // Dictionary dict;
   // dict.load("plik.txt");

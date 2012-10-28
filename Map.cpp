@@ -52,9 +52,9 @@ void Map::draw(Gtk *graphic)
   graphic->Table_into_window(this->board);
 }
 
-Map::Map(Gtk *graphic)
+Map::Map(Gtk *graphic,string filename)
 {
-  this->loadFromFile("matrix");
+  this->loadFromFile(filename);
   this->draw(graphic);
 }
 

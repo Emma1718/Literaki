@@ -6,7 +6,7 @@
 #include "Gtk.h" 
 /* #include "Player.h" */
 /* #include  "Dictionary.h" */ 
-#include <stdlib.h>
+#include <string>
 #include <iostream>
 #include <gtk/gtk.h>
  
@@ -21,7 +21,7 @@ class Game {
   /* Dictionary* unnamed; */
   // Operations
 public:
-   Game (int argc, char *argv[]);
+   Game (int argc, char *argv[],std::string filename);
   //~Game ();
    void  run ();
 };

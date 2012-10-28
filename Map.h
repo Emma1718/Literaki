@@ -21,7 +21,7 @@ public:
   GtkWidget *board;
   int height;
   int width;
-  Map (Gtk * graphic);
+  Map (Gtk * graphic,std::string filename);
   //~Map ();
   void draw (Gtk *graphic);
   void setField (int x, int y, Character c);
