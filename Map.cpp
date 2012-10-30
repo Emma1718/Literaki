@@ -56,6 +56,10 @@ Map::Map(Gtk *graphic,string filename)
 {
   this->loadFromFile(filename);
   this->draw(graphic);
+
+  for(int i=0;i<this->width;i++)
+    for(int j=0;j<this->height;j++)
+      this->modified[i][j] = false;
 }
 
 

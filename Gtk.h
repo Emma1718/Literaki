@@ -8,6 +8,8 @@
 class Gtk
 {
   GtkWidget *window;
+  GtkWidget *vbox;
+  GtkWidget *hbox;
 
  public:
   Gtk(int argc, char * argv[]);
@@ -17,6 +19,7 @@ class Gtk
   void Table_into_window(GtkWidget *board);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void run();
+
   //  ~Gtk();
 };
 

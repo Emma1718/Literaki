@@ -1,8 +1,9 @@
 #include "Game.h"
+using namespace std;
 
 int main(int argc, char * argv[])
 {
-  Game game(argc, argv,"matrix");
+  Game game(argc, argv,"matrix", "plik");
   game.run();
   // Dictionary dict;
   // dict.load("plik.txt");

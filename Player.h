@@ -1,11 +1,14 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "Sack.h"
+#include <string>
+
 /// class Player - 
 class Player {
   // Attributes
 protected:
-  string name;
+  std::string name;
   int points;
   Sack * sack;
   // Operations

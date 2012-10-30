@@ -5,6 +5,10 @@
 
 /// class Computer - 
 class Computer : public Player {
+
+ public:
+  Computer(std::string name, int points);
+  //~Computer();
 };
 
 #endif 

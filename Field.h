@@ -17,7 +17,7 @@ public:
  
   Field ();
   // ~Field ();
-  virtual void calculate ();
+  virtual int calculate ();
   virtual GtkWidget *draw(Gtk *graphic);
   //  void insert (Character c);
   /* void clear (); */

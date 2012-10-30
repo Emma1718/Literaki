@@ -7,9 +7,10 @@ Field::Field()
   this->multiplier = 1;
 }
 
-void Field::calculate()
+int Field::calculate()
 {
-  //
+  int x = this->c.getValue();
+  return x;
 }
 GtkWidget * Field::draw(Gtk *graphic)
 {

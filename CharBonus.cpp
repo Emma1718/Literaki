@@ -6,9 +6,11 @@ CharBonus::CharBonus(int a, int b)
   this->multiplier = b;
 }
 
-void CharBonus::calculate()
+int CharBonus::calculate()
 {
-  //
+  int x = this->c.getValue();
+  if (x==this->which_char) return (this->multiplier)*x;
+  else return x;
 }
 GtkWidget *CharBonus::draw(Gtk *graphic)
 {
@@ -19,13 +21,13 @@ GtkWidget *CharBonus::draw(Gtk *graphic)
       graphic->ChangeColor(this->button, "yellow");
       break;
     case 2:
-      graphic->ChangeColor(this->button, "green");
+      graphic->ChangeColor(this->button, "DarkOliveGreen3");
       break;
     case 3:
-      graphic->ChangeColor(this->button,"blue");
+      graphic->ChangeColor(this->button,"SteelBlue");
       break;
     case 5:
-      graphic->ChangeColor(this->button,"red");
+      graphic->ChangeColor(this->button,"tomato");
       break;
     }
   return this->button;

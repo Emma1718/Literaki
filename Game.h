@@ -3,27 +3,30 @@
 
 /* #include "Sack.h" */
 #include "Map.h"
-#include "Gtk.h" 
-/* #include "Player.h" */
-/* #include  "Dictionary.h" */ 
+#include "Gtk.h"
+#include "Player.h" 
+#include "Dictionary.h"
+#include "Human.h"
+#include "Computer.h"
 #include <string>
 #include <iostream>
-#include <gtk/gtk.h>
- 
 
-/// class Game - 
+
+
+/// class Game -
 class Game {
   // Associations
   /* Sack* unnamed; */
-   Gtk* graphic; 
-   Map* map; 
-  /* Player* unnamed; */
-  /* Dictionary* unnamed; */
+   Gtk* graphic;
+   Map* map;
+   Human *human;
+   Computer *computer; 
+   Dictionary* dictionary;
   // Operations
 public:
-   Game (int argc, char *argv[],std::string filename);
+   Game (int argc, char *argv[],std::string filename_matrix, std::string filename_dict);
   //~Game ();
    void  run ();
 };
 
-#endif 
+#endif

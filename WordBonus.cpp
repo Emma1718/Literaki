@@ -5,9 +5,10 @@ WordBonus::WordBonus(int a)
   this->multiplier=a;
 }
 
-void WordBonus::calculate()
+int WordBonus::calculate()
 {
-  //
+  int x = this->c.getValue();
+  return x;
 }
 
 GtkWidget *WordBonus::draw(Gtk *graphic)

@@ -9,7 +9,7 @@ class WordBonus : public Field {
 public:
   WordBonus(int a);
   //  ~WordBonus();
-  void  calculate ();
+  int calculate ();
   GtkWidget *draw(Gtk *graphic);
 };
 

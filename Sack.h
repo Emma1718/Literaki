@@ -5,14 +5,14 @@
 /// class Sack - 
 class Sack {
   // Attributes
-protected:
+  //protected:
   /// STLowa lista
-  list <Character> characters;
+  //  list <Character> characters;
   // Operations
-public:
-  Sack ();
-  ~Sack ();
-  int getCharacters (char * buffer, int amount);
+  //public:
+  //Sack ();
+  //~Sack ();
+  //int getCharacters (char * buffer, int amount);
 };
 
 #endif 
