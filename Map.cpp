@@ -49,7 +49,7 @@ void Map::draw(Gtk *graphic)
       {
 	graphic->putField(i,j,this->board,this->matrix[i][j]->draw(graphic));
       }
-  graphic->Table_into_window(this->board);
+  graphic->Map_into_window(this->board);
 }
 
 Map::Map(Gtk *graphic,string filename)

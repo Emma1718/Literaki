@@ -28,22 +28,31 @@ GtkWidget * Gtk::Create_Table(int width, int height)
   return board;
 }
 
-GtkWidget * Gtk::Create_Button()
+GtkWidget * Gtk::Create_Button(char *label, int height, int width)
 {
   GtkWidget *button;
   
-  button = gtk_button_new();//_with_label("");
-  gtk_widget_set_size_request(button, 38, 38);
+  button = gtk_button_new_with_label(label);
+  gtk_widget_set_size_request(button, height, width);
 
   return button;
 }
 
-void Gtk::Table_into_window(GtkWidget *board)
+void Gtk::Map_into_window(GtkWidget *board)
 {
+  
   gtk_box_pack_start(GTK_BOX(this->vbox), board, TRUE, TRUE, 0); 
-  /*  GtkWidget *frame;
+ /*  GtkWidget *frame;
   frame = gtk_frame_new("STAN GRY");
   gtk_box_pack_start(GTK_BOX(this->hbox), frame, TRUE, TRUE, 0);*/
+}
+void Gtk::HumanBox_into_window(GtkWidget *board, GtkWidget *button)
+{
+  GtkWidget *hbox;
+  hbox = gtk_hbox_new(FALSE, 15);
+  gtk_box_pack_start(GTK_BOX(this->vbox), hbox, TRUE, TRUE, 0); 
+  gtk_box_pack_start(GTK_BOX(hbox), board, TRUE, TRUE, 10);
+  gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 10);
 }
 
 void Gtk::ChangeColor(GtkWidget *widget, char* colour)

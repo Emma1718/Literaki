@@ -14,7 +14,7 @@ int CharBonus::calculate()
 }
 GtkWidget *CharBonus::draw(Gtk *graphic)
 {
-  this->button = graphic->Create_Button();
+  this->button = graphic->Create_Button("", 38, 38);
   switch(this->which_char)
     {
     case 1:

@@ -15,7 +15,7 @@ int Field::calculate()
 }
 GtkWidget * Field::draw(Gtk *graphic)
 {
-  this->button = graphic->Create_Button();
+  this->button = graphic->Create_Button("", 38, 38);
   graphic->ChangeColor(this->button,"white");
   return this->button;
 }

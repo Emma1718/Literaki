@@ -23,6 +23,7 @@ void HumanBox::draw(Gtk *graphic)
   
   for(int i=0;i<this->length;i++)
     graphic->putField(0,i,this->board,this->letters[i]->draw(graphic));
-  
-  graphic->Table_into_window(this->board);
+  this->button_OK = graphic->Create_Button("OK", 38, 45);
+
+  graphic->HumanBox_into_window(this->board, this->button_OK);
 }

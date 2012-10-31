@@ -13,7 +13,7 @@ int WordBonus::calculate()
 
 GtkWidget *WordBonus::draw(Gtk *graphic)
 {
-  this->button = graphic->Create_Button();
+  this->button = graphic->Create_Button("", 38, 38);
   graphic->ChangeColor(this->button,"grey");
   return this->button;
 }

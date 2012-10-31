@@ -4,6 +4,7 @@ class HumanBox{
 
   HumanChar **letters;
   GtkWidget *board;
+  GtkWidget * button_OK;
   int length;
  public:
   HumanBox(int l, Gtk *graphic);
