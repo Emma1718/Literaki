@@ -32,7 +32,7 @@ GtkWidget * Gtk::Create_Button()
 {
   GtkWidget *button;
   
-  button = gtk_button_new_with_label("");
+  button = gtk_button_new();//_with_label("");
   gtk_widget_set_size_request(button, 38, 38);
 
   return button;

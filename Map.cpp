@@ -4,7 +4,7 @@ using namespace std;
 
 void Map::loadFromFile(string filename)
 {
-  //int width, height;
+  
   int option,wh_ch,mp; 
 
   ifstream file(filename.c_str(),ifstream::in);
@@ -57,9 +57,13 @@ Map::Map(Gtk *graphic,string filename)
   this->loadFromFile(filename);
   this->draw(graphic);
 
+  this-> modified=new bool*[this->width];
+  for(int i = 0; i<this->width; i++)
+    modified[i]=new bool[this->height];
+
   for(int i=0;i<this->width;i++)
     for(int j=0;j<this->height;j++)
-      this->modified[i][j] = false;
+      this->modified[i][j] = 0;
 }
 
 

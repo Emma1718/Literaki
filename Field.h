@@ -19,7 +19,7 @@ public:
   // ~Field ();
   virtual int calculate ();
   virtual GtkWidget *draw(Gtk *graphic);
-  //  void insert (Character c);
+  void insert (Character c);
   /* void clear (); */
 };
 
