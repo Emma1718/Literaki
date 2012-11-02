@@ -7,7 +7,7 @@ class CharBonus : public Field {
 
  protected:
   int which_char;
-  // Operations                                                                                                                                                         
+  int multiplier;  // Operations                                                                                                                                                         
  public:
  
   CharBonus(int a, int b);

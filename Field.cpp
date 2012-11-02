@@ -4,7 +4,6 @@ using namespace std;
 
 Field::Field()
 {
-  this->multiplier = 1;
   this->c = Character();
 }
 

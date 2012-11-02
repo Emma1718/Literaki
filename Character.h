@@ -1,7 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <string>
+
 /// class Character - 
 class Character {
   // Attributes

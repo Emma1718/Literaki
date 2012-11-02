@@ -6,6 +6,7 @@
 class WordBonus : public Field {
 
   // Operations
+  int multiplier;
 public:
   WordBonus(int a);
   //  ~WordBonus();

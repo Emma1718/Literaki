@@ -10,7 +10,6 @@ class Field {
   // Attributes
 protected:
    Character c;
-   int multiplier;
    GtkWidget *button;
  // Operations
 public:
