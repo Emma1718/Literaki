@@ -4,7 +4,8 @@ using namespace std;
 
 Character::Character(char * c, int value)
 {
-  this->c = c;
+  this->c = new char[10];
+this->c = c;
   this->value = value;
 }
 

@@ -5,7 +5,6 @@
 /// class Character - 
 class Character {
   // Attributes
-protected:
   char * c;
   int value;
   // Operations
