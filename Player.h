@@ -3,6 +3,7 @@
 
 #include "Sack.h"
 #include <string>
+#include <vector>
 
 /// class Player - 
 class Player {
@@ -11,6 +12,7 @@ protected:
   std::string name;
   int points;
   Sack * sack;
+  std:: vector <Character> letters;
   // Operations
 public:
   bool move ();

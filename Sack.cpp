@@ -19,6 +19,7 @@ Sack::Sack(string filename_sack)
 	      Character ch = Character(letter, value);
 	      this->characters.insert(pair<int,Character>(x,ch));
 	      x++;
+	      //cout<<x<<"L:"<<ch.getChar()<<endl;
 	    }
 	}
       else 
@@ -30,31 +31,43 @@ Sack::Sack(string filename_sack)
   read_file.close();
 }
 
-string Sack::getCharacters(int amount)
+int Sack::getCharacters(vector <Character> *letters, int amount)
 {
   srand(time(NULL));
   map<int,Character>::iterator iter;
   
-  int s=characters.size();
-  string buffer="";
+  int s = this->characters.size();
+  //  cout<<"size:"<<s<<endl;
+  int how_many = 0;
+//string buffer="";
   
   while(amount>0 && s>0)
     {
-      iter=characters.find(rand()%s);
-      //cout<<(*iter).first<<" "<<(*iter).second->c<<" "<<(*iter).second->value<<endl;
-      buffer=buffer+(string)(*iter).second.getChar();
+      int r = rand()%s;
+      cout<<"rand:"<<r<<endl;
+      iter=this->characters.find(r);
+      while(iter == this->characters.end())
+	{
+	  r = rand()%s;
+	  cout<<"rand2:"<<r<<endl;
+	  iter = this->characters.find(r);
+	}
+      letters->push_back((*iter).second);//cout<<(*iter).first<<" "<<(*iter).second->c<<" "<<(*iter).second->value<<endl;
+      //buffer=buffer+(string)(*iter).second.getChar();
       //      cout<<buffer;
-      if(iter==characters.begin())
-  	characters.erase(iter,characters.begin()); 
+      cout<<"iter.char:"<<(*iter).second.getChar()<<endl;
+      if(iter==this->characters.begin())
+  	this->characters.erase(iter,this->characters.begin()); 
       else
   	{ 
-  	  if(iter==characters.end())
-  	    characters.erase(iter,characters.end()); 
+  	  if(iter==this->characters.end())
+  	    this->characters.erase(iter,this->characters.end()); 
   	  else 
-  	    characters.erase(iter);
+  	    this->characters.erase(iter);
   	}
       --s;
       --amount;
+      ++how_many;
    }
   /*iter=characters.begin();
     while(iter!=characters.end())
@@ -62,7 +75,7 @@ string Sack::getCharacters(int amount)
     cout<<(*iter).first<<" "<<(*iter).second->c<<" "<<(*iter).second->value<<endl;
     ++iter;
     }*/
-   return buffer;
+  return how_many;
 }
 
 

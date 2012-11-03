@@ -12,7 +12,7 @@ class Human : public Player {
   HumanBox *humanbox;
   Sack * sack;
  public :
-  Human(std::string name, int points,Gtk *graphic);//, Sack *sack);
+  Human(std::string name, int points,Gtk *graphic, Sack *sack);
   //~Human();  
 };
 
