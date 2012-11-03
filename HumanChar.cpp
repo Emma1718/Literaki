@@ -9,7 +9,7 @@ HumanChar::HumanChar()
 
 GtkWidget *HumanChar::draw(Gtk* graphic)
 {
-  this->button = graphic->Create_Button("", 38 ,38);
+  this->button = graphic->Create_Button((char*)"", 38 ,38);
  /* switch(this->letter.getValue())
     {
     case 0:

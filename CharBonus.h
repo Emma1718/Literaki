@@ -12,7 +12,7 @@ class CharBonus : public Field {
  
   CharBonus(int a, int b);
   ~CharBonus();
-  int calculate ();
+  int calculate (int * word_multiplier);
   GtkWidget *draw(Gtk *graphic);
 };
 

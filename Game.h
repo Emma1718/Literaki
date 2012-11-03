@@ -16,17 +16,17 @@
 /// class Game -
 class Game {
   // Associations
-  /* Sack* unnamed; */
-   Gtk* graphic;
-   Map* map;
-   Human *human;
-   Computer *computer; 
-   Dictionary* dictionary;
+  Sack* sack;
+  Gtk* graphic;
+  Map* map;
+  Human *human;
+  Computer *computer; 
+  Dictionary* dictionary;
   // Operations
-public:
-   Game (int argc, char *argv[],std::string filename_matrix, std::string filename_dict);
+ public:
+  Game (int argc, char *argv[],std::string filename_matrix, std::string filename_dict, std::string filename_sack);
   //~Game ();
-   void  run ();
+  void  run ();
 };
 
 #endif

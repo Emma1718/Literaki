@@ -16,7 +16,7 @@ public:
  
   Field ();
   // ~Field ();
-  virtual int calculate ();
+  virtual int calculate (int *word_multiplier);
   virtual GtkWidget *draw(Gtk *graphic);
   void insert (Character c);
   /* void clear (); */

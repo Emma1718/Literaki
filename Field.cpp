@@ -7,15 +7,15 @@ Field::Field()
   this->c = Character();
 }
 
-int Field::calculate()
+int Field::calculate(int * word_multiplier)
 {
   int x = this->c.getValue();
   return x;
 }
 GtkWidget * Field::draw(Gtk *graphic)
 {
-  this->button = graphic->Create_Button("", 38, 38);
-  graphic->ChangeColor(this->button,"white");
+  this->button = graphic->Create_Button((char*)"", 38, 38);
+  graphic->ChangeColor(this->button,(char*)"white");
   return this->button;
 }
 void Field::insert(Character c)
