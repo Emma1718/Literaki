@@ -4,15 +4,17 @@ using namespace std;
 
 Human::Human(string name, int points, Gtk* graphic, Sack *sack)
 {
-  this->sack = sack; int i =1;
+  vector<Character>::iterator it;
+  int i =1;
+  this->sack = sack;
   this->name = name;
   this->points = points;
   this->humanbox = new HumanBox(7,graphic);
-  int x = this->sack->getCharacters(&(this->letters), 99);
-  vector<Character>::iterator it;
-    for (it=letters.begin(); it<letters.end(); it++)
-      {
-	cout <<i<<":"<< (*it).getChar()<<endl; 
-	i++;
-      }
+  this->sack->getCharacters(&(this->letters),7);
+  
+  for (it=letters.begin(); it<letters.end(); it++)
+    {
+      cout <<i<<":"<< (*it).getChar()<<endl; 
+      i++;
+    }
 }

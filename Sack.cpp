@@ -18,16 +18,13 @@ Sack::Sack(string filename_sack)
 	    {
 	      Character ch = Character(letter, value);
 	      this->characters.insert(pair<int,Character>(x,ch));
-	      x++;
-	      //cout<<x<<"L:"<<ch.getChar()<<endl;
+	      x++; 
 	    }
 	}
       else 
 	break;
     }
-  // int ss = rand()%s; cout<<"ss="<<ss;
-  //iter = characters.find(ss);
-  // cout<<"OTO TO:"<<(*iter).first<<" "<<(*iter).second.getChar()<<" "<<(*iter).second.getValue()<<endl;
+  this->size = this->characters.size();
   read_file.close();
 }
 
@@ -37,44 +34,36 @@ int Sack::getCharacters(vector <Character> *letters, int amount)
   map<int,Character>::iterator iter;
   
   int s = this->characters.size();
-  //  cout<<"size:"<<s<<endl;
+    
   int how_many = 0;
-//string buffer="";
   
   while(amount>0 && s>0)
     {
-      int r = rand()%s;
-      cout<<"rand:"<<r<<endl;
+      int r = rand()%(this->size);
       iter=this->characters.find(r);
       while(iter == this->characters.end())
 	{
-	  r = rand()%s;
-	  cout<<"rand2:"<<r<<endl;
+	  r = rand()%(this->size);
 	  iter = this->characters.find(r);
 	}
-      letters->push_back((*iter).second);//cout<<(*iter).first<<" "<<(*iter).second->c<<" "<<(*iter).second->value<<endl;
-      //buffer=buffer+(string)(*iter).second.getChar();
-      //      cout<<buffer;
-      cout<<"iter.char:"<<(*iter).second.getChar()<<endl;
+      letters->push_back((*iter).second);
       if(iter==this->characters.begin())
-  	this->characters.erase(iter,this->characters.begin()); 
+	{
+	  this->characters.erase(iter); 
+	  this->characters.begin()= iter++; 
+	}
       else
   	{ 
   	  if(iter==this->characters.end())
-  	    this->characters.erase(iter,this->characters.end()); 
+	    this->characters.erase(iter,this->characters.end());
   	  else 
   	    this->characters.erase(iter);
   	}
       --s;
       --amount;
       ++how_many;
-   }
-  /*iter=characters.begin();
-    while(iter!=characters.end())
-    {
-    cout<<(*iter).first<<" "<<(*iter).second->c<<" "<<(*iter).second->value<<endl;
-    ++iter;
-    }*/
+    }
+  
   return how_many;
 }
 
