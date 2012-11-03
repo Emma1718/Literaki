@@ -19,6 +19,7 @@ public:
   virtual int calculate (int *word_multiplier);
   virtual GtkWidget *draw(Gtk *graphic);
   void insert (Character c);
+  //  void Click();
   /* void clear (); */
 };
 

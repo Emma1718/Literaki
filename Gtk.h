@@ -20,7 +20,7 @@ class Gtk
   void HumanBox_into_window(GtkWidget *board, GtkWidget *button);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void run();
-
+  void Click(gpointer *data);
   //  ~Gtk();
 };
 

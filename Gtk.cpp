@@ -78,3 +78,7 @@ void Gtk::run()
   
 }
 
+void Gtk::Click(gpointer *data)
+{
+  //
+}
