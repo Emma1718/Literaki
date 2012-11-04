@@ -9,7 +9,7 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_dict 
   this->sack = new Sack(filename_sack); 
 
   this->human = new Human("Gracz", 0, this->graphic, this->sack);//gracz - człowiek
-  this->computer = new Computer("Komputer", 0);//gracz - komputer
+  this->computer = new Computer("Komputer", 0, this->sack);//gracz - komputer
 
   this->dictionary = new Dictionary(filename_dict);//wczytanie słów ze słownika
 

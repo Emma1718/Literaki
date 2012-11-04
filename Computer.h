@@ -7,7 +7,7 @@
 class Computer : public Player {
 
  public:
-  Computer(std::string name, int points);
+  Computer(std::string name, int points, Sack * sack);
   //~Computer();
 };
 

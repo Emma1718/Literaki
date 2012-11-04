@@ -10,8 +10,8 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack)
   this->name = name;
   this->points = points;
   this->humanbox = new HumanBox(7,graphic);
-  this->sack->getCharacters(&(this->letters),7);
-  
+int x =  this->sack->getCharacters(&(this->letters),7);
+ cout<<"Human:"<<x<<endl;
   for (it=letters.begin(); it<letters.end(); it++)
     {
       cout <<i<<":"<< (*it).getChar()<<endl; 

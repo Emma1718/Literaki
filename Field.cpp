@@ -16,7 +16,7 @@ GtkWidget * Field::draw(Gtk *graphic)
 {
   this->button = graphic->Create_Button((char*)"", 38, 38);
   graphic->ChangeColor(this->button,(char*)"white");
-  //  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(graphic->Click), (*this));
+  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Gtk::Click), NULL);
   return this->button;
 }
 void Field::insert(Character c)
