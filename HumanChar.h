@@ -9,7 +9,7 @@ class HumanChar{
   Character letter;
 
  public:
-  HumanChar(Character &);
+  HumanChar(Character );
   GtkWidget * draw(Gtk *graphic);
   void ButtonClicked(Gtk *graphic);  //  ~HumanChar();
 };

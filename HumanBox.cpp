@@ -2,14 +2,14 @@
 
 using namespace std;
 
-HumanBox::HumanBox(int l, Gtk *graphic, vector <Character> *letters)
+HumanBox::HumanBox(int l, Gtk *graphic, vector <Character> letters)
 {
   this->length = l;
   this->loadLetters(letters);
   this->draw(graphic);
 }
 
-void HumanBox::loadLetters(vector <Character> *letters)
+void HumanBox::loadLetters(vector <Character> letters)
 {
   this->lettersBox = new HumanChar*[this->length];
 
