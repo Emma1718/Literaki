@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Computer::Computer(string name, int points, Sack * sack)
+Computer::Computer(string name, int points, Sack * sack, Dictionary *dict)
 {
   vector<Character>::iterator it;
   int i =1;
@@ -10,14 +10,13 @@ Computer::Computer(string name, int points, Sack * sack)
   this->name = name;
   this->points = points;
   this->sack = sack;
-
+  this->dict = dict;
   int x = this->sack->getCharacters(&(this->letters), 7);
-  cout<<"Comp:"<<x<<endl;
-  for (it=this->letters.begin(); it<this->letters.end(); it++)
-    {
-      cout <<i<<":"<< (*it).getChar()<<endl;
-      i++;
-    }
-
+  // cout<<"Comp:"<<x<<endl;
+  
+  // for (i=0; i<this->letters.size(); i++)
+  //   cout << " " <<(this->letters[i].getChar())<<endl;
+  
+  
 }
 

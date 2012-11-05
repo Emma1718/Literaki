@@ -19,6 +19,7 @@ class Gtk
   void Map_into_window(GtkWidget *board);
   void HumanBox_into_window(GtkWidget *board, GtkWidget *button);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
+  void setLabel(GtkWidget *, char *);
   void run();
   static  void Click();
   //  ~Gtk();

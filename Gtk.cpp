@@ -42,9 +42,7 @@ void Gtk::Map_into_window(GtkWidget *board)
 {
   
   gtk_box_pack_start(GTK_BOX(this->vbox), board, TRUE, TRUE, 0); 
- /*  GtkWidget *frame;
-  frame = gtk_frame_new("STAN GRY");
-  gtk_box_pack_start(GTK_BOX(this->hbox), frame, TRUE, TRUE, 0);*/
+
 }
 void Gtk::HumanBox_into_window(GtkWidget *board, GtkWidget *button)
 {
@@ -70,6 +68,11 @@ void Gtk::putField(int x, int y, GtkWidget *board, GtkWidget *button)
   gtk_table_attach(GTK_TABLE(board), button, y, y+1, x, x+1, GTK_FILL, GTK_FILL, 0, 0);
 }
 
+void Gtk::setLabel(GtkWidget * button, char * c)
+{
+  gtk_button_set_label(GTK_BUTTON(button), c);
+}
+ 
 void Gtk::run()
 {
   gtk_widget_show_all (this->window);

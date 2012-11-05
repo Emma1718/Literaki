@@ -9,7 +9,7 @@ Dictionary::Dictionary(string filename_dict)
   
   while (read_file>>s)
     {
-	this->words.insert(s); 
+      this->words.insert(s); 
     }
   read_file.close();
 }
@@ -27,4 +27,9 @@ bool Dictionary::checkWord(string word )
     return true;
 	
 }
-
+void Dictionary::ShowD()
+{
+  set <string>::iterator it;
+  for(it=this->words.begin();it!=this->words.end();it++)
+    cout<<(*it)<<endl;
+}
