@@ -10,13 +10,17 @@ class HumanChar{
 
   GtkWidget *button;
   Character letter;
-
+  Gtk * graphic;
  public:
+
+  bool clicked;
   HumanChar(Character );
-  GtkWidget * draw(Gtk *graphic);
-  //  static bool ButtonClicked(Character, Gtk *, gpointer);  //  ~HumanChar();
+  GtkWidget * draw();
+  static void ButtonClicked (Gtk *, gpointer);  //  ~HumanChar();
+  void ButtonClickedEvent(GtkWidget *);
   GtkWidget * getButton();
   Character getLetter();
+  void DisableButton();
 };
 
 

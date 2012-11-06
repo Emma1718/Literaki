@@ -5,9 +5,11 @@
 HumanChar::HumanChar(Character c)
 {
   this->letter = c;
+  this->clicked = false;
+  this->graphic = graphic;
 }
 
-GtkWidget *HumanChar::draw(Gtk* graphic)
+GtkWidget *HumanChar::draw()
 {
   this->button = graphic->Create_Button((char*)"", 38 ,38);
   switch(this->letter.getValue())
@@ -33,17 +35,26 @@ GtkWidget *HumanChar::draw(Gtk* graphic)
       graphic->setLabel(this->button, (char*)this->letter.getChar());
       break;
       }
-  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Human::HumanChar_ButtonClicked), this);
+  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(HumanChar::ButtonClicked), this);
   return this->button;
 }
 
-// bool HumanChar::ButtonClicked(Character c, Gtk *graphic, gpointer data)
-// {
-//   HumanChar *humanchar = static_cast<HumanChar*>(data);
-//   graphic->ChangeColor(humanchar->button, (char*)"white");
-//   c = humanchar->letter;
-//   return true;
-// }
+void HumanChar::ButtonClicked(Gtk * graphic, gpointer data)
+{
+  HumanChar *humanchar = static_cast<HumanChar*>(data);
+  //  humanchar->ButtonClickedEvent(humanchar->button);
+  graphic->ChangeColor(humanchar->getButton(), (char*)"white");
+  graphic->setLabel(humanchar->getButton(), (char*)"");
+  humanchar->clicked = true;
+}
+
+
+void HumanChar::ButtonClickedEvent(GtkWidget * button)
+{
+  // this->graphic->ChangeColor(button, (char*)"white");
+  // this->graphic->setLabel(button, (char*)"");
+  // this->clicked = true;
+}
 
 GtkWidget * HumanChar::getButton()
 {
@@ -53,4 +64,8 @@ GtkWidget * HumanChar::getButton()
 Character HumanChar::getLetter()
 {
   return this->letter;
+}
+void HumanChar::DisableButton()
+{
+  this->graphic->Disable_button(this->button);
 }

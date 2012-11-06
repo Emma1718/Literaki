@@ -85,3 +85,7 @@ void Gtk::Click()
 {
   //
 }
+void Gtk::Disable_button(GtkWidget * button)
+{
+  gtk_widget_set_sensitive(button, FALSE);
+}

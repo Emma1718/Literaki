@@ -21,6 +21,7 @@ class Gtk
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void setLabel(GtkWidget *, char *);
   void run();
+  void Disable_button(GtkWidget *);
   static  void Click();
   //  ~Gtk();
 };

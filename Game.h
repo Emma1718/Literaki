@@ -19,8 +19,9 @@ class Game {
   Sack* sack;
   Gtk* graphic;
   Map* map;
-  Human *human;
-  Computer *computer; 
+  //  Human *human;
+  //Computer *computer; 
+  Player players_tab[2];
   Dictionary* dictionary;
   // Operations
  public:
