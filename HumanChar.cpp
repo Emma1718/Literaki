@@ -1,5 +1,5 @@
 #include "HumanChar.h"
-
+#include "Human.h"
 
 
 HumanChar::HumanChar(Character c)
@@ -33,11 +33,24 @@ GtkWidget *HumanChar::draw(Gtk* graphic)
       graphic->setLabel(this->button, (char*)this->letter.getChar());
       break;
       }
- // g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(ButtonClicked), graphic);
+  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Human::HumanChar_ButtonClicked), this);
   return this->button;
 }
 
-void HumanChar::ButtonClicked(Gtk *graphic)
+// bool HumanChar::ButtonClicked(Character c, Gtk *graphic, gpointer data)
+// {
+//   HumanChar *humanchar = static_cast<HumanChar*>(data);
+//   graphic->ChangeColor(humanchar->button, (char*)"white");
+//   c = humanchar->letter;
+//   return true;
+// }
+
+GtkWidget * HumanChar::getButton()
 {
-  //  graphic->ChangeColor(this->button, "deeppink");
+  return this->button;
+}
+
+Character HumanChar::getLetter()
+{
+  return this->letter;
 }

@@ -1,6 +1,9 @@
+
 #include "Human.h"
 
 using namespace std;
+
+Character Human::l = Character();
 
 Human::Human(string name, int points, Gtk* graphic, Sack *sack)
 {
@@ -20,4 +23,17 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack)
   //   cout << " " <<(this->letters[i].getChar())<<endl;
    
 
+}
+
+void Human::HumanChar_ButtonClicked(Gtk *graphic, gpointer data)                                                                                                           
+{                                                                                                                                                                    
+  HumanChar *humanchar = static_cast<HumanChar*>(data);                                                                                                              
+  graphic->ChangeColor(humanchar->getButton(), (char*)"white");  
+  Human::l = humanchar->getLetter();
+  cout<<Human::l.getChar()<<endl;
+}
+
+void Click()
+{
+  //
 }

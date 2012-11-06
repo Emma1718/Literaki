@@ -12,6 +12,7 @@ class Player {
 protected:
   std::string name;
   int points;
+  //  int left_time;
   Sack * sack;
   Dictionary * dict;
   std:: vector <Character> letters;

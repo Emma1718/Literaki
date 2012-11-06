@@ -1,3 +1,6 @@
+#ifndef HUMANBOX_H
+#define HUMANBOX_H
+
 #include "HumanChar.h"
 
 class HumanBox{
@@ -13,3 +16,5 @@ class HumanBox{
 
   // ~HumanBox();
 };
+
+#endif
