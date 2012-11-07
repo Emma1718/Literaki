@@ -15,7 +15,7 @@ int Field::calculate(int * word_multiplier)
 GtkWidget * Field::draw(Gtk *graphic)
 {
   this->button = graphic->Create_Button((char*)"", 38, 38);
-  graphic->ChangeColor(this->button,(char*)"white");
+  graphic->ChangeColor(this->button,0);
   g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Gtk::Click), NULL);
   return this->button;
 }

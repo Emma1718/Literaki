@@ -15,7 +15,7 @@ void HumanBox::loadLetters(vector <Character> letters)
   this->lettersBox = new HumanChar*[this->length];
 
   for(int i=0;i<this->length;i++)
-    this->lettersBox[i] = new HumanChar(letters[i]);
+    this->lettersBox[i] = new HumanChar(letters[i], this->graphic, this);
 }
 
 void HumanBox::draw()
@@ -26,10 +26,11 @@ void HumanBox::draw()
     graphic->putField(0,i,this->board,this->lettersBox[i]->draw());
   
   this->button_OK = graphic->Create_Button((char*)"OK", 38, 45);
-  graphic->HumanBox_into_window(this->board, this->button_OK);
+  this->actual_letter = graphic->Create_Button((char*)"", 38, 38);
+  graphic->HumanBox_into_window(this->board, this->button_OK, this->actual_letter);
 }
 
-bool HumanBox::Check_if_clicked(Character *c)
+bool HumanBox::Check_if_clicked(Character &c)
 {
   int i;
   for (i =0; i < this->length; i++)
@@ -37,12 +38,14 @@ bool HumanBox::Check_if_clicked(Character *c)
       if (this->lettersBox[i]->clicked == true)
 	{
 	  g_print("Clicked on:%d\n", i);
-	  *c = this->lettersBox[i]->getLetter(); 
+	  c = this->lettersBox[i]->getLetter(); 
 
 	  return true;
 	}
       else 
-	continue;
+	{
+	  continue;
+	}
     }
   return false;
 }
@@ -52,10 +55,26 @@ void HumanBox::DisableHumanChars()
   for(int i = 0; i < this->length; i++)
     {
       if (this->lettersBox[i]->clicked == false)
-	{
-	  g_print("%s", this->lettersBox[i]->getLetter().getChar());
-	  this->lettersBox[i]->DisableButton();
-	}
+  	{
+  	  this->lettersBox[i]->DisableButton();
+  	}
     }
 }
       
+
+void HumanBox::EnableHumanChars()
+{
+  for(int i = 0; i < this->length; i++)
+    {
+      if (this->lettersBox[i]->clicked == false)
+  	{
+  	  this->lettersBox[i]->EnableButton();
+  	}
+    }
+}
+
+void HumanBox::ChangeActualLetter(int color, char * letter)
+{
+  this->graphic->ChangeColor(this->actual_letter, color);
+  this->graphic->setLabel(this->actual_letter, letter);
+}

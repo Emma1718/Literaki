@@ -18,6 +18,6 @@ GtkWidget *WordBonus::draw(Gtk *graphic)
   int x = this->multiplier;
   sprintf(str, "%dx", x);
   this->button = graphic->Create_Button(str, 38, 38);
-  graphic->ChangeColor(this->button,(char*)"grey");
+  graphic->ChangeColor(this->button, 10);
   return this->button;
 }

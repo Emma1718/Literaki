@@ -12,6 +12,7 @@ public:
   Character (char* c, int value);
   Character ();
   ~Character ();
+  void BacktoStart();
   int getValue ();
   char * getChar ();
 };

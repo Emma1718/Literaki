@@ -3,6 +3,9 @@
 
 using namespace std;
 
+
+Character Gtk::tmp_char = Character();
+
 Gtk::Gtk(int argc, char *argv[])
 {
   gtk_init(&argc, &argv); //inicjacja biblioteki GTK
@@ -44,19 +47,41 @@ void Gtk::Map_into_window(GtkWidget *board)
   gtk_box_pack_start(GTK_BOX(this->vbox), board, TRUE, TRUE, 0); 
 
 }
-void Gtk::HumanBox_into_window(GtkWidget *board, GtkWidget *button)
+void Gtk::HumanBox_into_window(GtkWidget *board, GtkWidget *button, GtkWidget * actual_letter)
 {
   GtkWidget *hbox;
   hbox = gtk_hbox_new(FALSE, 15);
   gtk_box_pack_start(GTK_BOX(this->vbox), hbox, TRUE, TRUE, 0); 
   gtk_box_pack_start(GTK_BOX(hbox), board, TRUE, TRUE, 10);
   gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 10);
+  gtk_box_pack_start(GTK_BOX(hbox), actual_letter, TRUE, TRUE, 10);
 }
 
-void Gtk::ChangeColor(GtkWidget *widget, char* colour)
+void Gtk::ChangeColor(GtkWidget *widget, int colour_number)
 {
   GdkColor color;
-  
+  char * colour;
+  switch(colour_number)
+    {
+    case 0:
+      colour = (char*)"white";
+      break;
+    case 1:
+      colour = (char*)"yellow";
+      break;
+    case 2:
+      colour = (char*)"green";
+      break;
+    case 3:
+      colour = (char*)"royalblue";
+      break;
+    case 5:
+      colour =(char*)"red";
+      break;
+    default:
+      colour =(char*)"grey";
+      break;
+    }
   gdk_color_parse(colour, &color);
   gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &color);
   gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &color);
@@ -85,7 +110,7 @@ void Gtk::Click()
 {
   //
 }
-void Gtk::Disable_button(GtkWidget * button)
+void Gtk::Change_sensitivity(GtkWidget * button, gboolean x)
 {
-  gtk_widget_set_sensitive(button, FALSE);
+  gtk_widget_set_sensitive(button, x);
 }

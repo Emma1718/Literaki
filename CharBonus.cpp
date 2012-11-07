@@ -15,20 +15,6 @@ int CharBonus::calculate(int * word_multiplier)
 GtkWidget *CharBonus::draw(Gtk *graphic)
 {
   this->button = graphic->Create_Button((char*)"", 38, 38);
-  switch(this->which_char)
-    {
-    case 1:
-      graphic->ChangeColor(this->button, (char*)"yellow");
-      break;
-    case 2:
-      graphic->ChangeColor(this->button, (char*)"DarkOliveGreen3");
-      break;
-    case 3:
-      graphic->ChangeColor(this->button,(char*)"SteelBlue");
-      break;
-    case 5:
-      graphic->ChangeColor(this->button,(char*)"tomato");
-      break;
-    }
+  graphic->ChangeColor(this->button, this->which_char);
   return this->button;
 }

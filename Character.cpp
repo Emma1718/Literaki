@@ -30,3 +30,8 @@ char *Character::getChar()
   return this->c;
 }
 
+void Character::BacktoStart()
+{
+this->c = '\0';
+this->value = 0;
+}

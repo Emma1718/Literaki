@@ -8,6 +8,7 @@
 #include "Dictionary.h"
 #include "Human.h"
 #include "Computer.h"
+
 #include <string>
 #include <iostream>
 
@@ -19,13 +20,11 @@ class Game {
   Sack* sack;
   Gtk* graphic;
   Map* map;
-  //  Human *human;
-  //Computer *computer; 
   Player *players_tab[2];
   Dictionary* dictionary;
   // Operations
  public:
-  Game (int argc, char *argv[],std::string filename_matrix, std::string filename_dict, std::string filename_sack);
+  Game (int argc, char *argv[],std::string filename_matrix, std::string filename_sack, std::string filename_dict);
   //~Game ();
   void  run ();
 };
