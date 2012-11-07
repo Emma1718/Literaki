@@ -14,7 +14,7 @@ class HumanBox{
   HumanBox(int, std::vector <Character>, Gtk*);
   void draw();
   void loadLetters(std::vector <Character> );
-  Character Check_if_clicked();
+  bool Check_if_clicked(Character *);
   void DisableHumanChars();
   // ~HumanBox();
 };

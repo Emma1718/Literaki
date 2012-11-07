@@ -29,13 +29,22 @@ void HumanBox::draw()
   graphic->HumanBox_into_window(this->board, this->button_OK);
 }
 
-Character HumanBox::Check_if_clicked()
+bool HumanBox::Check_if_clicked(Character *c)
 {
   int i;
   for (i =0; i < this->length; i++)
-    if (this->lettersBox[i]->clicked == true)
-      break;
-  return this->lettersBox[i]->getLetter();
+    {
+      if (this->lettersBox[i]->clicked == true)
+	{
+	  g_print("Clicked on:%d\n", i);
+	  *c = this->lettersBox[i]->getLetter(); 
+
+	  return true;
+	}
+      else 
+	continue;
+    }
+  return false;
 }
 
 void HumanBox::DisableHumanChars()
@@ -43,7 +52,10 @@ void HumanBox::DisableHumanChars()
   for(int i = 0; i < this->length; i++)
     {
       if (this->lettersBox[i]->clicked == false)
-	this->lettersBox[i]->DisableButton();
+	{
+	  g_print("%s", this->lettersBox[i]->getLetter().getChar());
+	  this->lettersBox[i]->DisableButton();
+	}
     }
 }
       

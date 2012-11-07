@@ -18,7 +18,7 @@ protected:
   std:: vector <Character> letters;
   // Operations
 public:
-  bool move ();
+  virtual bool move ();
 };
 
 #endif 

@@ -1,5 +1,6 @@
 
 #include "Human.h"
+#include <iostream>
 
 using namespace std;
 
@@ -36,4 +37,16 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack)
 void Click()
 {
   //
+}
+
+bool Human::move()
+{
+  g_print("JEST\n");
+  Character x;
+  while(this->humanbox->Check_if_clicked(&x) == false);
+    //    g_print("Nie kliknieto");
+
+    g_print("%s", x.getChar());
+ this->humanbox->DisableHumanChars();
+ return true;
 }

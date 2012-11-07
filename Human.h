@@ -17,6 +17,7 @@ class Human : public Player {
   //~Human();  
   //  static void HumanChar_ButtonClicked(Gtk*, gpointer);
   void Click();
+  bool move();
 };
 
 

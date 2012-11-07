@@ -21,7 +21,7 @@ class Game {
   Map* map;
   //  Human *human;
   //Computer *computer; 
-  Player players_tab[2];
+  Player *players_tab[2];
   Dictionary* dictionary;
   // Operations
  public:

@@ -1,11 +1,12 @@
 all:main
-main: Character.o CharBonus.o Computer.o Dictionary.o Field.o Game.o Gtk.o HumanBox.o HumanChar.o Human.o main.o Map.o Sack.o WordBonus.o 
-	  g++ Character.o CharBonus.o Computer.o Dictionary.o Field.o Game.o Gtk.o HumanBox.o HumanChar.o Human.o main.o Map.o Sack.o WordBonus.o  -o main `pkg-config --cflags --libs gtk+-2.0`
+main: Character.o CharBonus.o Computer.o Dictionary.o Field.o Game.o Gtk.o HumanBox.o HumanChar.o Human.o main.o Map.o Player.o Sack.o WordBonus.o 
+	  g++ Character.o CharBonus.o Computer.o Dictionary.o Field.o Game.o Gtk.o HumanBox.o HumanChar.o Human.o main.o Map.o Player.o Sack.o WordBonus.o  -o main `pkg-config --cflags --libs gtk+-2.0`
 Character.o: Character.cpp Character.h
 	    g++ -Wall -c Character.cpp -o Character.o `pkg-config --cflags --libs gtk+-2.0`
 CharBonus.o: CharBonus.cpp CharBonus.h Field.h Character.h Gtk.h
 	    g++ -Wall -c CharBonus.cpp -o CharBonus.o `pkg-config --cflags --libs gtk+-2.0`
-Computer.o: Computer.cpp Computer.h Player.h Sack.h Character.h
+Computer.o: Computer.cpp Computer.h Player.h Sack.h Character.h \
+ Dictionary.h
 	    g++ -Wall -c Computer.cpp -o Computer.o `pkg-config --cflags --libs gtk+-2.0`
 Dictionary.o: Dictionary.cpp Dictionary.h
 	    g++ -Wall -c Dictionary.cpp -o Dictionary.o `pkg-config --cflags --libs gtk+-2.0`
@@ -19,10 +20,11 @@ Gtk.o: Gtk.cpp Gtk.h
 	    g++ -Wall -c Gtk.cpp -o Gtk.o `pkg-config --cflags --libs gtk+-2.0`
 HumanBox.o: HumanBox.cpp HumanBox.h HumanChar.h Character.h Gtk.h
 	    g++ -Wall -c HumanBox.cpp -o HumanBox.o `pkg-config --cflags --libs gtk+-2.0`
-HumanChar.o: HumanChar.cpp HumanChar.h Character.h Gtk.h
+HumanChar.o: HumanChar.cpp HumanChar.h Character.h Gtk.h Human.h Player.h \
+ Sack.h Dictionary.h HumanBox.h
 	    g++ -Wall -c HumanChar.cpp -o HumanChar.o `pkg-config --cflags --libs gtk+-2.0`
-Human.o: Human.cpp Human.h Player.h Sack.h Character.h HumanBox.h \
- HumanChar.h Gtk.h
+Human.o: Human.cpp Human.h Player.h Sack.h Character.h Dictionary.h \
+ HumanBox.h HumanChar.h Gtk.h
 	    g++ -Wall -c Human.cpp -o Human.o `pkg-config --cflags --libs gtk+-2.0`
 main.o: main.cpp Game.h Map.h Character.h Field.h Gtk.h CharBonus.h \
  WordBonus.h Player.h Sack.h Dictionary.h Human.h HumanBox.h HumanChar.h \
@@ -30,6 +32,8 @@ main.o: main.cpp Game.h Map.h Character.h Field.h Gtk.h CharBonus.h \
 	    g++ -Wall -c main.cpp -o main.o `pkg-config --cflags --libs gtk+-2.0`
 Map.o: Map.cpp Map.h Character.h Field.h Gtk.h CharBonus.h WordBonus.h
 	    g++ -Wall -c Map.cpp -o Map.o `pkg-config --cflags --libs gtk+-2.0`
+Player.o: Player.cpp Player.h Sack.h Character.h Dictionary.h
+	    g++ -Wall -c Player.cpp -o Player.o `pkg-config --cflags --libs gtk+-2.0`
 Sack.o: Sack.cpp Sack.h Character.h
 	    g++ -Wall -c Sack.cpp -o Sack.o `pkg-config --cflags --libs gtk+-2.0`
 WordBonus.o: WordBonus.cpp WordBonus.h Field.h Character.h Gtk.h
