@@ -1,0 +1,48 @@
+#!/bin/bash
+
+nazwa="Makefile"
+ile=0
+
+if [ -e $nazwa -a -f $nazwa ]
+then
+rm $nazwa 
+fi
+
+touch Makefile
+
+x=$(egrep "main" *.cpp|tr '.' '\t'|cut -f1) 
+
+for t in $x
+do
+ile=$[ile+1]
+done 
+
+if [ $ile -gt 1 ]
+then
+echo "Directory contains more than one file with main function.
+Which one should be processed? 
+Write correct file with extension .cpp"
+read y
+x=$(ls $y|tr '.' '\t'|cut -f1)
+fi  
+
+echo "all:$x" >> Makefile
+
+echo "$x: $(g++ -MM *.cpp|tr ':' '\t'|cut -f1|grep 'o$'|tr '\n' ' ')" >> Makefile
+echo "	  g++ $(g++ -MM *.cpp|tr ':' '\t'|cut -f1|grep 'o$'|tr '\n' ' ') -o $x \`pkg-config --cflags --libs gtk+-2.0\`" >> Makefile
+
+for i in *.cpp
+do
+j=$(ls $i|tr '.' '\t'|cut -f1)
+echo "$(g++ -MM $i)" >> Makefile
+echo '	    g++ -Wall -c' "$i -o $j.o \`pkg-config --cflags --libs gtk+-2.0\`"  >> Makefile
+done
+
+echo "clean:" >> Makefile
+echo "	      rm *.o" >> Makefile
+echo "	      rm $x" >> Makefile
+
+
+ 
+
+
