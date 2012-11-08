@@ -26,17 +26,9 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack)
 
 }
 
-// void Human::HumanChar_ButtonClicked(Gtk *graphic, gpointer data)                                                                                                           
-// {                                                                                                                                                                    
-//   HumanChar *humanchar = static_cast<HumanChar*>(data);                                                                                                              
-//   graphic->ChangeColor(humanchar->getButton(), (char*)"white");  
-//   Human::l = humanchar->getLetter();
-//   cout<<Human::l.getChar()<<endl;
-// }
-
-void Click()
+void Human::SetCommit()
 {
-  //
+  Human::commited = true;
 }
 
 bool Human::move()

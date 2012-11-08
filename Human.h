@@ -18,7 +18,7 @@ class Human : public Player {
  Human(std::string, int, Gtk *, Sack *);
   //~Human();  
   //  static void HumanChar_ButtonClicked(Gtk*, gpointer);
-  void Click();
+ static void SetCommit();
   bool move();
 };
 

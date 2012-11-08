@@ -1,4 +1,4 @@
-#include "HumanBox.h"
+#include "Human.h"
 
 using namespace std;
 
@@ -26,6 +26,7 @@ void HumanBox::draw()
     graphic->putField(0,i,this->board,this->lettersBox[i]->draw());
   
   this->button_OK = graphic->Create_Button((char*)"OK", 38, 45);
+  g_signal_connect(this->button_OK, "clicked", GTK_SIGNAL_FUNC(Human::SetCommit), NULL);
   this->actual_letter = graphic->Create_Button((char*)"", 38, 38);
   graphic->HumanBox_into_window(this->board, this->button_OK, this->actual_letter);
 }

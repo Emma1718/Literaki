@@ -1,5 +1,4 @@
-#include "HumanChar.h"
-#include "HumanBox.h"
+include "HumanBox.h"
 
 
 HumanChar::HumanChar(Character c, Gtk * graphic, void *hb)
