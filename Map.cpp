@@ -25,7 +25,7 @@ void Map::loadFromFile(string filename)
 	      switch(option)
 		{
 		case 0: 
-		  this->matrix[i][j] = new Field(this); 
+		  this->matrix[i][j] = new Field(this, this->graphic, i, j); 
 		  break;
 		case 1:
 		  file>>wh_ch>>mp;
@@ -41,7 +41,7 @@ void Map::loadFromFile(string filename)
     }
 }
 
-void Map::draw(Gtk *graphic)
+void Map::draw()
 {
   this->board = graphic->Create_Table(this->width,this->height);   
   for(int i=0; i<this->width; i++)
@@ -54,8 +54,9 @@ void Map::draw(Gtk *graphic)
 
 Map::Map(Gtk *graphic,string filename)
 {
+  this->graphic = graphic;
   this->loadFromFile(filename);
-  this->draw(graphic);
+  this->draw();
 
   this-> modified=new bool*[this->width];
   for(int i = 0; i<this->width; i++)

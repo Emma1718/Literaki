@@ -21,12 +21,12 @@ class Map {
   GtkWidget *board;
   int height;
   int width;
-
+  Gtk *graphic;
   // Operations
  public:
-  Map (Gtk * graphic,std::string filename);
+  Map (Gtk * ,std::string);
   //~Map ();
-  void draw (Gtk *graphic);
+  void draw ();
   void setField (int x, int y, Character c);
   void putField(int x, int y, GtkWidget *button);
   void clearField (int x, int y);
