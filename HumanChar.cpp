@@ -45,6 +45,7 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
   else 
     {
       this->letter = Gtk::tmp_char;
+      this->clicked = false;
       Gtk::tmp_char.BacktoStart();
       static_cast<HumanBox*>(this->parent)->ChangeActualLetter(0, (char*)"");     
       this->graphic->setLabel(this->button, this->letter.getChar());

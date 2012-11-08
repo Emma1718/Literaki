@@ -9,10 +9,12 @@ Character Gtk::tmp_char = Character();
 Gtk::Gtk(int argc, char *argv[])
 {
   gtk_init(&argc, &argv); //inicjacja biblioteki GTK
+  GtkWidget *frame;
 
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   this->hbox = gtk_hbox_new(FALSE,0);
   this->vbox = gtk_vbox_new(FALSE, 10);
+  frame = gtk_frame_new("");
   /*Tworzenie okna*/ 
   gtk_window_set_title (GTK_WINDOW(this->window), "LiTeRaKi");
   gtk_window_set_position (GTK_WINDOW(this->window), GTK_WIN_POS_CENTER);
@@ -21,8 +23,8 @@ Gtk::Gtk(int argc, char *argv[])
 
   gtk_container_border_width(GTK_CONTAINER(this->window), 15);
   gtk_container_add(GTK_CONTAINER(this->window), this->hbox);
-  gtk_box_pack_start(GTK_BOX(this->hbox), this->vbox, TRUE, TRUE, 5);
-
+  gtk_box_pack_start(GTK_BOX(this->hbox), this->vbox, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(this->hbox), frame, TRUE, TRUE, 0);
 }
 
 GtkWidget * Gtk::Create_Table(int width, int height)
@@ -50,11 +52,11 @@ void Gtk::Map_into_window(GtkWidget *board)
 void Gtk::HumanBox_into_window(GtkWidget *board, GtkWidget *button, GtkWidget * actual_letter)
 {
   GtkWidget *hbox;
-  hbox = gtk_hbox_new(FALSE, 15);
+  hbox = gtk_hbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(this->vbox), hbox, TRUE, TRUE, 0); 
-  gtk_box_pack_start(GTK_BOX(hbox), board, TRUE, TRUE, 10);
-  gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 10);
-  gtk_box_pack_start(GTK_BOX(hbox), actual_letter, TRUE, TRUE, 10);
+  gtk_box_pack_start(GTK_BOX(hbox), board, FALSE, TRUE, 10);
+  gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), actual_letter, FALSE, TRUE, 0);
 }
 
 void Gtk::ChangeColor(GtkWidget *widget, int colour_number)
