@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "Gtk.h"
 
+
 /// class Field - 
 class Field {
   // Associations
@@ -11,15 +12,16 @@ class Field {
 protected:
    Character c;
    GtkWidget *button;
- // Operations
+   void * parent; // Operations
 public:
  
+  Field (void * parent);
   Field ();
-  // ~Field ();
   virtual int calculate (int *word_multiplier);
   virtual GtkWidget *draw(Gtk *graphic);
   void insert (Character c);
-  //  void Click();
+  static void Click(void *, gpointer);
+  void ButtonClickedEvent();
   /* void clear (); */
 };
 

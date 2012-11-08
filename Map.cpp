@@ -5,7 +5,7 @@ using namespace std;
 void Map::loadFromFile(string filename)
 {
   
-  int option,wh_ch,mp; 
+  int option, wh_ch, mp; 
 
   ifstream file(filename.c_str(),ifstream::in);
 
@@ -25,7 +25,7 @@ void Map::loadFromFile(string filename)
 	      switch(option)
 		{
 		case 0: 
-		  this->matrix[i][j] = new Field(); 
+		  this->matrix[i][j] = new Field(this); 
 		  break;
 		case 1:
 		  file>>wh_ch>>mp;
@@ -63,7 +63,7 @@ Map::Map(Gtk *graphic,string filename)
 
   for(int i=0;i<this->width;i++)
     for(int j=0;j<this->height;j++)
-      this->modified[i][j] = 0;
+      this->modified[i][j] = false;
 }
 
 
