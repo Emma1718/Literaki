@@ -37,8 +37,8 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 	{
 	  this->graphic->ChangeColor(button, 0);
 	  this->graphic->setLabel(button, (char*)"");
-	  this->clicked = true;
-	  this->parent->DisableHumanChars();
+	  //	  this->clicked = true;
+	  //this->parent->DisableHumanChars();
 	  this->graphic->ChangeActualLetter(this->letter.getValue(), this->letter.getChar());
 	  Gtk::tmp_char = this->letter;
 	  this->letter.BacktoStart();
@@ -46,13 +46,27 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
     }
   else 
     {
-      this->letter = Gtk::tmp_char;
-      this->clicked = false;
-      Gtk::tmp_char.BacktoStart();
-      this->graphic->ChangeActualLetter(0, (char*)"");     
-      this->graphic->setLabel(this->button, this->letter.getChar());
-      this->graphic->ChangeColor(this->button, this->letter.getValue());
-      this->parent->EnableHumanChars();
+      if (this->letter.getChar() != '\0')
+	{
+	  Character exchange;
+	  exchange = this->letter;
+	  this->letter = Gtk::tmp_char;
+	  Gtk::tmp_char = exchange;
+	  
+	  this->graphic->ChangeActualLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
+	  this->graphic->setLabel(this->button, this->letter.getChar());
+	  this->graphic->ChangeColor(this->button, this->letter.getValue());
+	}
+      else
+	{
+ //this->clicked = false;
+	  this->letter = Gtk::tmp_char;
+	  Gtk::tmp_char.BacktoStart();
+	  this->graphic->ChangeActualLetter(0, (char*)"");     
+	  this->graphic->setLabel(this->button, this->letter.getChar());
+	  this->graphic->ChangeColor(this->button, this->letter.getValue());
+	  // this->parent->EnableHumanChars();
+	}
     }
 }
 
