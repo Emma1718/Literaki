@@ -7,7 +7,7 @@
 class Computer : public Player {
 
  public:
-  Computer(std::string, int,Sack *,  Dictionary *);
+  Computer(std::string, int,Sack *,  Dictionary *, Map *);
   //~Computer();
       
   //znajduje slowo z podanych liter

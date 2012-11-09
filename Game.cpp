@@ -8,8 +8,8 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
   this->map = new Map(this->graphic,filename_matrix);//plansza 
   this->sack = new Sack(filename_sack); 
   this->dictionary = new Dictionary(filename_dict);//wczytanie słów ze słownika
-  this->players_tab[0] = new Human("Gracz", 0, this->graphic, this->sack);
-  this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary);
+  this->players_tab[0] = new Human("Gracz", 0, this->graphic, this->sack, this->map);
+  this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary, this->map);
 
 }
 

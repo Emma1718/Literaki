@@ -1,9 +1,12 @@
 #include "CharBonus.h"
 
-CharBonus::CharBonus(int a, int b)
+CharBonus::CharBonus(Map * map, int a, int b, int x, int y)
 {
   this->which_char = a;
   this->multiplier = b;
+  this->parent = map;
+  this->col_no = y;
+  this->row_no = x;
 }
 
 int CharBonus::calculate(int * word_multiplier)

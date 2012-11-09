@@ -47,9 +47,6 @@ void Field::ButtonClickedEvent()
     {
       // this->graphic->ChangeColor(button, 0);
       // this->graphic->setLabel(button, (char*)"");
-      // this->clicked = true;
-      // static_cast<HumanBox*>(this->parent)->DisableHumanChars();
-      // static_cast<HumanBox*>(this->parent)->ChangeActualLetter(this->letter.getValue(), this->letter.getChar());
       // Gtk::tmp_char = this->letter;
       // this->letter.BacktoStart();
 }

@@ -6,7 +6,7 @@ using namespace std;
 
 bool  Human::commited = false;
 
-Human::Human(string name, int points, Gtk* graphic, Sack *sack)
+Human::Human(string name, int points, Gtk* graphic, Sack *sack, Map * map)
 {
   //  vector<Character>::iterator it;
   //  int i =1;
@@ -14,6 +14,7 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack)
   this->name = name;
   this->points = points;
   this->sack->getCharacters(&(this->letters),7);
+  this->map = map;
   this->humanbox = new HumanBox(7,(this->letters), graphic);
   // for (i=0; i<(int)this->letters.size(); i++)
   //   cout << " " <<(this->letters[i].getChar())<<endl;
@@ -34,11 +35,6 @@ void Human::SetCommit()
 bool Human::move()
 {
 
-  Character x;
-  //  while(this->humanbox->Check_if_clicked(x) == false);
-    //    g_print("Nie kliknieto");
-
-  //    g_print("%s", x.getChar());
-    // this->humanbox->DisableHumanChars();
- return true;
+ 
+  return true;
 }

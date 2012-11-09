@@ -31,16 +31,19 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 {
 
  
- if (Gtk::tmp_char.getChar() == '\0')
+  if (Gtk::tmp_char.getChar() == '\0')
     {
-      this->graphic->ChangeColor(button, 0);
-      this->graphic->setLabel(button, (char*)"");
-      this->clicked = true;
-      this->parent->DisableHumanChars();
-      this->graphic->ChangeActualLetter(this->letter.getValue(), this->letter.getChar());
-      Gtk::tmp_char = this->letter;
-      this->letter.BacktoStart();
-}
+      if  (this->letter.getChar() != '\0')
+	{
+	  this->graphic->ChangeColor(button, 0);
+	  this->graphic->setLabel(button, (char*)"");
+	  this->clicked = true;
+	  this->parent->DisableHumanChars();
+	  this->graphic->ChangeActualLetter(this->letter.getValue(), this->letter.getChar());
+	  Gtk::tmp_char = this->letter;
+	  this->letter.BacktoStart();
+	}
+    }
   else 
     {
       this->letter = Gtk::tmp_char;
