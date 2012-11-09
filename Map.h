@@ -30,6 +30,8 @@ class Map {
   void putField(int x, int y, GtkWidget *button);
   void clearField (int x, int y);
   void loadFromFile(std::string filename);
+  void modify_field(int ,int, bool);
+  bool check_if_modified(int, int);
 };
 
 #endif 

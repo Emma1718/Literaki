@@ -43,28 +43,50 @@ void Field::ButtonClickedEvent()
 {
   //  g_print("%d %d", this->row_no, this->col_no);
  
- if (Gtk::tmp_char.getChar() == '\0')
+  if (Gtk::tmp_char.getChar() == '\0')  //jeśli w pamięci nie ma żadnej litery
     {
-      // this->graphic->ChangeColor(button, 0);
-      // this->graphic->setLabel(button, (char*)"");
-      // Gtk::tmp_char = this->letter;
-      // this->letter.BacktoStart();
-}
-  else 
-    {
-      this->insert(Gtk::tmp_char);
-      Gtk::tmp_char.BacktoStart();
-      this->graphic->ChangeActualLetter(0, (char*)"");     
-      this->graphic->setLabel(this->button, this->c.getChar());
-      this->graphic->ChangeColor(this->button, this->c.getValue());
-      //      static_cast<HumanBox*>(this->parent)->EnableHumanChars();
+      if ((this->c.getChar() != '\0') && (this->parent->check_if_modified(this->row_no, this->col_no))) // i jeśli jest litera na polu oraz to pole jest modyfikowalne
+	{
+	  this->graphic->ChangeColor(this->button, 0);
+	  this->graphic->setLabel(this->button, (char*)"");
+	  this->graphic->ChangeActualLetter(this->c.getValue(), this->c.getChar());  
+	  Gtk::tmp_char = this->c;// to pobierz literę z pola i ją zapamiętaj
+	  this->c.BacktoStart();
+	  this->parent->modify_field(this->row_no, this->col_no, false); // a także ustaw pole niezmodyfikowanym
+	}
     }
+  else // jeśli jest litera w pamięci
+    {
+      if (this->c.getChar() != '\0')// i jeśli jest litera na polu 
+	{
+	  if (this->parent->check_if_modified(this->row_no, this->col_no)) // i jeśli to pole jest modyfikowalne
+	    {
+	      Character exchange;
+	      
+	      exchange = this->c;
+	      this->insert(Gtk::tmp_char);  // to zamień litery
+	      Gtk::tmp_char = exchange;
+	  
+	      this->graphic->ChangeActualLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
+	      this->graphic->setLabel(this->button, this->c.getChar());
+	      this->graphic->ChangeColor(this->button, this->c.getValue());
+	    }
+	}
+      else // jeśli nie ma litery na polu
+	{
+	  this->insert(Gtk::tmp_char);  // to wstaw literę
+	  Gtk::tmp_char.BacktoStart();
+	  this->graphic->ChangeActualLetter(0, (char*)"");     
+	  this->graphic->setLabel(this->button, this->c.getChar());
+	  this->graphic->ChangeColor(this->button, this->c.getValue());
+	  this->parent->modify_field(this->row_no, this->col_no, true);
+	}
+    }
+} 
 
-}
-
-// void Field::Enter(void * widget, gpointer data)
-// {
-//   Field * f = static_cast<Field*>(data);
+  // void Field::Enter(void * widget, gpointer data)
+  // {
+  //   Field * f = static_cast<Field*>(data);
 //   f->ButtonEnterEvent();
 // }
 

@@ -25,7 +25,7 @@ void Map::loadFromFile(string filename)
 	      switch(option)
 		{
 		case 0: 
-		  this->matrix[i][j] = new Field(this, this->graphic, i, j); 
+		  this->matrix[i][j] = new Field(this, this->graphic, i, j);
 		  break;
 		case 1:
 		  file>>wh_ch>>mp;
@@ -67,5 +67,12 @@ Map::Map(Gtk *graphic,string filename)
       this->modified[i][j] = false;
 }
 
-
+void Map::modify_field(int x, int y, bool mod)
+{
+  this->modified[x][y] = mod;
+}
 	      
+bool Map::check_if_modified(int x, int y)
+{
+  return (this->modified[x][y]);
+}

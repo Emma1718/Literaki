@@ -49,6 +49,7 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
       if (this->letter.getChar() != '\0')
 	{
 	  Character exchange;
+
 	  exchange = this->letter;
 	  this->letter = Gtk::tmp_char;
 	  Gtk::tmp_char = exchange;

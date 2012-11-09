@@ -13,11 +13,11 @@ protected:
   int row_no;
   int col_no;
   Gtk * graphic;
-  Character c;
+
   GtkWidget *button;
   Map * parent; // Operations
  public:
-  
+    Character c;
   Field (Map * , Gtk * , int, int );
   Field ();
   virtual int calculate (int *word_multiplier);
