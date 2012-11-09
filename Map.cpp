@@ -29,11 +29,11 @@ void Map::loadFromFile(string filename)
 		  break;
 		case 1:
 		  file>>wh_ch>>mp;
-		  this->matrix[i][j]=new CharBonus(wh_ch, mp);		     
+		  this->matrix[i][j]=new CharBonus(this, wh_ch, mp, i, j);		     
 		  break;
 		case 2:
 		  file>>mp;
-		  this->matrix[i][j] = new WordBonus(mp);
+		  this->matrix[i][j] = new WordBonus(this, mp, i, j);
 		  break;
 		}
 	    }

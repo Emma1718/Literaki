@@ -2,13 +2,13 @@
 #include <iostream>
 using namespace std;
 
-Field::Field(void * parent, Gtk * graphic, int x, int y)
+Field::Field(Map * parent, Gtk * graphic, int x, int y)
 {
   this->c = Character();
   this->graphic = graphic;
   this->row_no = x;
   this->col_no = y;
-  this->parent = static_cast<Map*>(parent);
+  this->parent = parent;
 }
 
 int Field::calculate(int * word_multiplier)
@@ -33,7 +33,6 @@ void Field::Click(void * widget, gpointer data)
 {
   Field *f = static_cast<Field*>(data);
   f->ButtonClickedEvent();
-
 }
 Field::Field()
 {
@@ -58,7 +57,7 @@ void Field::ButtonClickedEvent()
     {
       this->insert(Gtk::tmp_char);
       Gtk::tmp_char.BacktoStart();
-      //static_cast<HumanBox*>(this->parent)->ChangeActualLetter(0, (char*)"");     
+      this->graphic->ChangeActualLetter(0, (char*)"");     
       this->graphic->setLabel(this->button, this->c.getChar());
       this->graphic->ChangeColor(this->button, this->c.getValue());
       //      static_cast<HumanBox*>(this->parent)->EnableHumanChars();

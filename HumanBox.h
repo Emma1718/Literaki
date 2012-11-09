@@ -9,7 +9,7 @@ class HumanBox{
   HumanChar **lettersBox;
   GtkWidget *board;
   GtkWidget * button_OK;
-  GtkWidget *actual_letter;
+
   Gtk * graphic;
   int length;
  public:
@@ -19,7 +19,7 @@ class HumanBox{
   bool Check_if_clicked(Character &);
   void DisableHumanChars();
   void EnableHumanChars();
-  void ChangeActualLetter(int, char*);
+
   // ~HumanBox();
 };
 

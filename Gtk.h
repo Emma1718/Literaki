@@ -11,6 +11,7 @@ class Gtk
   GtkWidget *window;
   GtkWidget *vbox;
   GtkWidget *hbox;
+  static  GtkWidget *actual_letter;
   bool inserted;
 
 
@@ -18,12 +19,13 @@ class Gtk
 
   static Character tmp_char;
 
+  void ChangeActualLetter(int, char*);
   Gtk(int argc, char * argv[]);
   GtkWidget *Create_Table(int width, int height);
   GtkWidget *Create_Button(char *label, int height, int width);
   void ChangeColor(GtkWidget *,int);
   void Map_into_window(GtkWidget *board);
-  void HumanBox_into_window(GtkWidget *, GtkWidget *, GtkWidget *);
+  void HumanBox_into_window(GtkWidget *, GtkWidget *);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void setLabel(GtkWidget *, char *);
   void run();

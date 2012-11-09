@@ -4,7 +4,7 @@
 #include "Character.h"
 #include "Gtk.h"
 
-
+class Map;
 /// class Field - 
 class Field {
   // Associations
@@ -15,10 +15,10 @@ protected:
   Gtk * graphic;
   Character c;
   GtkWidget *button;
-  void * parent; // Operations
+  Map * parent; // Operations
  public:
   
-  Field (void * , Gtk * , int, int );
+  Field (Map * , Gtk * , int, int );
   Field ();
   virtual int calculate (int *word_multiplier);
   virtual GtkWidget *draw(Gtk *graphic);

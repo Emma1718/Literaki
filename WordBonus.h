@@ -8,10 +8,10 @@ class WordBonus : public Field {
   // Operations
   int multiplier;
 public:
-  WordBonus(int a);
+  WordBonus(Map *, int, int, int);
   //  ~WordBonus();
-  int calculate (int * word_multiplier);
-  GtkWidget *draw(Gtk *graphic);
+  int calculate (int *);
+  GtkWidget *draw(Gtk *);
 };
 
 #endif 

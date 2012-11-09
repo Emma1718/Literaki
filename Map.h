@@ -15,7 +15,6 @@ class Map {
   // Associations
 
   // Attributes
- protected:
   bool** modified;
   Field*** matrix;
   GtkWidget *board;

@@ -3,20 +3,22 @@
 
 #include "Character.h"
 #include "Gtk.h"
-//#include "HumanBox.h"
+
 
 #include <vector>
+
+class HumanBox;
 
 class HumanChar{
 
   GtkWidget *button;
   Character letter;
   Gtk * graphic;
-  void* parent;
+  HumanBox* parent;
  public:
 
   bool clicked;
-  HumanChar(Character , Gtk *, void *);
+  HumanChar(Character , Gtk *, HumanBox *);
   GtkWidget * draw();
   static void ButtonClicked (GtkWidget *, gpointer);  //  ~HumanChar();
   void ButtonClickedEvent(GtkWidget *);

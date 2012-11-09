@@ -10,10 +10,10 @@ class CharBonus : public Field {
   int multiplier;  // Operations                                                                                                                                                         
  public:
  
-  CharBonus(int a, int b);
+  CharBonus(Map *, int, int, int, int);
   ~CharBonus();
-  int calculate (int * word_multiplier);
-  GtkWidget *draw(Gtk *graphic);
+  int calculate (int *);
+  GtkWidget *draw(Gtk *);
 };
 
 #endif 

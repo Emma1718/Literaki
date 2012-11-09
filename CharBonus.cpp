@@ -16,5 +16,6 @@ GtkWidget *CharBonus::draw(Gtk *graphic)
 {
   this->button = graphic->Create_Button((char*)"", 38, 38);
   graphic->ChangeColor(this->button, this->which_char);
+  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::Click), this);
   return this->button;
 }
