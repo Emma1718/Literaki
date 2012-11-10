@@ -32,6 +32,7 @@ class Map {
   void loadFromFile(std::string filename);
   void modify_field(int ,int, bool);
   bool check_if_modified(int, int);
+  bool check_move();
 };
 
 #endif 

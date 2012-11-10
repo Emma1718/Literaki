@@ -76,3 +76,14 @@ bool Map::check_if_modified(int x, int y)
 {
   return (this->modified[x][y]);
 }
+
+bool Map::check_move()
+{
+  for( int i = 0; i < this->width; i++)
+    for( int j = 0; j < this->height; j++)
+      {
+	if(this->modified[i][j])
+	  g_print("%d %d\n", i,j);
+      }
+  return true;
+}

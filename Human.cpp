@@ -34,12 +34,6 @@ void Human::SetCommit()
 
 bool Human::move()
 {
-  // while(Human::commited == false)
-  //   {
-  //     if (Human::map_signal==true)
-  // 	{
-  // 	  this->humanbox->EnableHumanChars();
-  // 	}
-  //   } 
+  while(Human::commited == false); 
   return true;
 }
