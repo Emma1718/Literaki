@@ -9,7 +9,7 @@
 
 #include <string>
 #include <fstream>
-
+#include <iostream>
 /// class Map - 
 class Map {
   // Associations
@@ -21,6 +21,7 @@ class Map {
   int height;
   int width;
   Gtk *graphic;
+
   // Operations
  public:
   Map (Gtk * ,std::string);
@@ -33,6 +34,10 @@ class Map {
   void modify_field(int ,int, bool);
   bool check_if_modified(int, int);
   bool check_move();
+  int check_row(int);
+  int check_col(int);
+  bool check_if_set(int, int);
+
 };
 
 #endif 

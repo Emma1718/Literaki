@@ -98,3 +98,11 @@ void Field::ButtonClickedEvent()
 //       this->graphic->ChangeColor(this->button, (Gtk::tmp_char).getValue());
 //     }
 // }
+
+
+char * Field::getLetter()
+{
+  char * a = this->c.getChar();
+
+  return a;
+}

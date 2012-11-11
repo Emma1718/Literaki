@@ -25,7 +25,8 @@ protected:
   void insert (Character c);
   static void Click(void *, gpointer);
   void ButtonClickedEvent();
-  /* static void Enter(void *, gpointer); */
+  char * getLetter();
+/* static void Enter(void *, gpointer); */
   /* void ButtonEnterEvent();  /\* void clear (); *\/ */
 };
 

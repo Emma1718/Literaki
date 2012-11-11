@@ -23,7 +23,8 @@ void Game::run()
       for(int i = 0; i < sizeof(this->players_tab); i++)
       	{
 	  while (!(this->players_tab[i]->move())); 
-	  this->map->check_move();
+	  if (this->map->check_move()) g_print("Poprawny ruch!\n");
+	  else g_print("Niepoprawny ruch!\n");
     	}
     }
 }
