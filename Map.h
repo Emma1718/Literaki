@@ -33,10 +33,15 @@ class Map {
   void loadFromFile(std::string filename);
   void modify_field(int ,int, bool);
   bool check_if_modified(int, int);
-  bool check_move();
+  bool check_move(int &);
   int check_row(int);
   int check_col(int);
   bool check_if_set(int, int);
+  void find_words(int );
+  int go_left(int , int );
+  int go_right(int,int);
+  int go_up(int, int);
+  int go_down(int, int);
 
 };
 

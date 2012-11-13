@@ -8,20 +8,20 @@ void Map::loadFromFile(string filename)
 {
   
   int option, wh_ch, mp; 
-
+ 
   ifstream file(filename.c_str(),ifstream::in);
 
   if (file.is_open())
     {
       file>>this->height>>this->width;
 
-      this-> matrix=new Field**[this->width];
-      for(int i = 0; i<this->width; i++)
-	matrix[i]=new Field*[this->height];
+      this-> matrix=new Field**[this->height];
+      for(int i = 0; i<this->height; i++)
+	matrix[i]=new Field*[this->width];
 
-      for(int i=0;i<this->width;i++)
+      for(int i=0;i<this->height;i++)
         {
-          for(int j=0;j<this->height;j++)
+          for(int j=0;j<this->width;j++)
             {
               file>>option;
 	      switch(option)
@@ -47,8 +47,8 @@ void Map::loadFromFile(string filename)
 void Map::draw()
 {
   this->board = graphic->Create_Table(this->width,this->height);   
-  for(int i=0; i<this->width; i++)
-    for(int j=0; j<this->height; j++)
+  for(int i=0; i<this->height; i++)
+    for(int j=0; j<this->width; j++)
       {
 	graphic->putField(i,j,this->board,this->matrix[i][j]->draw(graphic));
       }
@@ -61,14 +61,14 @@ Map::Map(Gtk *graphic,string filename)
   this->loadFromFile(filename);
   this->draw();
   /*-----Inicjalizacja masek na macierz--------*/
-  this-> modified=new bool*[this->width];
+  this-> modified=new bool*[this->height];
 
-  for(int i = 0; i<this->width; i++)
-      modified[i]=new bool[this->height];
+  for(int i = 0; i<this->height; i++)
+      modified[i]=new bool[this->width];
 
 
-  for(int i=0;i<this->width;i++)
-    for(int j=0;j<this->height;j++)
+  for(int i=0;i<this->height;i++)
+    for(int j=0;j<this->width;j++)
       this->modified[i][j] = false;
 }
 
@@ -82,12 +82,12 @@ bool Map::check_if_modified(int x, int y)
   return (this->modified[x][y]);
 }
 
-bool Map::check_move()
+bool Map::check_move(int &cs)
 {
   int mod_amount = 0, x, y;
 
-  for( int i = 0; i < this->width; i++)
-    for( int j = 0; j < this->height; j++)
+  for( int i = 0; i < this->height; i++)
+    for( int j = 0; j < this->width; j++)
       {
 	if(this->modified[i][j])
 	  {
@@ -100,22 +100,25 @@ bool Map::check_move()
 	    mod_amount++;
 	  }
       }
-  g_print("mod_amount: %d", mod_amount);
+  cs = 0;
 
-  if (this->check_row(y) != mod_amount)
+  if (this->check_row(x) != mod_amount)
     {
-  g_print("Doszedlem tu\n");
-      if ((this->check_col(x)) != mod_amount)  return false;
+      if ((this->check_col(y)) != mod_amount)  return false;
+      cs = 2;
     }
-  
+  if (cs == 0) cs = 1;
+
   /*---------Gdy nie zreturnuje to znaczy ze albo w kolumnie albo w wierszu znajduja sie wszystkie zmodyfikowane przyciski */
 
-  for(int i = 0; i < this->width; i++)
-    for(int j = 0; j < this-> height; j++)
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; j < this-> width; j++)
       if (this->modified[i][j])
 	{
 	  if (((i==(this->width/2)) && (i==j)) || this->check_if_set(x+1, y) || this->check_if_set(x-1, y) || this->check_if_set(x, y+1) || this->check_if_set(x, y-1))
-	    return true;
+	    {
+	      return true;
+	    }
 	}
    
   return false;
@@ -124,38 +127,16 @@ bool Map::check_move()
 
 bool Map::check_if_set(int x, int y)
 {
-  if (!(this->modified[x][y]) && (this->matrix[x][y]->getLetter() != '\0'))
-    return true;
-  else 
-    return false;
-}
-
-int Map::check_row(int y)
-{
-  int actual_amount = 0;
-  bool interested = false;
-
-  for(int j = 0; j < this->width; j++)
+  if((x>=0) && (y>=0) && (x<this->height) && (y<this->width))
     {
-      if (interested)
-  	{
-  	  if (this->matrix[j][y]->getLetter() == '\0')
-  	    break;
-  	  else if (this->modified[j][y]) 
-  	    actual_amount++;
-  	}
-      else if (this->modified[j][y]) 
-	{
-	  actual_amount++;
-	  interested = true;
-	}
-    }
-  g_print("actual: %d", actual_amount);
-  return actual_amount;
-
+      if (!(this->modified[x][y]) && (this->matrix[x][y]->getLetter() != '\0'))
+	return true;
+      else 
+	return false;
+    }else return false;
 }
 
- int Map::check_col(int x)
+int Map::check_row(int x)
 {
   int actual_amount = 0;
   bool interested = false;
@@ -175,5 +156,130 @@ int Map::check_row(int y)
 	  interested = true;
 	}
     }
+
   return actual_amount;
+
+}
+
+int Map::check_col(int y)
+{
+  int actual_amount = 0;
+  bool interested = false;
+
+  for(int j = 0; j < this->height; j++)
+    {
+      if (interested)
+  	{
+  	  if (this->matrix[j][y]->getLetter() == '\0')
+  	    break;
+  	  else if (this->modified[j][y]) 
+  	    actual_amount++;
+  	}
+      else if (this->modified[j][y]) 
+	{
+	  actual_amount++;
+	  interested = true;
+	}
+    }
+  return actual_amount;
+}
+
+int Map::go_left(int i, int j)
+{
+  int a;
+  for (a = j; a>=0; a--)
+    {
+      if(this->matrix[i][a]->getLetter() == '\0')
+	break;
+    }
+  
+  return a+1;
+}
+
+int Map::go_right(int i, int j)
+{
+   int a;
+   for (a = j; a < this->width; a++)
+    {
+      if(this->matrix[i][a]->getLetter() == '\0')
+	break;
+    }
+  
+  return a-1;
+}
+
+int Map::go_up(int i, int j)
+{
+  int a;
+  for (a = i; a>=0; a--)
+    {
+      g_print("go_up::a::%d", a);
+      if(this->matrix[a][j]->getLetter() == '\0')
+	break;
+    }
+  g_print("go_up::return::a::%d", a);
+  return a+1;
+}
+
+int Map::go_down(int i, int j)
+{
+  int a;
+  for (a = i; a<this->height; a++)
+    {
+      g_print("go_up::a::%d", a);
+      if(this->matrix[a][j]->getLetter() == '\0')
+	break;
+    }
+  g_print("go_up::return::a::%d", a);
+  return a-1;
+}
+
+void Map::find_words(int opt)
+{
+  bool found1 = false;
+  int begin, end;
+  string word;// = new char[14];
+ 
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; j < this->width; j++)
+      if(this->modified[i][j])
+	{
+	  if (!found1)
+	    {
+	      found1 = true;
+	      switch(opt)
+		{
+		case 1:
+		  begin = go_left(i,j-1);
+		  end = go_right(i,j+1);
+		  g_print("begin:%d end: %d",begin, end);
+		  for(int p = begin; p<=end; p++)
+		    word+=(string)(this->matrix[i][p]->getLetter());
+		  cout<<"word:"<<word;
+		  break;
+		case 2:
+		  begin = go_up(i-1,j);
+		  end = go_down(i+1,j);
+		  g_print("begin2:%d end2: %d",begin, end);
+		  for(int p = begin; p<=end; p++)
+		    word+=(string)(this->matrix[p][j]->getLetter());
+		  cout<<"word:"<<word;
+		  break;
+		}
+	    }
+	  else
+	    {
+	      switch(opt)
+		{
+		case 1:
+		  begin = go_up(i-1,j);
+		  end = go_down(i+1,j);
+		  break;
+		case 2:
+		  begin = go_left(i,j-1);
+		  end = go_right(i,j+1);
+		  break;
+		}
+	    }
+	}
 }

@@ -18,14 +18,18 @@ void Game::run()
 
   this->graphic->run();
 
-  while(true)
+  // while(true)
+  //   {
+  //     for(int i = 0; i < sizeof(this->players_tab); i++)
+  //     	{
+  int opt;
+  while (!(this->players_tab[0]->move())); 
+  if (this->map->check_move(opt))
     {
-      for(int i = 0; i < sizeof(this->players_tab); i++)
-      	{
-	  while (!(this->players_tab[i]->move())); 
-	  if (this->map->check_move()) g_print("Poprawny ruch!\n");
-	  else g_print("Niepoprawny ruch!\n");
-    	}
+      g_print("Poprawny ruch! %d\n", opt);
+
+      this->map->find_words(opt);
     }
 }
+    
 

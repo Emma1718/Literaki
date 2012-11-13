@@ -38,7 +38,11 @@ Field::Field()
 {
   //
 }
-
+void Field::BacktoStandart()
+{
+  this->graphic->ChangeColor(this->button, 0);
+  this->graphic->setLabel(this->button, (char*)"");
+}
 void Field::ButtonClickedEvent()
 {
   //  g_print("%d %d", this->row_no, this->col_no);
@@ -47,8 +51,7 @@ void Field::ButtonClickedEvent()
     {
       if ((this->c.getChar() != '\0') && (this->parent->check_if_modified(this->row_no, this->col_no))) // i jeśli jest litera na polu oraz to pole jest modyfikowalne
 	{
-	  this->graphic->ChangeColor(this->button, 0);
-	  this->graphic->setLabel(this->button, (char*)"");
+	  this->BacktoStandart();
 	  this->graphic->ChangeActualLetter(this->c.getValue(), this->c.getChar());  
 	  Gtk::tmp_char = this->c;// to pobierz literę z pola i ją zapamiętaj
 	  this->c.BacktoStart();

@@ -14,6 +14,7 @@ class CharBonus : public Field {
   ~CharBonus();
   int calculate (int *);
   GtkWidget *draw(Gtk *);
+  void BacktoStandart();
 };
 
 #endif 

@@ -22,6 +22,7 @@ protected:
   Field ();
   virtual int calculate (int *word_multiplier);
   virtual GtkWidget *draw(Gtk *graphic);
+  virtual void BacktoStandart();
   void insert (Character c);
   static void Click(void *, gpointer);
   void ButtonClickedEvent();

@@ -12,6 +12,7 @@ public:
   //  ~WordBonus();
   int calculate (int *);
   GtkWidget *draw(Gtk *);
+  void BacktoStandart();
 };
 
 #endif 
