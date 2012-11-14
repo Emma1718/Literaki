@@ -28,7 +28,7 @@ Sack::Sack(string filename_sack)
   read_file.close();
 }
 
-int Sack::getCharacters(vector <Character> *letters, int amount)
+int Sack::getCharacters(list <Character> *letters, int amount)
 {
   srand(time(NULL));
   map<int,Character>::iterator iter;

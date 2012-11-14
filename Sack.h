@@ -6,7 +6,8 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
-#include <vector>
+//#include <vector>
+#include <list>
 #include "Character.h"
 
 /// class Sack - 
@@ -18,7 +19,7 @@ class Sack {
   Sack(std::string filename_sack);
   ~Sack();
   //  std::string
-  int getCharacters(std::vector <Character> *letters, int  amount);
+  int getCharacters(std::list <Character> *letters, int  amount);
 
 };
 

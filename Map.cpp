@@ -311,3 +311,17 @@ void Map::clearModifications()
     for(int j = 0; j < this->width; j++)
       this->modified[i][j] = false;
 }
+
+list <Character> Map::getAllInsertions()
+{
+  list <Character> insertions;
+
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; j < this->width; j++)
+      {
+	if (this->modified[i][j])
+	  insertions.push_back(this->matrix[i][j]->getCharacter());
+      }
+
+  return insertions;
+}

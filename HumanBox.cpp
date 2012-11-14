@@ -2,7 +2,7 @@
 
 using namespace std;
 
-HumanBox::HumanBox(int l, vector <Character> letters, Gtk* graphic)
+HumanBox::HumanBox(int l, list <Character> letters, Gtk* graphic)
 {
   this->length = l;
   this->loadLetters(letters);
@@ -10,12 +10,16 @@ HumanBox::HumanBox(int l, vector <Character> letters, Gtk* graphic)
   this->draw();
 }
 
-void HumanBox::loadLetters(vector <Character> letters)
+void HumanBox::loadLetters(list <Character> letters)
 {
+  list <Character>::iterator iter;
+ 
   this->lettersBox = new HumanChar*[this->length];
 
-  for(int i=0;i<this->length;i++)
-    this->lettersBox[i] = new HumanChar(letters[i], this->graphic, this);
+  int i;
+
+  for(i=0, iter = letters.begin(); i<this->length, iter != letters.end(); i++, iter++)
+    this->lettersBox[i] = new HumanChar((*iter), this->graphic, this);
 }
 
 void HumanBox::draw()

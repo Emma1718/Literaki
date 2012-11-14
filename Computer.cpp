@@ -4,7 +4,7 @@ using namespace std;
 
 Computer::Computer(string name, int points, Sack * sack, Dictionary *dict, Map * map)
 {
-  vector<Character>::iterator it;
+  //vector<Character>::iterator it;
   int i =1;
 
   this->name = name;

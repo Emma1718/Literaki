@@ -2,7 +2,7 @@
 #define HUMANBOX_H
 
 #include "HumanChar.h"
-
+#include <list>
 
 class HumanBox{
 
@@ -13,9 +13,9 @@ class HumanBox{
   Gtk * graphic;
   int length;
  public:
-  HumanBox(int, std::vector <Character>, Gtk*);
+  HumanBox(int, std::list <Character>, Gtk*);
   void draw();
-  void loadLetters(std::vector <Character> );
+  void loadLetters(std::list <Character> );
   bool Check_if_clicked(Character &);
   void DisableHumanChars();
   void EnableHumanChars();

@@ -3,7 +3,8 @@
 
 #include "Sack.h"
 #include <string>
-#include <vector>
+//#include <vector>
+#include <list>
 #include "Map.h"
 #include "Dictionary.h"
 
@@ -20,10 +21,11 @@ protected:
   Sack * sack;
   Dictionary * dict;
   Map * map;
-  std:: vector <Character> letters;
+  std:: list <Character> letters;
   // Operations
 public:
   virtual bool move ();
-};
+  void removeLetters(std::list <Character>);
 
+};
 #endif 

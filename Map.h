@@ -48,6 +48,8 @@ class Map {
   int go_up(int, int);
   int go_down(int, int);
   void clearModifications();
+  //----Usuwanie liter--------
+  std::list <Character> getAllInsertions();
 };
 
 #endif 

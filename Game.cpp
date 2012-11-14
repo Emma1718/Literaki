@@ -24,34 +24,40 @@ void Game::run()
   int opt;
   bool foundAll = true;
   list <string> wordsToCheck;
+  list <Character> insertions;
 
-   list <string>::iterator iter;
+  list <string>::iterator iter;
+  list <Character>::iterator it;
 
-   while (!(this->players_tab[0]->move())); 
-   if (Gtk::tmp_char.getChar() == '\0')
-     {
-       if (this->map->check_move(opt))
-	 {
-	   g_print("Poprawny ruch!");
+  while (!(this->players_tab[0]->move())); 
+  if (Gtk::tmp_char.getChar() == '\0')
+    {
+      if (this->map->check_move(opt))
+	{
+	  g_print("Poprawny ruch!");
        
-	   this->map->find_words(&wordsToCheck, opt);
+	  this->map->find_words(&wordsToCheck, opt);
      
-	   for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++)
-	     {
-	       cout<<"iter:"<<(*iter);
-	       if(this->dictionary->checkWord((*iter))==true) 
-		 cout<<"Found!!!"<<endl;
-	       else 
-		 {
-		   foundAll = false;
-		   break;
-		 }
-	     }
-	   if (foundAll)
-	     {
-	       this->map->clearModifications();
-	     }    
-	 }
-     }
+	  for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++)
+	    {
+	      cout<<"iter:"<<(*iter);
+	      if(this->dictionary->checkWord((*iter))==true) 
+		cout<<"Found!!!"<<endl;
+	      else 
+		{
+		  foundAll = false;
+		  break;
+		}
+	    }
+	  if (foundAll)
+	    {
+	      insertions = this->map->getAllInsertions();
+	      cout<<"size:"<<(int)insertions.size()<<endl;	      // for(it = insertions.begin(); it != insertions.end(); it++)
+	      // 	cout<<"Inserted:"<<(*it).getChar()<<endl;
+	      this->players_tab[0]->removeLetters(insertions);
+	      this->map->clearModifications();
+	    }    
+	}
+    }
 }
 
