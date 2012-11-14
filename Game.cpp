@@ -22,22 +22,36 @@ void Game::run()
   //     for(int i = 0; i < sizeof(this->players_tab); i++)
   //     	{
   int opt;
+  bool foundAll = true;
   list <string> wordsToCheck;
-  while (!(this->players_tab[0]->move())); 
-  if (this->map->check_move(opt))
-    {
-      g_print("Poprawny ruch! %d\n", opt);
 
-      this->map->find_words(&wordsToCheck, opt);
-      list <string>::iterator iter;
-      for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++)
-	{
-	  //iter = wordsToCheck.begin();
-	  cout<<"iter:"<<(*iter);
-	  if(this->dictionary->checkWord((*iter))==true) 
-	    cout<<"Found!!!"<<endl;
-	}
-    }
+   list <string>::iterator iter;
+
+   while (!(this->players_tab[0]->move())); 
+   if (Gtk::tmp_char.getChar() == '\0')
+     {
+       if (this->map->check_move(opt))
+	 {
+	   g_print("Poprawny ruch!");
+       
+	   this->map->find_words(&wordsToCheck, opt);
+     
+	   for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++)
+	     {
+	       cout<<"iter:"<<(*iter);
+	       if(this->dictionary->checkWord((*iter))==true) 
+		 cout<<"Found!!!"<<endl;
+	       else 
+		 {
+		   foundAll = false;
+		   break;
+		 }
+	     }
+	   if (foundAll)
+	     {
+	       this->map->clearModifications();
+	     }    
+	 }
+     }
 }
-
 

@@ -24,9 +24,11 @@ protected:
   virtual GtkWidget *draw(Gtk *graphic);
   virtual void BacktoStandart();
   void insert (Character c);
+
   static void Click(void *, gpointer);
   void ButtonClickedEvent();
   char * getLetter();
+  Character getCharacter();
 /* static void Enter(void *, gpointer); */
   /* void ButtonEnterEvent();  /\* void clear (); *\/ */
 };

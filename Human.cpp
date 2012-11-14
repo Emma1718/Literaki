@@ -16,6 +16,7 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack, Map * map)
   this->sack->getCharacters(&(this->letters),7);
   this->map = map;
   this->humanbox = new HumanBox(7,(this->letters), graphic);
+
   // for (i=0; i<(int)this->letters.size(); i++)
   //   cout << " " <<(this->letters[i].getChar())<<endl;
   // cout<<"PO:"<<endl;

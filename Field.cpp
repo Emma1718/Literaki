@@ -109,3 +109,8 @@ char * Field::getLetter()
 
   return a;
 }
+
+Character Field::getCharacter()
+{
+  return this->c;
+}

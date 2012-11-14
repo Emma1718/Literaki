@@ -1,4 +1,4 @@
-#include "Map.h"
+ #include "Map.h"
 
 using namespace std;
 
@@ -84,7 +84,7 @@ bool Map::check_if_modified(int x, int y)
 
 bool Map::check_move(int &cs)
 {
-  int mod_amount = 0, x, y;
+  int mod_amount = 0, x=-1, y=-1;
 
   for( int i = 0; i < this->height; i++)
     for( int j = 0; j < this->width; j++)
@@ -100,6 +100,7 @@ bool Map::check_move(int &cs)
 	    mod_amount++;
 	  }
       }
+  if (x<0) return false;
   cs = 0;
 
   if (this->check_row(x) != mod_amount)
@@ -307,6 +308,6 @@ void Map::find_words(list <string> *words, int opt)
 void Map::clearModifications()
 {
   for(int i = 0; i < this->height; i++)
-    for(int j = 0; i < this->width; j++)
+    for(int j = 0; j < this->width; j++)
       this->modified[i][j] = false;
 }
