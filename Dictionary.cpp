@@ -16,16 +16,21 @@ Dictionary::Dictionary(string filename_dict)
 
 bool Dictionary::checkWord(string word )
 {
-	
+
   set<string>::iterator iter;
   
   iter = this->words.find(word);
-
+  cout<<"funkcja:"<<word;
   if (iter==this->words.end ())
-    return false;
+    {
+      cout<<"NIEZNALEZIONE";
+      return false;
+    }
   else
-    return true;
-	
+    {
+      cout<<"ZNALEZIONE";
+      return true;
+    }	
 }
 void Dictionary::ShowD()
 {

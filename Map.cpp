@@ -213,11 +213,9 @@ int Map::go_up(int i, int j)
   int a;
   for (a = i; a>=0; a--)
     {
-      g_print("go_up::a::%d", a);
       if(this->matrix[a][j]->getLetter() == '\0')
 	break;
     }
-  g_print("go_up::return::a::%d", a);
   return a+1;
 }
 
@@ -226,20 +224,20 @@ int Map::go_down(int i, int j)
   int a;
   for (a = i; a<this->height; a++)
     {
-      g_print("go_up::a::%d", a);
       if(this->matrix[a][j]->getLetter() == '\0')
 	break;
     }
-  g_print("go_up::return::a::%d", a);
   return a-1;
 }
 
-void Map::find_words(int opt)
+void Map::find_words(list <string> *words, int opt)
 {
   bool found1 = false;
   int begin, end;
   string word;// = new char[14];
  
+
+
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
       if(this->modified[i][j])
@@ -252,20 +250,19 @@ void Map::find_words(int opt)
 		case 1:
 		  begin = go_left(i,j-1);
 		  end = go_right(i,j+1);
-		  g_print("begin:%d end: %d",begin, end);
 		  for(int p = begin; p<=end; p++)
 		    word+=(string)(this->matrix[i][p]->getLetter());
-		  cout<<"word:"<<word;
+		  words->push_back(word);
+		  word.clear();
 		  break;
 		case 2:
 		  begin = go_up(i-1,j);
 		  end = go_down(i+1,j);
-		  g_print("begin2:%d end2: %d",begin, end);
 		  for(int p = begin; p<=end; p++)
 		    word+=(string)(this->matrix[p][j]->getLetter());
-		  cout<<"word:"<<word;
 		  break;
 		}
+	      j--;
 	    }
 	  else
 	    {
@@ -274,12 +271,24 @@ void Map::find_words(int opt)
 		case 1:
 		  begin = go_up(i-1,j);
 		  end = go_down(i+1,j);
+		  for(int p = begin; p<=end; p++)
+		    word+=(string)(this->matrix[p][j]->getLetter());
 		  break;
 		case 2:
 		  begin = go_left(i,j-1);
 		  end = go_right(i,j+1);
+		  for(int p = begin; p<=end; p++)
+		    word+=(string)(this->matrix[i][p]->getLetter());
 		  break;
 		}
 	    }
 	}
+}
+
+
+void clearModifications()
+{
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; i < this->width; j++)
+      this->modified[i][j] = false;
 }
