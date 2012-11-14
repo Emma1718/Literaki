@@ -10,7 +10,6 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
   this->dictionary = new Dictionary(filename_dict);//wczytanie słów ze słownika
   this->players_tab[0] = new Human("Gracz", 0, this->graphic, this->sack, this->map);
   this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary, this->map);
-  if (this->dictionary->checkWord("tak")) cout<<"GRA"; else cout<<"niegre";
 }
 
 void Game::run()
@@ -31,12 +30,14 @@ void Game::run()
 
       this->map->find_words(&wordsToCheck, opt);
       list <string>::iterator iter;
-      for(iter = wordsToCheck.begin();iter!=wordsToCheck.begin();iter++)
+      for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++)
 	{
+	  //iter = wordsToCheck.begin();
+	  cout<<"iter:"<<(*iter);
 	  if(this->dictionary->checkWord((*iter))==true) 
 	    cout<<"Found!!!"<<endl;
-	  
 	}
+    }
 }
-    
+
 

@@ -250,16 +250,24 @@ void Map::find_words(list <string> *words, int opt)
 		case 1:
 		  begin = go_left(i,j-1);
 		  end = go_right(i,j+1);
-		  for(int p = begin; p<=end; p++)
-		    word+=(string)(this->matrix[i][p]->getLetter());
-		  words->push_back(word);
-		  word.clear();
+		  if (begin != end)
+		    {
+		      for(int p = begin; p<=end; p++)
+			word+=(string)(this->matrix[i][p]->getLetter());
+		      words->push_back(word);
+		      word.clear();
+		    }
 		  break;
 		case 2:
 		  begin = go_up(i-1,j);
 		  end = go_down(i+1,j);
-		  for(int p = begin; p<=end; p++)
-		    word+=(string)(this->matrix[p][j]->getLetter());
+		  if (begin != end)
+		    {
+		      for(int p = begin; p<=end; p++)
+			word+=(string)(this->matrix[p][j]->getLetter());
+		      words->push_back(word);
+		      word.clear();
+		    }
 		  break;
 		}
 	      j--;
@@ -271,14 +279,24 @@ void Map::find_words(list <string> *words, int opt)
 		case 1:
 		  begin = go_up(i-1,j);
 		  end = go_down(i+1,j);
-		  for(int p = begin; p<=end; p++)
-		    word+=(string)(this->matrix[p][j]->getLetter());
-		  break;
+		   if (begin != end)
+		     {
+		       for(int p = begin; p<=end; p++)
+			 word+=(string)(this->matrix[p][j]->getLetter());
+		       words->push_back(word);
+		       word.clear();
+		     }
+		   break;
 		case 2:
 		  begin = go_left(i,j-1);
 		  end = go_right(i,j+1);
-		  for(int p = begin; p<=end; p++)
-		    word+=(string)(this->matrix[i][p]->getLetter());
+		   if (begin != end)
+		     {
+		       for(int p = begin; p<=end; p++)
+			 word+=(string)(this->matrix[i][p]->getLetter());
+		       words->push_back(word);
+		       word.clear();
+		     }
 		  break;
 		}
 	    }
@@ -286,7 +304,7 @@ void Map::find_words(list <string> *words, int opt)
 }
 
 
-void clearModifications()
+void Map::clearModifications()
 {
   for(int i = 0; i < this->height; i++)
     for(int j = 0; i < this->width; j++)

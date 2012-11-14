@@ -29,19 +29,19 @@ class Map {
   //~Map ();
   void setField (int x, int y, Character c);
   void clearField (int x, int y);
-  //-----------Rysowanie-------\\
+  //-----------Rysowanie-------
   void draw ();
   void putField(int x, int y, GtkWidget *button);
   void loadFromFile(std::string filename);
-  //-----Klikanie------\\
+  //-----Klikanie------
   void modify_field(int ,int, bool);
   bool check_if_modified(int, int);
-  //----Sprawdzanie ruchu----\\
+  //----Sprawdzanie ruchu----
   bool check_move(int &);
   int check_row(int);
   int check_col(int);
   bool check_if_set(int, int);
-  //-----Sprawdzanie słów-------\\
+  //-----Sprawdzanie słów-------
   void find_words(std::list <std::string> *, int );
   int go_left(int , int );
   int go_right(int,int);
