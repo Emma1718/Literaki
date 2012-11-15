@@ -1,6 +1,8 @@
 #ifndef GTK_H
 #define GTK_H
 
+#include <iostream>
+#include <stdlib.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include "Character.h"
@@ -12,6 +14,7 @@ class Gtk
   GtkWidget *vbox;
   GtkWidget *hbox;
   static  GtkWidget *actual_letter;
+  static gboolean deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data);
   bool inserted;
 
 

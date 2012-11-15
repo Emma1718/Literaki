@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Gtk.h"
 
 using namespace std;
@@ -17,7 +16,7 @@ Gtk::Gtk(int argc, char *argv[])
   this->hbox = gtk_hbox_new(FALSE,0);
   this->vbox = gtk_vbox_new(FALSE, 10);
   
-frame = gtk_frame_new("");
+  frame = gtk_frame_new("");
   gtk_widget_set_size_request(frame, 300, 600);
   /*Tworzenie okna*/ 
   gtk_window_set_title (GTK_WINDOW(this->window), "LiTeRaKi");
@@ -29,6 +28,8 @@ frame = gtk_frame_new("");
   gtk_container_add(GTK_CONTAINER(this->window), this->hbox);
   gtk_box_pack_start(GTK_BOX(this->hbox), this->vbox, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(this->hbox), frame, TRUE, TRUE, 0);
+
+  g_signal_connect (window, "delete-event", G_CALLBACK (deleteEvent), NULL);
 }
 
 GtkWidget * Gtk::Create_Table(int width, int height)
@@ -107,7 +108,6 @@ void Gtk::setLabel(GtkWidget * button, char * c)
 void Gtk::run()
 {
   gtk_widget_show_all (this->window);
-  g_signal_connect(window,"delete-event",G_CALLBACK(gtk_main_quit),NULL);  
   gtk_main();
   
 }
@@ -125,4 +125,10 @@ void Gtk::ChangeActualLetter(int color, char * letter)
 {
   this->ChangeColor(Gtk::actual_letter, color);
   this->setLabel(Gtk::actual_letter, letter);
+}
+
+gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
+{
+  gtk_main_quit();
+  exit(0); //potem trzeba przerobic na lagodniejsze
 }
