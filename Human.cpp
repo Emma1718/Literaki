@@ -37,3 +37,14 @@ bool Human::move()
   while(Human::commited == false); 
   return true;
 }
+
+void Human::addLetters(int amount)
+{
+  list <Character>::iterator it;
+
+  this->sack->getCharacters(&(this->letters) , amount);
+  for(it = this->letters.begin(); it != this->letters.end(); it++)
+    cout<<"After Add:"<<(*it).getChar()<<endl;
+
+
+}

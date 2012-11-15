@@ -25,6 +25,7 @@ void Game::run()
   bool foundAll = false;
   list <string> wordsToCheck;
   list <Character> insertions;
+  list <Character> proba;
 
   list <string>::iterator iter;
   list <Character>::iterator it;
@@ -54,8 +55,12 @@ void Game::run()
 	      insertions = this->map->getAllInsertions();
 	      this->players_tab[0]->removeLetters(insertions);
 	      int x = insertions.size();
-	      //              this->players_tab[0]->addLetters(x);
+	      this->players_tab[0]->addLetters(x);
+	      // this->sack->getCharacters(&(this->players_tab[0]->letters) , x);
 	      this->map->clearModAndBonus();
+	      // for(it = this->players_tab[0]->letters.begin(); it != this->players_tab[0]->letters.end(); it++)
+	      // 	cout<<"After Add:"<<(*it).getChar()<<endl;
+	      
 	    }    
 	}
     }

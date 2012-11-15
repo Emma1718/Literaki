@@ -36,15 +36,11 @@ void Player::removeLetters(list <Character> insertions)
 
 }
 
-void Player::addLetters(int amount)
+ void Player::addLetters(int amount)
 {
-  list <Character>::iterator iter;
- for(iter = this->letters.begin(); iter != this->letters.end(); iter++)
-   cout<<"Before Add:"<<(*iter).getChar()<<endl;
+  // list <Character>::iterator it;
 
- this->sack->getCharacters(&(this->letters),amount);
-  cout<<"ile:"<<amount<<endl;
-  //  list <Character>::iterator iter;
- for(iter = this->letters.begin(); iter != this->letters.end(); iter++)
-   cout<<"After Add:"<<(*iter).getChar()<<endl;
+  // this->sack->getCharacters(&(this->letters) , amount);
+  // for(it = this->letters.begin(); it != this->letters.end(); it++)
+  //   cout<<"After Add:"<<(*it).getChar()<<endl;
 }

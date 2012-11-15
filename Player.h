@@ -21,11 +21,13 @@ protected:
   Sack * sack;
   Dictionary * dict;
   Map * map;
-  std:: list <Character> letters;
+
   // Operations
 public:
+
+  std:: list <Character> letters;
   virtual bool move ();
   void removeLetters(std::list <Character>);
-  void addLetters(int);
+  virtual void addLetters(int); 
 };
 #endif 

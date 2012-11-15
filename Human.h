@@ -20,6 +20,7 @@ class Human : public Player {
   //  static void HumanChar_ButtonClicked(Gtk*, gpointer);
  static void SetCommit();
   bool move();
+  void addLetters(int);
 };
 
 
