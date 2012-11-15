@@ -16,6 +16,7 @@ int Field::calculate(int * word_multiplier)
   int x = this->c.getValue();
   return x;
 }
+
 GtkWidget * Field::draw(Gtk *graphic)
 {
   this->button = graphic->Create_Button((char*)"", 38, 38);
@@ -24,6 +25,7 @@ GtkWidget * Field::draw(Gtk *graphic)
   //  g_signal_connect(this->button, "enter", GTK_SIGNAL_FUNC(Field::Enter), this);
   return this->button;
 }
+
 void Field::insert(Character c)
 {
   this->c = c;
@@ -34,15 +36,18 @@ void Field::Click(void * widget, gpointer data)
   Field *f = static_cast<Field*>(data);
   f->ButtonClickedEvent();
 }
+
 Field::Field()
 {
   //
 }
+
 void Field::BacktoStandart()
 {
   this->graphic->ChangeColor(this->button, 0);
   this->graphic->setLabel(this->button, (char*)"");
 }
+
 void Field::ButtonClickedEvent()
 {
   //  g_print("%d %d", this->row_no, this->col_no);
@@ -103,14 +108,13 @@ void Field::ButtonClickedEvent()
 // }
 
 
-char * Field::getLetter()
-{
-  char * a = this->c.getChar();
-
-  return a;
-}
 
 Character Field::getCharacter()
 {
   return this->c;
+}
+
+void Field::looseBonus()
+{
+  //
 }

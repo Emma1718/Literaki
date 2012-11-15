@@ -22,7 +22,7 @@ void Game::run()
   //     for(int i = 0; i < sizeof(this->players_tab); i++)
   //     	{
   int opt;
-  bool foundAll = true;
+  bool foundAll = false;
   list <string> wordsToCheck;
   list <Character> insertions;
 
@@ -42,7 +42,7 @@ void Game::run()
 	    {
 	      cout<<"iter:"<<(*iter);
 	      if(this->dictionary->checkWord((*iter))==true) 
-		cout<<"Found!!!"<<endl;
+		foundAll = true;
 	      else 
 		{
 		  foundAll = false;
@@ -52,10 +52,10 @@ void Game::run()
 	  if (foundAll)
 	    {
 	      insertions = this->map->getAllInsertions();
-	      cout<<"size:"<<(int)insertions.size()<<endl;	      // for(it = insertions.begin(); it != insertions.end(); it++)
-	      // 	cout<<"Inserted:"<<(*it).getChar()<<endl;
 	      this->players_tab[0]->removeLetters(insertions);
-	      this->map->clearModifications();
+	      int x = insertions.size();
+	      //              this->players_tab[0]->addLetters(x);
+	      this->map->clearModAndBonus();
 	    }    
 	}
     }

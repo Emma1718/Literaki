@@ -25,6 +25,8 @@ class Map {
 
   // Operations
  public:
+  static int tmp_sum;
+
   Map (Gtk * ,std::string);
   //~Map ();
   void setField (int x, int y, Character c);
@@ -47,7 +49,8 @@ class Map {
   int go_right(int,int);
   int go_up(int, int);
   int go_down(int, int);
-  void clearModifications();
+  void clearModAndBonus();
+  void countPoints(int, int, int, int);
   //----Usuwanie liter--------
   std::list <Character> getAllInsertions();
 };

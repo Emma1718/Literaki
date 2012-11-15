@@ -2,7 +2,7 @@
 
 using namespace std;
 
-
+int Map::tmp_sum = 0;
 
 void Map::loadFromFile(string filename)
 {
@@ -91,7 +91,7 @@ bool Map::check_move(int &cs)
       {
 	if(this->modified[i][j])
 	  {
-	    cout<<i<<" "<<j<<" "<<this->matrix[i][j]->getLetter()<<endl;
+	    cout<<i<<" "<<j<<" "<<this->matrix[i][j]->getCharacter().getChar()<<endl;
 	    if (mod_amount==0)
 	      {
 		x = i;
@@ -130,7 +130,7 @@ bool Map::check_if_set(int x, int y)
 {
   if((x>=0) && (y>=0) && (x<this->height) && (y<this->width))
     {
-      if (!(this->modified[x][y]) && (this->matrix[x][y]->getLetter() != '\0'))
+      if (!(this->modified[x][y]) && (this->matrix[x][y]->getCharacter().getChar() != '\0'))
 	return true;
       else 
 	return false;
@@ -146,7 +146,7 @@ int Map::check_row(int x)
     {
       if (interested)
   	{
-  	  if (this->matrix[x][j]->getLetter() == '\0')
+  	  if (this->matrix[x][j]->getCharacter().getChar() == '\0')
   	    break;
   	  else if (this->modified[x][j]) 
   	    actual_amount++;
@@ -171,7 +171,7 @@ int Map::check_col(int y)
     {
       if (interested)
   	{
-  	  if (this->matrix[j][y]->getLetter() == '\0')
+  	  if (this->matrix[j][y]->getCharacter().getChar() == '\0')
   	    break;
   	  else if (this->modified[j][y]) 
   	    actual_amount++;
@@ -190,7 +190,7 @@ int Map::go_left(int i, int j)
   int a;
   for (a = j; a>=0; a--)
     {
-      if(this->matrix[i][a]->getLetter() == '\0')
+      if(this->matrix[i][a]->getCharacter().getChar() == '\0')
 	break;
     }
   
@@ -202,7 +202,7 @@ int Map::go_right(int i, int j)
    int a;
    for (a = j; a < this->width; a++)
     {
-      if(this->matrix[i][a]->getLetter() == '\0')
+      if(this->matrix[i][a]->getCharacter().getChar() == '\0')
 	break;
     }
   
@@ -214,7 +214,7 @@ int Map::go_up(int i, int j)
   int a;
   for (a = i; a>=0; a--)
     {
-      if(this->matrix[a][j]->getLetter() == '\0')
+      if(this->matrix[a][j]->getCharacter().getChar() == '\0')
 	break;
     }
   return a+1;
@@ -225,7 +225,7 @@ int Map::go_down(int i, int j)
   int a;
   for (a = i; a<this->height; a++)
     {
-      if(this->matrix[a][j]->getLetter() == '\0')
+      if(this->matrix[a][j]->getCharacter().getChar() == '\0')
 	break;
     }
   return a-1;
@@ -254,9 +254,10 @@ void Map::find_words(list <string> *words, int opt)
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
-			word+=(string)(this->matrix[i][p]->getLetter());
+			word+=(string)(this->matrix[i][p]->getCharacter().getChar());
 		      words->push_back(word);
 		      word.clear();
+		      this->countPoints(1, begin, end, i);
 		    }
 		  break;
 		case 2:
@@ -265,9 +266,10 @@ void Map::find_words(list <string> *words, int opt)
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
-			word+=(string)(this->matrix[p][j]->getLetter());
+			word+=(string)(this->matrix[p][j]->getCharacter().getChar());
 		      words->push_back(word);
 		      word.clear();
+		      this->countPoints(2, begin, end, j);
 		    }
 		  break;
 		}
@@ -283,9 +285,10 @@ void Map::find_words(list <string> *words, int opt)
 		   if (begin != end)
 		     {
 		       for(int p = begin; p<=end; p++)
-			 word+=(string)(this->matrix[p][j]->getLetter());
+			 word+=(string)(this->matrix[p][j]->getCharacter().getChar());
 		       words->push_back(word);
 		       word.clear();
+		      this->countPoints(2, begin, end, j);
 		     }
 		   break;
 		case 2:
@@ -294,9 +297,10 @@ void Map::find_words(list <string> *words, int opt)
 		   if (begin != end)
 		     {
 		       for(int p = begin; p<=end; p++)
-			 word+=(string)(this->matrix[i][p]->getLetter());
+			 word+=(string)(this->matrix[i][p]->getCharacter().getChar());
 		       words->push_back(word);
 		       word.clear();
+		      this->countPoints(1, begin, end, i);
 		     }
 		  break;
 		}
@@ -305,11 +309,15 @@ void Map::find_words(list <string> *words, int opt)
 }
 
 
-void Map::clearModifications()
+void Map::clearModAndBonus()
 {
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
-      this->modified[i][j] = false;
+      if (this->modified[i][j])
+	{
+	  this->modified[i][j] = false;
+	  this->matrix[i][j]->looseBonus();
+	}	
 }
 
 list <Character> Map::getAllInsertions()
@@ -324,4 +332,28 @@ list <Character> Map::getAllInsertions()
       }
 
   return insertions;
+}
+
+void Map::countPoints(int option, int begin, int end, int x)
+{
+  int word_multiplier = 1;
+  
+  switch(option)
+    {
+    case 1:
+      for(int j = begin; j <= end; j++)
+	{
+	  Map::tmp_sum+= this->matrix[x][j]->calculate(&word_multiplier);
+	  cout<<endl<<"word_multiplier:"<<word_multiplier<<endl<<"SUM"<<Map::tmp_sum<<endl;}
+      break;
+
+    case 2:
+      for(int i = begin; i <= end; i++)
+	{
+	  Map::tmp_sum+= this->matrix[i][x]->calculate(&word_multiplier);
+	}
+      break;
+    }
+  Map::tmp_sum*=word_multiplier;
+  cout<<"Sumaopkt:"<<Map::tmp_sum<<endl;
 }

@@ -29,3 +29,8 @@ void CharBonus::BacktoStandart()
   this->graphic->ChangeColor(this->button, this->which_char);
   this->graphic->setLabel(this->button, (char*)"");
 }
+
+void CharBonus::looseBonus()
+{
+  this->multiplier = 1;
+}

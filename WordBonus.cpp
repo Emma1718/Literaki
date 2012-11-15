@@ -11,7 +11,7 @@ WordBonus::WordBonus(Map * map, int a, int x, int y)
 
 int WordBonus::calculate(int * word_multiplier)
 {
-  *word_multiplier = this->multiplier;
+  *word_multiplier *= this->multiplier;
   int x = this->c.getValue();
   return x;
 }
@@ -34,4 +34,9 @@ void WordBonus::BacktoStandart()
   sprintf(str, "%dx", x);
   this->graphic->setLabel(this->button, str);
   graphic->ChangeColor(this->button, 10);
+}
+
+void WordBonus::looseBonus()
+{
+  this->multiplier = 1;
 }

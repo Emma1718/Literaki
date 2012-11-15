@@ -23,6 +23,7 @@ protected:
   virtual int calculate (int *word_multiplier);
   virtual GtkWidget *draw(Gtk *graphic);
   virtual void BacktoStandart();
+  virtual void looseBonus();
   void insert (Character c);
 
   static void Click(void *, gpointer);

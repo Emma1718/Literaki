@@ -1,4 +1,3 @@
-
 #include "Human.h"
 #include <iostream>
 

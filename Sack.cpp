@@ -30,13 +30,13 @@ Sack::Sack(string filename_sack)
 
 int Sack::getCharacters(list <Character> *letters, int amount)
 {
+
   srand(time(NULL));
-  map<int,Character>::iterator iter;
-  
+
   int s = this->characters.size();
-    
+  cout<<"Tutaj "<<endl;      
   int how_many = 0;
-  
+  map<int,Character>::iterator iter;
   while(amount>0 && s>0)
     {
       int r = rand()%(this->size);
@@ -67,5 +67,11 @@ int Sack::getCharacters(list <Character> *letters, int amount)
   return how_many;
 }
 
-
+void Sack::show()
+{
+  map<int,Character>::iterator iter;
+  cout<<"sizechar:"<<this->characters.size()<<endl;
+  for ( iter=characters.begin() ; iter != characters.end(); iter++ )
+    cout << (*iter).first << " => " << (*iter).second.getChar() << endl;
+}
 				    

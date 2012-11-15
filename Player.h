@@ -26,6 +26,6 @@ protected:
 public:
   virtual bool move ();
   void removeLetters(std::list <Character>);
-
+  void addLetters(int);
 };
 #endif 

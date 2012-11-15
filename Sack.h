@@ -16,11 +16,12 @@ class Sack {
   std::map <int,Character> characters;
   int size;
  public:
+
   Sack(std::string filename_sack);
   ~Sack();
   //  std::string
   int getCharacters(std::list <Character> *letters, int  amount);
-
+  void show();
 };
 
 #endif 
