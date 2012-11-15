@@ -44,7 +44,8 @@ void Human::addLetters(int amount)
 
   this->sack->getCharacters(&(this->letters) , amount);
   for(it = this->letters.begin(); it != this->letters.end(); it++)
-    cout<<"After Add:"<<(*it).getChar()<<endl;
-
+    g_print("After Add:%s\n", (*it).getChar());
+   this->humanbox->addLetters(this->letters, amount);
+ 
 
 }

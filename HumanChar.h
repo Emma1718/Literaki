@@ -18,12 +18,14 @@ class HumanChar{
  public:
 
   bool clicked;
-  HumanChar(Character , Gtk *, HumanBox *);
+  HumanChar(Gtk *, HumanBox *);
   GtkWidget * draw();
   static void ButtonClicked (GtkWidget *, gpointer);  //  ~HumanChar();
   void ButtonClickedEvent(GtkWidget *);
   GtkWidget * getButton();
   Character getLetter();
+  void insert(Character c);
+  void drawLetter();
   void DisableButton();
   void EnableButton();
 };

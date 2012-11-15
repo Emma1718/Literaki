@@ -51,6 +51,7 @@ class Map {
   int go_down(int, int);
   void clearModAndBonus();
   void countPoints(int, int, int, int);
+  void disableMap();
   //----Usuwanie liter--------
   std::list <Character> getAllInsertions();
 };

@@ -1,9 +1,9 @@
 #include "HumanBox.h"
 
 
-HumanChar::HumanChar(Character c, Gtk * graphic, HumanBox* hb)
+HumanChar::HumanChar(Gtk * graphic, HumanBox* hb)
 {
-  this->letter = c;
+  this->letter = Character();
   this->clicked = false;
   this->graphic = graphic;
   this->parent = hb;
@@ -13,9 +13,7 @@ HumanChar::HumanChar(Character c, Gtk * graphic, HumanBox* hb)
 GtkWidget *HumanChar::draw()
 {
   this->button = graphic->Create_Button((char*)"", 38 ,38);
-  this->graphic->ChangeColor(this->button, this->letter.getValue());
-  this->graphic->setLabel(this->button, this->letter.getChar());
-
+  this->drawLetter();
   g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(HumanChar::ButtonClicked), this);
   return this->button;
 }
@@ -80,11 +78,24 @@ Character HumanChar::getLetter()
 {
   return this->letter;
 }
+
 void HumanChar::DisableButton()
 {
   this->graphic->Change_sensitivity(this->button, FALSE);
 }
+
 void HumanChar::EnableButton()
 {
   this->graphic->Change_sensitivity(this->button, TRUE);
+}
+
+void HumanChar::insert(Character c)
+{
+  this->letter = c;
+}
+
+void HumanChar::drawLetter()
+{
+  this->graphic->ChangeColor(this->button, this->letter.getValue());
+  this->graphic->setLabel(this->button, this->letter.getChar());
 }

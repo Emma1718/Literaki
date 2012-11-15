@@ -30,6 +30,7 @@ protected:
   void ButtonClickedEvent();
   char * getLetter();
   Character getCharacter();
+  void disableButton();
 /* static void Enter(void *, gpointer); */
   /* void ButtonEnterEvent();  /\* void clear (); *\/ */
 };

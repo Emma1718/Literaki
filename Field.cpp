@@ -118,3 +118,7 @@ void Field::looseBonus()
 {
   //
 }
+void Field::disableButton()
+{
+  this->graphic->Change_sensitivity(this->button, FALSE);
+}

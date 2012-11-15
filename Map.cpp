@@ -357,3 +357,10 @@ void Map::countPoints(int option, int begin, int end, int x)
   Map::tmp_sum*=word_multiplier;
   cout<<"Sumaopkt:"<<Map::tmp_sum<<endl;
 }
+
+void Map::disableMap()
+{
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; j < this->width; j++)
+      this->matrix[i][j]->disableButton();
+}

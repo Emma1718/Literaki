@@ -16,7 +16,8 @@ void Game::run()
 {
   
   this->graphic->run();
-
+  while (gtk_events_pending())
+    gtk_main_iteration();
   // while(true)
   //   {
   //     for(int i = 0; i < sizeof(this->players_tab); i++)
@@ -25,12 +26,12 @@ void Game::run()
   bool foundAll = false;
   list <string> wordsToCheck;
   list <Character> insertions;
-  list <Character> proba;
 
   list <string>::iterator iter;
   list <Character>::iterator it;
 
   while (!(this->players_tab[0]->move())); 
+  g_print("HAHA\n");
   if (Gtk::tmp_char.getChar() == '\0')
     {
       if (this->map->check_move(opt))
@@ -54,10 +55,10 @@ void Game::run()
 	    {
 	      insertions = this->map->getAllInsertions();
 	      this->players_tab[0]->removeLetters(insertions);
-	      int x = insertions.size();
-	      this->players_tab[0]->addLetters(x);
-	      // this->sack->getCharacters(&(this->players_tab[0]->letters) , x);
+	     	      // this->sack->getCharacters(&(this->players_tab[0]->letters) , x);
 	      this->map->clearModAndBonus();
+	      this->players_tab[0]->addLetters(insertions.size());
+	      this->map->disableMap();
 	      // for(it = this->players_tab[0]->letters.begin(); it != this->players_tab[0]->letters.end(); it++)
 	      // 	cout<<"After Add:"<<(*it).getChar()<<endl;
 	      
