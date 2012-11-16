@@ -31,6 +31,11 @@ void Human::addLetters(int amount)
    this->humanbox->addLetters(this->letters, amount);
 }
 
+void Human::returnLetters(list <Character> lettersToBack)
+{
+  this->humanbox->addLetters(lettersToBack, lettersToBack.size());
+}
+
 void Human::disableHumanBox()
 {
   this->humanbox->disableHumanChars();

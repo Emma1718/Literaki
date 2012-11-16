@@ -1,4 +1,4 @@
- #include "Map.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -6,9 +6,9 @@ int Map::tmp_sum = 0;
 
 void Map::loadFromFile(string filename)
 {
-  
-  int option, wh_ch, mp; 
- 
+
+  int option, wh_ch, mp;
+
   ifstream file(filename.c_str(),ifstream::in);
 
   if (file.is_open())
@@ -26,13 +26,13 @@ void Map::loadFromFile(string filename)
               file>>option;
 	      switch(option)
 		{
-		case 0: 
+		case 0:
 		  this->matrix[i][j] = new Field(this, this->graphic, i, j);
 		  // g_print("%d %d \n" ,i, j);
 		  break;
 		case 1:
 		  file>>wh_ch>>mp;
-		  this->matrix[i][j]=new CharBonus(this, wh_ch, mp, i, j);		     
+		  this->matrix[i][j]=new CharBonus(this, wh_ch, mp, i, j);
 		  break;
 		case 2:
 		  file>>mp;
@@ -46,7 +46,7 @@ void Map::loadFromFile(string filename)
 
 void Map::draw()
 {
-  this->board = graphic->Create_Table(this->width,this->height);   
+  this->board = graphic->createTable(this->width,this->height);
   for(int i=0; i<this->height; i++)
     for(int j=0; j<this->width; j++)
       {
@@ -64,7 +64,7 @@ Map::Map(Gtk *graphic,string filename)
   this-> modified=new bool*[this->height];
 
   for(int i = 0; i<this->height; i++)
-      modified[i]=new bool[this->width];
+    modified[i]=new bool[this->width];
 
 
   for(int i=0;i<this->height;i++)
@@ -76,7 +76,7 @@ void Map::modify_field(int x, int y, bool mod)
 {
   this->modified[x][y] = mod;
 }
-	      
+
 bool Map::check_if_modified(int x, int y)
 {
   return (this->modified[x][y]);
@@ -117,12 +117,12 @@ bool Map::check_move(int &cs)
     for(int j = 0; j < this-> width; j++)
       if (this->modified[i][j])
 	{
-	    if (((i==(this->width/2)) && (i==j)) || this->check_if_set(i+1, j) || this->check_if_set(i-1, j) || this->check_if_set(i, j+1) || this->check_if_set(i, j-1))
+	  if (((i==(this->width/2)) && (i==j)) || this->check_if_set(i+1, j) || this->check_if_set(i-1, j) || this->check_if_set(i, j+1) || this->check_if_set(i, j-1))
 	    {
 	      return true;
 	    }
 	}
-   
+
   return false;
 
 }
@@ -134,7 +134,7 @@ bool Map::check_if_set(int x, int y)
     {
       if (!(this->modified[x][y]) && (this->matrix[x][y]->getCharacter().getChar() != '\0'))
 	return true;
-      else 
+      else
 	return false;
     }
   else return false;
@@ -151,10 +151,10 @@ int Map::check_row(int x)
   	{
   	  if (this->matrix[x][j]->getCharacter().getChar() == '\0')
   	    break;
-  	  else if (this->modified[x][j]) 
+  	  else if (this->modified[x][j])
   	    actual_amount++;
   	}
-      else if (this->modified[x][j]) 
+      else if (this->modified[x][j])
 	{
 	  actual_amount++;
 	  interested = true;
@@ -176,10 +176,10 @@ int Map::check_col(int y)
   	{
   	  if (this->matrix[j][y]->getCharacter().getChar() == '\0')
   	    break;
-  	  else if (this->modified[j][y]) 
+  	  else if (this->modified[j][y])
   	    actual_amount++;
   	}
-      else if (this->modified[j][y]) 
+      else if (this->modified[j][y])
 	{
 	  actual_amount++;
 	  interested = true;
@@ -196,19 +196,19 @@ int Map::go_left(int i, int j)
       if(this->matrix[i][a]->getCharacter().getChar() == '\0')
 	break;
     }
-  
+
   return a+1;
 }
 
 int Map::go_right(int i, int j)
 {
-   int a;
-   for (a = j; a < this->width; a++)
+  int a;
+  for (a = j; a < this->width; a++)
     {
       if(this->matrix[i][a]->getCharacter().getChar() == '\0')
 	break;
     }
-  
+
   return a-1;
 }
 
@@ -239,7 +239,7 @@ void Map::find_words(list <string> *words, int opt)
   bool found1 = false;
   int begin, end;
   string word;// = new char[14];
- 
+
 
 
   for(int i = 0; i < this->height; i++)
@@ -257,7 +257,17 @@ void Map::find_words(list <string> *words, int opt)
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
-			word+=(string)(this->matrix[i][p]->getCharacter().getChar());
+			{
+			  if ((string)this->matrix[i][p]->getCharacter().getChar() != (string)"_")
+			    word+=(string)(this->matrix[i][p]->getCharacter().getChar());
+			  else
+			    {			      //  sleep(1.5);
+			      this->graphic->chooseLetter("litery");		      
+			    
+			      while (gtk_events_pending())
+				gtk_main_iteration();
+			    }
+			}
 		      words->push_back(word);
 		      word.clear();
 		      this->countPoints(1, begin, end, i);
@@ -285,26 +295,26 @@ void Map::find_words(list <string> *words, int opt)
 		case 1:
 		  begin = go_up(i-1,j);
 		  end = go_down(i+1,j);
-		   if (begin != end)
-		     {
-		       for(int p = begin; p<=end; p++)
-			 word+=(string)(this->matrix[p][j]->getCharacter().getChar());
-		       words->push_back(word);
-		       word.clear();
+		  if (begin != end)
+		    {
+		      for(int p = begin; p<=end; p++)
+			word+=(string)(this->matrix[p][j]->getCharacter().getChar());
+		      words->push_back(word);
+		      word.clear();
 		      this->countPoints(2, begin, end, j);
-		     }
-		   break;
+		    }
+		  break;
 		case 2:
 		  begin = go_left(i,j-1);
 		  end = go_right(i,j+1);
-		   if (begin != end)
-		     {
-		       for(int p = begin; p<=end; p++)
-			 word+=(string)(this->matrix[i][p]->getCharacter().getChar());
-		       words->push_back(word);
-		       word.clear();
+		  if (begin != end)
+		    {
+		      for(int p = begin; p<=end; p++)
+			word+=(string)(this->matrix[i][p]->getCharacter().getChar());
+		      words->push_back(word);
+		      word.clear();
 		      this->countPoints(1, begin, end, i);
-		     }
+		    }
 		  break;
 		}
 	    }
@@ -320,7 +330,7 @@ void Map::clearModAndBonus()
 	{
 	  this->modified[i][j] = false;
 	  this->matrix[i][j]->looseBonus();
-	}	
+	}
 }
 
 list <Character> Map::getAllInsertions()
@@ -340,7 +350,7 @@ list <Character> Map::getAllInsertions()
 void Map::countPoints(int option, int begin, int end, int x)
 {
   int word_multiplier = 1;
-  
+
   switch(option)
     {
     case 1:
@@ -373,4 +383,16 @@ void Map::enableMap()
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
       this->matrix[i][j]->enableButton();
+}
+
+void Map::clearFields()
+{
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; j < this->width; j++)
+      if (this->modified[i][j])
+	{
+	  g_print("clear:%d %d\n", i,j);
+         this->matrix[i][j]->backToStandart();
+	  this->modified[i][j]=false;
+	}	
 }

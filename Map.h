@@ -30,7 +30,7 @@ class Map {
   Map (Gtk * ,std::string);
   //~Map ();
   void setField (int x, int y, Character c);
-  void clearField (int x, int y);
+  void clearFields ();
   //-----------Rysowanie-------
   void draw ();
   void putField(int x, int y, GtkWidget *button);

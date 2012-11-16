@@ -21,7 +21,9 @@ class Human : public Player {
  static void SetCommit();
  void disableHumanBox();
  void enableHumanBox();
-  void addLetters(int);
+ void addLetters(int);
+ void returnLetters(std::list <Character>);
+
 };
 
 

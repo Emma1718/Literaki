@@ -19,7 +19,7 @@ int Field::calculate(int * word_multiplier)
 
 GtkWidget * Field::draw(Gtk *graphic)
 {
-  this->button = graphic->Create_Button((char*)"", 38, 38);
+  this->button = graphic->createButton((char*)"", 38, 38);
   graphic->changeColor(this->button,0);
   g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::Click), this);
   //  g_signal_connect(this->button, "enter", GTK_SIGNAL_FUNC(Field::Enter), this);
@@ -46,6 +46,7 @@ void Field::backToStandart()
 {
   this->graphic->changeColor(this->button, 0);
   this->graphic->setLabel(this->button, (char*)"");
+  this->c.backtoStart();
 }
 
 void Field::ButtonClickedEvent()
@@ -56,10 +57,9 @@ void Field::ButtonClickedEvent()
     {
       if ((this->c.getChar() != '\0') && (this->parent->check_if_modified(this->row_no, this->col_no))) // i jeśli jest litera na polu oraz to pole jest modyfikowalne
 	{
-	  this->backToStandart();
 	  this->graphic->ChangeActualLetter(this->c.getValue(), this->c.getChar());
-	  Gtk::tmp_char = this->c;// to pobierz literę z pola i ją zapamiętaj
-	  this->c.backtoStart();
+	  Gtk::tmp_char = this->c;// to pobierz literę z pola i ją zapamięta
+	  this->backToStandart();
 	  this->parent->modify_field(this->row_no, this->col_no, false); // a także ustaw pole niezmodyfikowanym
 	}
     }
@@ -74,7 +74,6 @@ void Field::ButtonClickedEvent()
 	      exchange = this->c;
 	      this->insert(Gtk::tmp_char);  // to zamień litery
 	      Gtk::tmp_char = exchange;
-
 	      this->graphic->ChangeActualLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
 	      this->graphic->setLabel(this->button, this->c.getChar());
 	      this->graphic->changeColor(this->button, this->c.getValue());

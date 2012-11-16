@@ -27,12 +27,12 @@ void HumanBox::loadLetters(list <Character> letters)
 
 void HumanBox::draw()
 {
-  this->board = graphic->Create_Table(this->length,1);
+  this->board = graphic->createTable(this->length,1);
 
   for(int i=0;i<this->length;i++)
     graphic->putField(0,i,this->board,this->lettersBox[i]->draw());
 
-  this->button_OK = graphic->Create_Button((char*)"OK", 38, 45);
+  this->button_OK = graphic->createButton((char*)"OK", 38, 45);
   g_signal_connect(this->button_OK, "clicked", GTK_SIGNAL_FUNC(Gtk::buttonOKClicked), NULL);
 
   graphic->HumanBox_into_window(this->board, this->button_OK);

@@ -21,7 +21,7 @@ GtkWidget *WordBonus::draw(Gtk *graphic)
   char * str = new char[10];
   int x = this->multiplier;
   sprintf(str, "%dx", x);
-  this->button = graphic->Create_Button(str, 38, 38);
+  this->button = graphic->createButton(str, 38, 38);
   graphic->changeColor(this->button, 10);
   g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::Click), this);
   return this->button;
@@ -34,6 +34,7 @@ void WordBonus::backToStandart()
   sprintf(str, "%dx", x);
   this->graphic->setLabel(this->button, str);
   graphic->changeColor(this->button, 10);
+  this->c.backtoStart();
 }
 
 void WordBonus::looseBonus()

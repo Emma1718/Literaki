@@ -27,8 +27,8 @@ class Gtk
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
   void ChangeActualLetter(int, char*);
 
-  GtkWidget *Create_Table(int width, int height);
-  GtkWidget *Create_Button(char *label, int height, int width);
+  GtkWidget *createTable(int width, int height);
+  GtkWidget *createButton(char *label, int height, int width);
   void changeColor(GtkWidget *,int);
   void Map_into_window(GtkWidget *board);
   void HumanBox_into_window(GtkWidget *, GtkWidget *);
@@ -36,6 +36,9 @@ class Gtk
   void setLabel(GtkWidget *, char *);
   void run();
   void changeSensitivity(GtkWidget *, gboolean);
+  void chooseLetter(std::string filename);
+  static void letterChosen(GtkWidget *, gpointer);
+  GtkWidget *createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
 
   //  ~Gtk();
 };
