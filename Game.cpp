@@ -59,11 +59,13 @@ void Game::process()
 	    }    
 	  else 
 	    {
-	      dialogMessage = this->graphic->createDialogMessage("Nie znaleziono wyrazu w słowniku!", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
-	      while (gtk_events_pending())
-		gtk_main_iteration();
-	      sleep(1.5);
-	      gtk_widget_destroy(dialogMessage);
+	      //dialogMessage = this->graphic->createDialogMessage((char*)"Nie", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
+	      // //gtk_dialog_run (GTK_DIALOG (dialogMessage));
+	      // while (gtk_events_pending())
+	      // 	gtk_main_iteration();
+	      // sleep(1.5);
+	     
+	      // gtk_widget_destroy(dialogMessage);
 
 	      static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);  
 	      this->map->clearFields();
@@ -71,7 +73,7 @@ void Game::process()
 	}
       else 
 	{
-	  dialogMessage = this->graphic->createDialogMessage("BŁEDNY RUCH!", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
+	  dialogMessage = this->graphic->createDialogMessage("BŁEDNY", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
 	  while (gtk_events_pending())
 	    gtk_main_iteration();
 	  sleep(1.5);

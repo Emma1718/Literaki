@@ -263,9 +263,9 @@ void Map::find_words(list <string> *words, int opt)
 			  else
 			    {			      //  sleep(1.5);
 			      this->graphic->chooseLetter("litery");		      
-			    
 			      while (gtk_events_pending())
 				gtk_main_iteration();
+			     
 			    }
 			}
 		      words->push_back(word);

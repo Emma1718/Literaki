@@ -177,7 +177,7 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)
   int *v;
   v = (int*)data;
   g_print("val:%d\n",v);
-  Character x(l,*v);
+  Character x = Character(l,*v);
   g_print("tmp:%s %d", x.getChar(), x.getValue());  // Gtk::tmp_char = x;
 }
 
