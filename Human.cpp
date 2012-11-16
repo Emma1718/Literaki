@@ -29,13 +29,13 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack, Map * map)
 
 void Human::SetCommit()
 {
-  Human::commited = true;
+  //  Human::commited = true;
 }
 
 bool Human::move()
 {
-  while(Human::commited == false); 
-  return true;
+  // while(Human::commited == false); 
+  // return true;
 }
 
 void Human::addLetters(int amount)

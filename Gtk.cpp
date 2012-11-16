@@ -1,16 +1,21 @@
-#include "Gtk.h"
-
+#include "Game.h"
 using namespace std;
+
 
 
 Character Gtk::tmp_char = Character();
 GtkWidget * Gtk::actual_letter;// = gtk_button_new_with_label((char*)"");
+Game *Gtk::game;
 
-Gtk::Gtk(int argc, char *argv[])
+Gtk::Gtk(int argc, char *argv[], Game* parent)
 {
   gtk_init(&argc, &argv); //inicjacja biblioteki GTK
+
+  Gtk::game = parent;
+
   GtkWidget *frame;
   
+
   Gtk::actual_letter = this->Create_Button((char*)"", 38, 38);
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   this->hbox = gtk_hbox_new(FALSE,0);
@@ -112,9 +117,9 @@ void Gtk::run()
   
 }
 
-void Gtk::Click()
+void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)
 {
-  //
+  Gtk::game->process();
 }
 void Gtk::Change_sensitivity(GtkWidget * button, gboolean x)
 {

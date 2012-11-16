@@ -27,6 +27,7 @@ class Game {
   Game (int argc, char *argv[],std::string filename_matrix, std::string filename_sack, std::string filename_dict);
   //~Game ();
   void  run ();
+  void process();
 };
 
 #endif

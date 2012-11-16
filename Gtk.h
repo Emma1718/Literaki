@@ -8,6 +8,8 @@
 #include "Character.h"
 
 
+class Game;
+
 class Gtk
 {
   GtkWidget *window;
@@ -15,15 +17,16 @@ class Gtk
   GtkWidget *hbox;
   static  GtkWidget *actual_letter;
   static gboolean deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data);
-  bool inserted;
-
+  static Game *game;
 
  public:
 
-  static Character tmp_char;
+  Gtk(int argc, char * argv[], Game *);
 
+  static Character tmp_char;
+  static void buttonOKClicked(GtkWidget *widget, gpointer data);
   void ChangeActualLetter(int, char*);
-  Gtk(int argc, char * argv[]);
+
   GtkWidget *Create_Table(int width, int height);
   GtkWidget *Create_Button(char *label, int height, int width);
   void ChangeColor(GtkWidget *,int);
@@ -33,7 +36,7 @@ class Gtk
   void setLabel(GtkWidget *, char *);
   void run();
   void Change_sensitivity(GtkWidget *, gboolean);
-  static  void Click();
+
   //  ~Gtk();
 };
 

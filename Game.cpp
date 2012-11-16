@@ -1,10 +1,9 @@
 #include "Game.h"
-
 using namespace std;
 
 Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack, string filename_dict)
 {
-  this->graphic = new Gtk(argc, argv);//stworzenie grafiki
+  this->graphic = new Gtk(argc, argv,this);//stworzenie grafiki
   this->map = new Map(this->graphic,filename_matrix);//plansza 
   this->sack = new Sack(filename_sack); 
   this->dictionary = new Dictionary(filename_dict);//wczytanie słów ze słownika
@@ -16,12 +15,11 @@ void Game::run()
 {
   
   this->graphic->run();
-  while (gtk_events_pending())
-    gtk_main_iteration();
-  // while(true)
-  //   {
-  //     for(int i = 0; i < sizeof(this->players_tab); i++)
-  //     	{
+
+}
+
+void Game::process()
+{
   int opt;
   bool foundAll = false;
   list <string> wordsToCheck;
@@ -30,7 +28,7 @@ void Game::run()
   list <string>::iterator iter;
   list <Character>::iterator it;
 
-  while (!(this->players_tab[0]->move())); 
+
   g_print("HAHA\n");
   if (Gtk::tmp_char.getChar() == '\0')
     {
@@ -65,5 +63,6 @@ void Game::run()
 	    }    
 	}
     }
-}
 
+
+}
