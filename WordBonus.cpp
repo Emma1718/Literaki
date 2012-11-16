@@ -27,7 +27,7 @@ GtkWidget *WordBonus::draw(Gtk *graphic)
   return this->button;
 }
 
-void WordBonus::BacktoStandart()
+void WordBonus::backToStandart()
 {
   char * str = new char[10];
   int x = this->multiplier;

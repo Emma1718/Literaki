@@ -2,7 +2,7 @@
 #define WORDBONUS_H
 #include "Field.h"
 
-/// class TripleBonus - 
+/// class TripleBonus -
 class WordBonus : public Field {
 
   // Operations
@@ -13,7 +13,7 @@ public:
   int calculate (int *);
   GtkWidget *draw(Gtk *);
   void looseBonus();
-  void BacktoStandart();
+  void backToStandart();
 };
 
-#endif 
+#endif

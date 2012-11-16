@@ -28,7 +28,7 @@ void HumanChar::ButtonClicked (GtkWidget * widget, gpointer data)
 void HumanChar::ButtonClickedEvent(GtkWidget * button)
 {
 
- 
+
   if (Gtk::tmp_char.getChar() == '\0')
     {
       if  (this->letter.getChar() != '\0')
@@ -39,10 +39,10 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 	  //this->parent->DisableHumanChars();
 	  this->graphic->ChangeActualLetter(this->letter.getValue(), this->letter.getChar());
 	  Gtk::tmp_char = this->letter;
-	  this->letter.BacktoStart();
+	  this->letter.backtoStart();
 	}
     }
-  else 
+  else
     {
       if (this->letter.getChar() != '\0')
 	{
@@ -51,7 +51,7 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 	  exchange = this->letter;
 	  this->letter = Gtk::tmp_char;
 	  Gtk::tmp_char = exchange;
-	  
+
 	  this->graphic->ChangeActualLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
 	  this->graphic->setLabel(this->button, this->letter.getChar());
 	  this->graphic->ChangeColor(this->button, this->letter.getValue());
@@ -60,8 +60,8 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 	{
  //this->clicked = false;
 	  this->letter = Gtk::tmp_char;
-	  Gtk::tmp_char.BacktoStart();
-	  this->graphic->ChangeActualLetter(0, (char*)"");     
+	  Gtk::tmp_char.backtoStart();
+	  this->graphic->ChangeActualLetter(0, (char*)"");
 	  this->graphic->setLabel(this->button, this->letter.getChar());
 	  this->graphic->ChangeColor(this->button, this->letter.getValue());
 	  // this->parent->EnableHumanChars();

@@ -24,7 +24,7 @@ GtkWidget *CharBonus::draw(Gtk *graphic)
   g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::Click), this);
   return this->button;
 }
-void CharBonus::BacktoStandart()
+void CharBonus::backToStandart()
 {
   this->graphic->ChangeColor(this->button, this->which_char);
   this->graphic->setLabel(this->button, (char*)"");

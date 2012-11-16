@@ -2,11 +2,6 @@
 
 using namespace std;
 
-bool Player::move()
-{
-  //
-}
-
 void Player::removeLetters(list <Character> insertions)
 {
   list <Character>::iterator it, it2;

@@ -32,11 +32,6 @@ void Human::SetCommit()
   //  Human::commited = true;
 }
 
-bool Human::move()
-{
-  // while(Human::commited == false); 
-  // return true;
-}
 
 void Human::addLetters(int amount)
 {

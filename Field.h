@@ -5,7 +5,7 @@
 #include "Gtk.h"
 
 class Map;
-/// class Field - 
+/// class Field -
 class Field {
   // Associations
   // Attributes
@@ -22,7 +22,7 @@ protected:
   Field ();
   virtual int calculate (int *word_multiplier);
   virtual GtkWidget *draw(Gtk *graphic);
-  virtual void BacktoStandart();
+  virtual void backToStandart();
   virtual void looseBonus();
   void insert (Character c);
 
@@ -35,4 +35,4 @@ protected:
   /* void ButtonEnterEvent();  /\* void clear (); *\/ */
 };
 
-#endif 
+#endif

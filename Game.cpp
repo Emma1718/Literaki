@@ -29,18 +29,14 @@ void Game::process()
   list <Character>::iterator it;
 
 
-  g_print("HAHA\n");
   if (Gtk::tmp_char.getChar() == '\0')
     {
       if (this->map->check_move(opt))
-	{
-	  g_print("Poprawny ruch!");
-       
+	{       
 	  this->map->find_words(&wordsToCheck, opt);
      
 	  for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++)
 	    {
-	      cout<<"iter:"<<(*iter);
 	      if(this->dictionary->checkWord((*iter))==true) 
 		foundAll = true;
 	      else 
@@ -53,16 +49,11 @@ void Game::process()
 	    {
 	      insertions = this->map->getAllInsertions();
 	      this->players_tab[0]->removeLetters(insertions);
-	     	      // this->sack->getCharacters(&(this->players_tab[0]->letters) , x);
+
 	      this->map->clearModAndBonus();
 	      this->players_tab[0]->addLetters(insertions.size());
-	      this->map->disableMap();
-	      // for(it = this->players_tab[0]->letters.begin(); it != this->players_tab[0]->letters.end(); it++)
-	      // 	cout<<"After Add:"<<(*it).getChar()<<endl;
-	      
+	      this->map->disableMap();	      
 	    }    
 	}
     }
-
-
 }
