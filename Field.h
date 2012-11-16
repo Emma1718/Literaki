@@ -31,6 +31,8 @@ protected:
   char * getLetter();
   Character getCharacter();
   void disableButton();
+  void enableButton();
+
 /* static void Enter(void *, gpointer); */
   /* void ButtonEnterEvent();  /\* void clear (); *\/ */
 };

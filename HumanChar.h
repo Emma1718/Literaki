@@ -26,8 +26,8 @@ class HumanChar{
   Character getLetter();
   void insert(Character c);
   void drawLetter();
-  void DisableButton();
-  void EnableButton();
+  void disableButton();
+  void enableButton();
 };
 
 

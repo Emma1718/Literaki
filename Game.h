@@ -20,6 +20,7 @@ class Game {
   Sack* sack;
   Gtk* graphic;
   Map* map;
+  int playerNumber;
   Player *players_tab[2];
   Dictionary* dictionary;
   // Operations
@@ -28,6 +29,7 @@ class Game {
   //~Game ();
   void  run ();
   void process();
+  void automaticMove();
 };
 
 #endif

@@ -22,16 +22,11 @@ bool Dictionary::checkWord(string word )
   iter = this->words.find(word);
   cout<<"funkcja:"<<word;
   if (iter==this->words.end ())
-    {
-      cout<<"NIEZNALEZIONE";
-      return false;
-    }
+    return false;
   else
-    {
-      cout<<"ZNALEZIONE";
-      return true;
-    }	
+    return true;
 }
+
 void Dictionary::ShowD()
 {
   set <string>::iterator it;

@@ -7,24 +7,12 @@ bool  Human::commited = false;
 
 Human::Human(string name, int points, Gtk* graphic, Sack *sack, Map * map)
 {
-  //  vector<Character>::iterator it;
-  //  int i =1;
   this->sack = sack;
   this->name = name;
   this->points = points;
   this->sack->getCharacters(&(this->letters),7);
   this->map = map;
-  this->humanbox = new HumanBox(7,(this->letters), graphic);
-
-  // for (i=0; i<(int)this->letters.size(); i++)
-  //   cout << " " <<(this->letters[i].getChar())<<endl;
-  // cout<<"PO:"<<endl;
-  // this->sack->getCharacters(&(this->letters),7);
-  // this->letters.erase(this->letters.begin()+5);
-  // for (i=0; i<(int)this->letters.size(); i++)
-  //   cout << " " <<(this->letters[i].getChar())<<endl;
-   
-
+  this->humanbox = new HumanBox(7, this->letters, graphic);
 }
 
 void Human::SetCommit()
@@ -41,6 +29,14 @@ void Human::addLetters(int amount)
   for(it = this->letters.begin(); it != this->letters.end(); it++)
     g_print("After Add:%s\n", (*it).getChar());
    this->humanbox->addLetters(this->letters, amount);
- 
+}
 
+void Human::disableHumanBox()
+{
+  this->humanbox->disableHumanChars();
+}
+
+void Human::enableHumanBox()
+{
+  this->humanbox->enableHumanChars();
 }

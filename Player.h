@@ -24,9 +24,6 @@ protected:
   std:: list <Character> letters;
   // Operations
 public:
-
-
-
   void removeLetters(std::list <Character>);
   virtual void addLetters(int); 
 };

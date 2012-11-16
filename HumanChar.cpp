@@ -33,10 +33,10 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
     {
       if  (this->letter.getChar() != '\0')
 	{
-	  this->graphic->ChangeColor(button, 0);
+	  this->graphic->changeColor(button, 0);
 	  this->graphic->setLabel(button, (char*)"");
 	  //	  this->clicked = true;
-	  //this->parent->DisableHumanChars();
+	  //this->parent->disableHumanChars();
 	  this->graphic->ChangeActualLetter(this->letter.getValue(), this->letter.getChar());
 	  Gtk::tmp_char = this->letter;
 	  this->letter.backtoStart();
@@ -54,7 +54,7 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 
 	  this->graphic->ChangeActualLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
 	  this->graphic->setLabel(this->button, this->letter.getChar());
-	  this->graphic->ChangeColor(this->button, this->letter.getValue());
+	  this->graphic->changeColor(this->button, this->letter.getValue());
 	}
       else
 	{
@@ -63,8 +63,8 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 	  Gtk::tmp_char.backtoStart();
 	  this->graphic->ChangeActualLetter(0, (char*)"");
 	  this->graphic->setLabel(this->button, this->letter.getChar());
-	  this->graphic->ChangeColor(this->button, this->letter.getValue());
-	  // this->parent->EnableHumanChars();
+	  this->graphic->changeColor(this->button, this->letter.getValue());
+	  // this->parent->enableHumanChars();
 	}
     }
 }
@@ -79,14 +79,14 @@ Character HumanChar::getLetter()
   return this->letter;
 }
 
-void HumanChar::DisableButton()
+void HumanChar::disableButton()
 {
-  this->graphic->Change_sensitivity(this->button, FALSE);
+  this->graphic->changeSensitivity(this->button, FALSE);
 }
 
-void HumanChar::EnableButton()
+void HumanChar::enableButton()
 {
-  this->graphic->Change_sensitivity(this->button, TRUE);
+  this->graphic->changeSensitivity(this->button, TRUE);
 }
 
 void HumanChar::insert(Character c)
@@ -96,6 +96,6 @@ void HumanChar::insert(Character c)
 
 void HumanChar::drawLetter()
 {
-  this->graphic->ChangeColor(this->button, this->letter.getValue());
+  this->graphic->changeColor(this->button, this->letter.getValue());
   this->graphic->setLabel(this->button, this->letter.getChar());
 }

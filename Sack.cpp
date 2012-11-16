@@ -34,7 +34,6 @@ int Sack::getCharacters(list <Character> *letters, int amount)
   srand(time(NULL));
 
   int s = this->characters.size();
-  cout<<"Tutaj "<<endl;      
   int how_many = 0;
   map<int,Character>::iterator iter;
   while(amount>0 && s>0)

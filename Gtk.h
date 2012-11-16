@@ -29,15 +29,15 @@ class Gtk
 
   GtkWidget *Create_Table(int width, int height);
   GtkWidget *Create_Button(char *label, int height, int width);
-  void ChangeColor(GtkWidget *,int);
+  void changeColor(GtkWidget *,int);
   void Map_into_window(GtkWidget *board);
   void HumanBox_into_window(GtkWidget *, GtkWidget *);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void setLabel(GtkWidget *, char *);
   void run();
-  void Change_sensitivity(GtkWidget *, gboolean);
+  void changeSensitivity(GtkWidget *, gboolean);
 
   //  ~Gtk();
 };
 
-#endif 
+#endif

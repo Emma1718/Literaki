@@ -14,16 +14,16 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   Gtk::game = parent;
 
   GtkWidget *frame;
-  
+
 
   Gtk::actual_letter = this->Create_Button((char*)"", 38, 38);
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   this->hbox = gtk_hbox_new(FALSE,0);
   this->vbox = gtk_vbox_new(FALSE, 10);
-  
+
   frame = gtk_frame_new("");
   gtk_widget_set_size_request(frame, 300, 600);
-  /*Tworzenie okna*/ 
+  /*Tworzenie okna*/
   gtk_window_set_title (GTK_WINDOW(this->window), "LiTeRaKi");
   gtk_window_set_position (GTK_WINDOW(this->window), GTK_WIN_POS_CENTER);
   gtk_widget_set_size_request(this->window,950,700);
@@ -46,7 +46,7 @@ GtkWidget * Gtk::Create_Table(int width, int height)
 GtkWidget * Gtk::Create_Button(char *label, int height, int width)
 {
   GtkWidget *button;
-  
+
   button = gtk_button_new_with_label(label);
   gtk_widget_set_size_request(button, height, width);
 
@@ -55,21 +55,21 @@ GtkWidget * Gtk::Create_Button(char *label, int height, int width)
 
 void Gtk::Map_into_window(GtkWidget *board)
 {
-  
-  gtk_box_pack_start(GTK_BOX(this->vbox), board, TRUE, TRUE, 0); 
+
+  gtk_box_pack_start(GTK_BOX(this->vbox), board, TRUE, TRUE, 0);
 
 }
 void Gtk::HumanBox_into_window(GtkWidget *board, GtkWidget *button)
 {
   GtkWidget *hbox;
   hbox = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(this->vbox), hbox, TRUE, TRUE, 0); 
+  gtk_box_pack_start(GTK_BOX(this->vbox), hbox, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(hbox), board, TRUE, TRUE, 10);
   gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(hbox), Gtk::actual_letter, TRUE, TRUE, 0);
 }
 
-void Gtk::ChangeColor(GtkWidget *widget, int colour_number)
+void Gtk::changeColor(GtkWidget *widget, int colour_number)
 {
   GdkColor color;
   char * colour;
@@ -109,26 +109,26 @@ void Gtk::setLabel(GtkWidget * button, char * c)
 {
   gtk_button_set_label(GTK_BUTTON(button), c);
 }
- 
+
 void Gtk::run()
 {
   gtk_widget_show_all (this->window);
   gtk_main();
-  
+
 }
 
 void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)
 {
   Gtk::game->process();
 }
-void Gtk::Change_sensitivity(GtkWidget * button, gboolean x)
+void Gtk::changeSensitivity(GtkWidget * button, gboolean x)
 {
   gtk_widget_set_sensitive(button, x);
 }
 
 void Gtk::ChangeActualLetter(int color, char * letter)
 {
-  this->ChangeColor(Gtk::actual_letter, color);
+  this->changeColor(Gtk::actual_letter, color);
   this->setLabel(Gtk::actual_letter, letter);
 }
 

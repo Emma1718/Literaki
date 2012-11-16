@@ -3,6 +3,7 @@ using namespace std;
 
 Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack, string filename_dict)
 {
+  this->playerNumber = 0;
   this->graphic = new Gtk(argc, argv,this);//stworzenie grafiki
   this->map = new Map(this->graphic,filename_matrix);//plansza 
   this->sack = new Sack(filename_sack); 
@@ -31,11 +32,12 @@ void Game::process()
 
   if (Gtk::tmp_char.getChar() == '\0')
     {
-      if (this->map->check_move(opt))
+      if (this->map->check_move(opt)) //jeśli poprawny ruch
 	{       
-	  this->map->find_words(&wordsToCheck, opt);
+	  g_print("poprawny ruch\n");
+	  this->map->find_words(&wordsToCheck, opt); //to znajdz wyrazy
      
-	  for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++)
+	  for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++) //sprawdz je w słowniku
 	    {
 	      if(this->dictionary->checkWord((*iter))==true) 
 		foundAll = true;
@@ -45,15 +47,46 @@ void Game::process()
 		  break;
 		}
 	    }
-	  if (foundAll)
+	  if (foundAll)  //jesli te wyrazy znajdują sie w słowniku
 	    {
 	      insertions = this->map->getAllInsertions();
-	      this->players_tab[0]->removeLetters(insertions);
+	      this->players_tab[0]->removeLetters(insertions);  //to usun te litery, które zostały wykorzystane
 
-	      this->map->clearModAndBonus();
-	      this->players_tab[0]->addLetters(insertions.size());
-	      this->map->disableMap();	      
+	      this->map->clearModAndBonus();                   //usun bonusy i modyfikacje
+	      this->players_tab[0]->addLetters(insertions.size()); //dodaj nowe litery
+	      this->map->disableMap();	      //zdezaktywuj mape
+	      static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
 	    }    
 	}
+      else g_print("niepoprawny\n");    
+}
+
+  while (gtk_events_pending())
+    gtk_main_iteration();
+  sleep(1.5);
+
+
+  this->playerNumber++;
+  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
+  this->automaticMove();
+
+
+}
+
+void Game::automaticMove()
+{
+  if (this->playerNumber > 0)
+    g_print("Automatic!\n");
+  this->playerNumber++; 
+
+  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
+  
+  if (this->playerNumber != 0)
+    this->automaticMove();
+
+  else 
+    {
+      this->map->enableMap();
+      static_cast<Human*>(this->players_tab[0])->enableHumanBox();
     }
 }

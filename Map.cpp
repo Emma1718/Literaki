@@ -111,12 +111,13 @@ bool Map::check_move(int &cs)
   if (cs == 0) cs = 1;
 
   /*---------Gdy nie zreturnuje to znaczy ze albo w kolumnie albo w wierszu znajduja sie wszystkie zmodyfikowane przyciski */
+  g_print("Modifikacje sie zgadzaja \n");
 
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this-> width; j++)
       if (this->modified[i][j])
 	{
-	  if (((i==(this->width/2)) && (i==j)) || this->check_if_set(x+1, y) || this->check_if_set(x-1, y) || this->check_if_set(x, y+1) || this->check_if_set(x, y-1))
+	    if (((i==(this->width/2)) && (i==j)) || this->check_if_set(i+1, j) || this->check_if_set(i-1, j) || this->check_if_set(i, j+1) || this->check_if_set(i, j-1))
 	    {
 	      return true;
 	    }
@@ -128,13 +129,15 @@ bool Map::check_move(int &cs)
 
 bool Map::check_if_set(int x, int y)
 {
+
   if((x>=0) && (y>=0) && (x<this->height) && (y<this->width))
     {
       if (!(this->modified[x][y]) && (this->matrix[x][y]->getCharacter().getChar() != '\0'))
 	return true;
       else 
 	return false;
-    }else return false;
+    }
+  else return false;
 }
 
 int Map::check_row(int x)
@@ -363,4 +366,11 @@ void Map::disableMap()
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
       this->matrix[i][j]->disableButton();
+}
+
+void Map::enableMap()
+{
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; j < this->width; j++)
+      this->matrix[i][j]->enableButton();
 }

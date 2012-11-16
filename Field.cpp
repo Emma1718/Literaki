@@ -20,7 +20,7 @@ int Field::calculate(int * word_multiplier)
 GtkWidget * Field::draw(Gtk *graphic)
 {
   this->button = graphic->Create_Button((char*)"", 38, 38);
-  graphic->ChangeColor(this->button,0);
+  graphic->changeColor(this->button,0);
   g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::Click), this);
   //  g_signal_connect(this->button, "enter", GTK_SIGNAL_FUNC(Field::Enter), this);
   return this->button;
@@ -44,7 +44,7 @@ Field::Field()
 
 void Field::backToStandart()
 {
-  this->graphic->ChangeColor(this->button, 0);
+  this->graphic->changeColor(this->button, 0);
   this->graphic->setLabel(this->button, (char*)"");
 }
 
@@ -77,7 +77,7 @@ void Field::ButtonClickedEvent()
 
 	      this->graphic->ChangeActualLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
 	      this->graphic->setLabel(this->button, this->c.getChar());
-	      this->graphic->ChangeColor(this->button, this->c.getValue());
+	      this->graphic->changeColor(this->button, this->c.getValue());
 	    }
 	}
       else // jeśli nie ma litery na polu
@@ -86,7 +86,7 @@ void Field::ButtonClickedEvent()
 	  Gtk::tmp_char.backtoStart();
 	  this->graphic->ChangeActualLetter(0, (char*)"");
 	  this->graphic->setLabel(this->button, this->c.getChar());
-	  this->graphic->ChangeColor(this->button, this->c.getValue());
+	  this->graphic->changeColor(this->button, this->c.getValue());
 	  this->parent->modify_field(this->row_no, this->col_no, true);
 	}
     }
@@ -103,7 +103,7 @@ void Field::ButtonClickedEvent()
 //   if (Gtk::tmp_char.getChar()!='\0')
 //     {
 //       this->graphic->setLabel(this->button, (Gtk::tmp_char).getChar());
-//       this->graphic->ChangeColor(this->button, (Gtk::tmp_char).getValue());
+//       this->graphic->changeColor(this->button, (Gtk::tmp_char).getValue());
 //     }
 // }
 
@@ -120,5 +120,10 @@ void Field::looseBonus()
 }
 void Field::disableButton()
 {
-  this->graphic->Change_sensitivity(this->button, FALSE);
+  this->graphic->changeSensitivity(this->button, FALSE);
+}
+
+void Field::enableButton()
+{
+  this->graphic->changeSensitivity(this->button, TRUE);
 }

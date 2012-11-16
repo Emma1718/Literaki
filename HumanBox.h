@@ -17,8 +17,8 @@ class HumanBox{
   void draw();
   void loadLetters(std::list <Character> );
   bool Check_if_clicked(Character &);
-  void DisableHumanChars();
-  void EnableHumanChars();
+  void disableHumanChars();
+  void enableHumanChars();
   void addLetters(std::list <Character>, int);
   // ~HumanBox();
 };

@@ -13,7 +13,7 @@ HumanBox::HumanBox(int l, list <Character> letters, Gtk* graphic)
 void HumanBox::loadLetters(list <Character> letters)
 {
   list <Character>::iterator iter;
- 
+
   this->lettersBox = new HumanChar*[this->length];
 
   int i;
@@ -28,36 +28,38 @@ void HumanBox::loadLetters(list <Character> letters)
 void HumanBox::draw()
 {
   this->board = graphic->Create_Table(this->length,1);
-  
+
   for(int i=0;i<this->length;i++)
     graphic->putField(0,i,this->board,this->lettersBox[i]->draw());
-  
+
   this->button_OK = graphic->Create_Button((char*)"OK", 38, 45);
   g_signal_connect(this->button_OK, "clicked", GTK_SIGNAL_FUNC(Gtk::buttonOKClicked), NULL);
-  
+
   graphic->HumanBox_into_window(this->board, this->button_OK);
 }
 
 
-void HumanBox::DisableHumanChars()
+void HumanBox::disableHumanChars()
 {
   for(int i = 0; i < this->length; i++)
     {
       if (this->lettersBox[i]->clicked == false)
   	{
-  	  this->lettersBox[i]->DisableButton();
+  	  this->lettersBox[i]->disableButton();
   	}
     }
+  this->graphic->changeSensitivity(this->button_OK, FALSE);
 }
-      
 
-void HumanBox::EnableHumanChars()
+
+void HumanBox::enableHumanChars()
 {
   for(int i = 0; i < this->length; i++)
     {
       this->lettersBox[i]->clicked = false;
-      this->lettersBox[i]->EnableButton();
+      this->lettersBox[i]->enableButton();
     }
+  this->graphic->changeSensitivity(this->button_OK, TRUE);
 }
 
 void HumanBox::addLetters(list <Character> letters, int amount)
@@ -67,12 +69,11 @@ void HumanBox::addLetters(list <Character> letters, int amount)
 
   for(i = 1, iter = letters.rbegin(); i <= amount, iter != letters.rend(); i++, iter++)
     {
-      while(j<this->length)  
+      while(j<this->length)
 	{
 	  if (this->lettersBox[j]->getLetter().getChar() == '\0')
 	    {
-	      cout<<"letterToinsert:"<<(*iter).getChar()<<endl;
-	      this->lettersBox[j]->insert(*iter);	
+	      this->lettersBox[j]->insert(*iter);
 	      this->lettersBox[j]->drawLetter();
 	      j++;
 	      break;
