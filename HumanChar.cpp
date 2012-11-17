@@ -35,7 +35,7 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 	{
 	  this->graphic->changeColor(button, 0);
 	  this->graphic->setLabel(button, (char*)"");
-	  this->graphic->ChangeActualLetter(this->letter.getValue(), this->letter.getChar());
+	  this->graphic->changeActLetter(this->letter.getValue(), this->letter.getChar());
 	  Gtk::tmp_char = this->letter;
 	  this->letter.backtoStart();
 	}
@@ -50,7 +50,7 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 	  this->letter = Gtk::tmp_char;
 	  Gtk::tmp_char = exchange;
 
-	  this->graphic->ChangeActualLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
+	  this->graphic->changeActLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
 	  this->graphic->setLabel(this->button, this->letter.getChar());
 	  this->graphic->changeColor(this->button, this->letter.getValue());
 	}
@@ -58,7 +58,7 @@ void HumanChar::ButtonClickedEvent(GtkWidget * button)
 	{
 	  this->letter = Gtk::tmp_char;
 	  Gtk::tmp_char.backtoStart();
-	  this->graphic->ChangeActualLetter(0, (char*)"");
+	  this->graphic->changeActLetter(0, (char*)"");
 	  this->graphic->setLabel(this->button, this->letter.getChar());
 	  this->graphic->changeColor(this->button, this->letter.getValue());
 	}

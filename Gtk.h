@@ -13,6 +13,7 @@ class Game;
 class Gtk
 {
   GtkWidget *window;
+
   GtkWidget *vbox;
   GtkWidget *hbox;
   static  GtkWidget *actual_letter;
@@ -22,16 +23,17 @@ class Gtk
  public:
 
   Gtk(int argc, char * argv[], Game *);
-
+  static  GtkWidget *chooseWin;
   static Character tmp_char;
+  static Character chosenChar;
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
-  void ChangeActualLetter(int, char*);
+  void changeActLetter(int, char*);
 
   GtkWidget *createTable(int width, int height);
   GtkWidget *createButton(char *label, int height, int width);
   void changeColor(GtkWidget *,int);
-  void Map_into_window(GtkWidget *board);
-  void HumanBox_into_window(GtkWidget *, GtkWidget *);
+  void mapIntoWindow(GtkWidget *board);
+  void humanboxIntoWindow(GtkWidget *, GtkWidget *);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void setLabel(GtkWidget *, char *);
   void run();

@@ -11,7 +11,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-/// class Map - 
+/// class Map -
 class Map {
   // Associations
 
@@ -36,19 +36,19 @@ class Map {
   void putField(int x, int y, GtkWidget *button);
   void loadFromFile(std::string filename);
   //-----Klikanie------
-  void modify_field(int ,int, bool);
-  bool check_if_modified(int, int);
+  void modifyField(int ,int, bool);
+  bool checkIfModified(int, int);
   //----Sprawdzanie ruchu----
-  bool check_move(int &);
-  int check_row(int);
-  int check_col(int);
-  bool check_if_set(int, int);
+  bool checkMove(int &);
+  int checkRow(int);
+  int checkCol(int);
+  bool checkIfSet(int, int);
   //-----Sprawdzanie słów-------
-  void find_words(std::list <std::string> *, int );
-  int go_left(int , int );
-  int go_right(int,int);
-  int go_up(int, int);
-  int go_down(int, int);
+  void findWords(std::list <std::string> *, int );
+  int goLeft(int , int );
+  int goRight(int,int);
+  int goUp(int, int);
+  int goDown(int, int);
   void clearModAndBonus();
   void countPoints(int, int, int, int);
   void disableMap();
@@ -57,4 +57,4 @@ class Map {
   std::list <Character> getAllInsertions();
 };
 
-#endif 
+#endif

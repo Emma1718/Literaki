@@ -55,26 +55,26 @@ void Field::ButtonClickedEvent()
 
   if (Gtk::tmp_char.getChar() == '\0')  //jeśli w pamięci nie ma żadnej litery
     {
-      if ((this->c.getChar() != '\0') && (this->parent->check_if_modified(this->row_no, this->col_no))) // i jeśli jest litera na polu oraz to pole jest modyfikowalne
+      if ((this->c.getChar() != '\0') && (this->parent->checkIfModified(this->row_no, this->col_no))) // i jeśli jest litera na polu oraz to pole jest modyfikowalne
 	{
-	  this->graphic->ChangeActualLetter(this->c.getValue(), this->c.getChar());
+	  this->graphic->changeActLetter(this->c.getValue(), this->c.getChar());
 	  Gtk::tmp_char = this->c;// to pobierz literę z pola i ją zapamięta
 	  this->backToStandart();
-	  this->parent->modify_field(this->row_no, this->col_no, false); // a także ustaw pole niezmodyfikowanym
+	  this->parent->modifyField(this->row_no, this->col_no, false); // a także ustaw pole niezmodyfikowanym
 	}
     }
   else // jeśli jest litera w pamięci
     {
       if (this->c.getChar() != '\0')// i jeśli jest litera na polu
 	{
-	  if (this->parent->check_if_modified(this->row_no, this->col_no)) // i jeśli to pole jest modyfikowalne
+	  if (this->parent->checkIfModified(this->row_no, this->col_no)) // i jeśli to pole jest modyfikowalne
 	    {
 	      Character exchange;
 
 	      exchange = this->c;
 	      this->insert(Gtk::tmp_char);  // to zamień litery
 	      Gtk::tmp_char = exchange;
-	      this->graphic->ChangeActualLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
+	      this->graphic->changeActLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
 	      this->graphic->setLabel(this->button, this->c.getChar());
 	      this->graphic->changeColor(this->button, this->c.getValue());
 	    }
@@ -83,10 +83,10 @@ void Field::ButtonClickedEvent()
 	{
 	  this->insert(Gtk::tmp_char);  // to wstaw literę
 	  Gtk::tmp_char.backtoStart();
-	  this->graphic->ChangeActualLetter(0, (char*)"");
+	  this->graphic->changeActLetter(0, (char*)"");
 	  this->graphic->setLabel(this->button, this->c.getChar());
 	  this->graphic->changeColor(this->button, this->c.getValue());
-	  this->parent->modify_field(this->row_no, this->col_no, true);
+	  this->parent->modifyField(this->row_no, this->col_no, true);
 	}
     }
 }

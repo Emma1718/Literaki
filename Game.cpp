@@ -5,8 +5,8 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
 {
   this->playerNumber = 0;
   this->graphic = new Gtk(argc, argv,this);//stworzenie grafiki
-  this->map = new Map(this->graphic,filename_matrix);//plansza 
-  this->sack = new Sack(filename_sack); 
+  this->map = new Map(this->graphic,filename_matrix);//plansza
+  this->sack = new Sack(filename_sack);
   this->dictionary = new Dictionary(filename_dict);//wczytanie słów ze słownika
   this->players_tab[0] = new Human("Gracz", 0, this->graphic, this->sack, this->map);
   this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary, this->map);
@@ -14,7 +14,7 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
 
 void Game::run()
 {
-  
+
   this->graphic->run();
 
 }
@@ -35,43 +35,43 @@ void Game::process()
     {
       insertions = this->map->getAllInsertions();
 
-      if (this->map->check_move(opt)) //jeśli poprawny ruch
-	{       
+      if (this->map->checkMove(opt)) //jeśli poprawny ruch
+	{
 	  g_print("poprawny ruch\n");
-	  this->map->find_words(&wordsToCheck, opt); //to znajdz wyrazy
-     
+	  this->map->findWords(&wordsToCheck, opt); //to znajdz wyrazy
+
 	  for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++) //sprawdz je w słowniku
 	    {
-	      if(this->dictionary->checkWord((*iter))==true) 
+	      if(this->dictionary->checkWord((*iter))==true)
 		foundAll = true;
-	      else 
+	      else
 		{
 		  foundAll = false;
 		  break;
 		}
 	    }
-      
+
 	  if (foundAll)  //jesli te wyrazy znajdują sie w słowniku
 	    {
 	      this->players_tab[0]->removeLetters(insertions);  //to usun te litery, które zostały wykorzystane
 	      this->map->clearModAndBonus();                   //usun bonusy i modyfikacje
 	      this->players_tab[0]->addLetters(insertions.size()); //dodaj nowe litery
-	    }    
-	  else 
+	    }
+	  else
 	    {
 	      //dialogMessage = this->graphic->createDialogMessage((char*)"Nie", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
 	      // //gtk_dialog_run (GTK_DIALOG (dialogMessage));
 	      // while (gtk_events_pending())
 	      // 	gtk_main_iteration();
 	      // sleep(1.5);
-	     
+
 	      // gtk_widget_destroy(dialogMessage);
 
-	      static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);  
+	      static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
 	      this->map->clearFields();
-	    }  
+	    }
 	}
-      else 
+      else
 	{
 	  dialogMessage = this->graphic->createDialogMessage("BŁEDNY", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
 	  while (gtk_events_pending())
@@ -82,11 +82,11 @@ void Game::process()
 	  this->map->clearFields();
 	}
 
-      insertions.clear();    
-      
+      insertions.clear();
+
       this->map->disableMap();	      //zdezaktywuj mape
       static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
- 
+
       while (gtk_events_pending())
 	gtk_main_iteration();
       sleep(1.5);
@@ -103,7 +103,7 @@ void Game::process()
       sleep(1.5);
       gtk_widget_destroy(dialogMessage);
     }
- 
+
 
 }
 
@@ -111,14 +111,14 @@ void Game::automaticMove()
 {
   if (this->playerNumber > 0)
     g_print("Automatic!\n");
-  this->playerNumber++; 
+  this->playerNumber++;
 
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
-  
+
   if (this->playerNumber != 0)
     this->automaticMove();
 
-  else 
+  else
     {
       this->map->enableMap();
       static_cast<Human*>(this->players_tab[0])->enableHumanBox();

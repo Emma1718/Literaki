@@ -52,7 +52,7 @@ void Map::draw()
       {
 	graphic->putField(i,j,this->board,this->matrix[i][j]->draw(graphic));
       }
-  graphic->Map_into_window(this->board);
+  graphic->mapIntoWindow(this->board);
 }
 
 Map::Map(Gtk *graphic,string filename)
@@ -72,17 +72,17 @@ Map::Map(Gtk *graphic,string filename)
       this->modified[i][j] = false;
 }
 
-void Map::modify_field(int x, int y, bool mod)
+void Map::modifyField(int x, int y, bool mod)
 {
   this->modified[x][y] = mod;
 }
 
-bool Map::check_if_modified(int x, int y)
+bool Map::checkIfModified(int x, int y)
 {
   return (this->modified[x][y]);
 }
 
-bool Map::check_move(int &cs)
+bool Map::checkMove(int &cs)
 {
   int mod_amount = 0, x=-1, y=-1;
 
@@ -103,9 +103,9 @@ bool Map::check_move(int &cs)
   if (x<0) return false;
   cs = 0;
 
-  if (this->check_row(x) != mod_amount)
+  if (this->checkRow(x) != mod_amount)
     {
-      if ((this->check_col(y)) != mod_amount)  return false;
+      if ((this->checkCol(y)) != mod_amount)  return false;
       cs = 2;
     }
   if (cs == 0) cs = 1;
@@ -117,7 +117,7 @@ bool Map::check_move(int &cs)
     for(int j = 0; j < this-> width; j++)
       if (this->modified[i][j])
 	{
-	  if (((i==(this->width/2)) && (i==j)) || this->check_if_set(i+1, j) || this->check_if_set(i-1, j) || this->check_if_set(i, j+1) || this->check_if_set(i, j-1))
+	  if (((i==(this->width/2)) && (i==j)) || this->checkIfSet(i+1, j) || this->checkIfSet(i-1, j) || this->checkIfSet(i, j+1) || this->checkIfSet(i, j-1))
 	    {
 	      return true;
 	    }
@@ -127,7 +127,7 @@ bool Map::check_move(int &cs)
 
 }
 
-bool Map::check_if_set(int x, int y)
+bool Map::checkIfSet(int x, int y)
 {
 
   if((x>=0) && (y>=0) && (x<this->height) && (y<this->width))
@@ -140,7 +140,7 @@ bool Map::check_if_set(int x, int y)
   else return false;
 }
 
-int Map::check_row(int x)
+int Map::checkRow(int x)
 {
   int actual_amount = 0;
   bool interested = false;
@@ -165,7 +165,7 @@ int Map::check_row(int x)
 
 }
 
-int Map::check_col(int y)
+int Map::checkCol(int y)
 {
   int actual_amount = 0;
   bool interested = false;
@@ -188,7 +188,7 @@ int Map::check_col(int y)
   return actual_amount;
 }
 
-int Map::go_left(int i, int j)
+int Map::goLeft(int i, int j)
 {
   int a;
   for (a = j; a>=0; a--)
@@ -200,7 +200,7 @@ int Map::go_left(int i, int j)
   return a+1;
 }
 
-int Map::go_right(int i, int j)
+int Map::goRight(int i, int j)
 {
   int a;
   for (a = j; a < this->width; a++)
@@ -212,7 +212,7 @@ int Map::go_right(int i, int j)
   return a-1;
 }
 
-int Map::go_up(int i, int j)
+int Map::goUp(int i, int j)
 {
   int a;
   for (a = i; a>=0; a--)
@@ -223,7 +223,7 @@ int Map::go_up(int i, int j)
   return a+1;
 }
 
-int Map::go_down(int i, int j)
+int Map::goDown(int i, int j)
 {
   int a;
   for (a = i; a<this->height; a++)
@@ -234,7 +234,7 @@ int Map::go_down(int i, int j)
   return a-1;
 }
 
-void Map::find_words(list <string> *words, int opt)
+void Map::findWords(list <string> *words, int opt)
 {
   bool found1 = false;
   int begin, end;
@@ -252,8 +252,8 @@ void Map::find_words(list <string> *words, int opt)
 	      switch(opt)
 		{
 		case 1:
-		  begin = go_left(i,j-1);
-		  end = go_right(i,j+1);
+		  begin = goLeft(i,j-1);
+		  end = goRight(i,j+1);
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
@@ -261,11 +261,12 @@ void Map::find_words(list <string> *words, int opt)
 			  if ((string)this->matrix[i][p]->getCharacter().getChar() != (string)"_")
 			    word+=(string)(this->matrix[i][p]->getCharacter().getChar());
 			  else
-			    {			      //  sleep(1.5);
-			      this->graphic->chooseLetter("litery");		      
+			    {
+			      this->graphic->chooseLetter("litery");
 			      while (gtk_events_pending())
-				gtk_main_iteration();
-			     
+			      	gtk_main_iteration();
+			      sleep(4.5);
+			      //while(Gtk::chooseWin);
 			    }
 			}
 		      words->push_back(word);
@@ -274,8 +275,8 @@ void Map::find_words(list <string> *words, int opt)
 		    }
 		  break;
 		case 2:
-		  begin = go_up(i-1,j);
-		  end = go_down(i+1,j);
+		  begin = goUp(i-1,j);
+		  end = goDown(i+1,j);
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
@@ -293,8 +294,8 @@ void Map::find_words(list <string> *words, int opt)
 	      switch(opt)
 		{
 		case 1:
-		  begin = go_up(i-1,j);
-		  end = go_down(i+1,j);
+		  begin = goUp(i-1,j);
+		  end = goDown(i+1,j);
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
@@ -305,8 +306,8 @@ void Map::find_words(list <string> *words, int opt)
 		    }
 		  break;
 		case 2:
-		  begin = go_left(i,j-1);
-		  end = go_right(i,j+1);
+		  begin = goLeft(i,j-1);
+		  end = goRight(i,j+1);
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
@@ -394,5 +395,5 @@ void Map::clearFields()
 	  g_print("clear:%d %d\n", i,j);
          this->matrix[i][j]->backToStandart();
 	  this->modified[i][j]=false;
-	}	
+	}
 }

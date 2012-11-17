@@ -28,7 +28,6 @@ protected:
 
   static void Click(void *, gpointer);
   void ButtonClickedEvent();
-  char * getLetter();
   Character getCharacter();
   void disableButton();
   void enableButton();

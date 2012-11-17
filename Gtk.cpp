@@ -4,6 +4,7 @@ using namespace std;
 Character Gtk::tmp_char = Character();
 GtkWidget * Gtk::actual_letter;// = gtk_button_new_with_label((char*)"");
 Game *Gtk::game;
+GtkWidget *Gtk::chooseWin;
 
 Gtk::Gtk(int argc, char *argv[], Game* parent)
 {
@@ -14,7 +15,7 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   this->hbox = gtk_hbox_new(FALSE,0);
   this->vbox = gtk_vbox_new(FALSE, 10);
- 
+
 
   GtkWidget *frame;
   frame = gtk_frame_new("");
@@ -49,13 +50,13 @@ GtkWidget * Gtk::createButton(char *label, int height, int width)
   return button;
 }
 
-void Gtk::Map_into_window(GtkWidget *board)
+void Gtk::mapIntoWindow(GtkWidget *board)
 {
 
   gtk_box_pack_start(GTK_BOX(this->vbox), board, TRUE, TRUE, 0);
 
 }
-void Gtk::HumanBox_into_window(GtkWidget *board, GtkWidget *button)
+void Gtk::humanboxIntoWindow(GtkWidget *board, GtkWidget *button)
 {
   GtkWidget *hbox;
   hbox = gtk_hbox_new(FALSE, 0);
@@ -122,7 +123,7 @@ void Gtk::changeSensitivity(GtkWidget * button, gboolean x)
   gtk_widget_set_sensitive(button, x);
 }
 
-void Gtk::ChangeActualLetter(int color, char * letter)
+void Gtk::changeActLetter(int color, char * letter)
 {
   this->changeColor(Gtk::actual_letter, color);
   this->setLabel(Gtk::actual_letter, letter);
@@ -136,36 +137,42 @@ gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
 
 void Gtk::chooseLetter(string filename)
 {
-  GtkWidget * win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  char * letter;
-  int unimp, val;
+  //GtkWidget * win =
+  chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-  gtk_window_set_title (GTK_WINDOW(win), "Wybierz literę");
-  gtk_window_set_position (GTK_WINDOW(win), GTK_WIN_POS_CENTER);
-  gtk_widget_set_size_request(win,370,170);
-  gtk_window_set_resizable(GTK_WINDOW(win), FALSE);
+  int unimp;
+
+  gtk_window_set_title (GTK_WINDOW(chooseWin), "Wybierz literę");
+  gtk_window_set_position (GTK_WINDOW(chooseWin), GTK_WIN_POS_CENTER);
+  gtk_widget_set_size_request(chooseWin,370,170);
+  gtk_window_set_resizable(GTK_WINDOW(chooseWin), FALSE);
 
   GtkWidget *table = this->createTable(4,8);
-  gtk_container_border_width(GTK_CONTAINER(win), 5);
-  gtk_container_add(GTK_CONTAINER(win), table);
+  gtk_container_border_width(GTK_CONTAINER(chooseWin), 5);
+  gtk_container_add(GTK_CONTAINER(chooseWin), table);
 
   ifstream file(filename.c_str(), ifstream::in);
-
+ 
+ 
   if (file.is_open())
     {
       for(int i = 0; i < 4; i++)
 	for(int j = 0 ; j < 8; j++)
 	  {
-	    file>>letter>>unimp>>val;
+	    int * val = new int;
+	    char * letter = new char[10];
+	    file>>letter>>unimp>>*val;
 	    GtkWidget * button = this->createButton(letter, 38, 38);
-	    this->changeColor(button, val);
+	    this->changeColor(button, *val);
 	    this->putField(i, j, table, button);
 	    g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), (gpointer)val);
+	    delete [] letter;
+	    //delete val;
 	  }
     }
 
   file.close();
-  gtk_widget_show_all(win);
+  gtk_widget_show_all(chooseWin);
 
 }
 
@@ -176,9 +183,11 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)
   g_print("chosen: %s\n", l);
   int *v;
   v = (int*)data;
-  g_print("val:%d\n",v);
+  g_print("val:%d\n",*v);
   Character x = Character(l,*v);
-  g_print("tmp:%s %d", x.getChar(), x.getValue());  // Gtk::tmp_char = x;
+  g_print("tmp:%s %d", x.getChar(), x.getValue());
+  Gtk::chosenChar = x;
+  gtk_widget_destroy(chooseWin);
 }
 
 GtkWidget * Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags flag, GtkButtonsType butType)
@@ -191,3 +200,4 @@ GtkWidget * Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags fl
 
   return message;
 }
+
