@@ -53,6 +53,7 @@ void Game::process()
 
 	  if (foundAll)  //jesli te wyrazy znajdują sie w słowniku
 	    {
+	      this->players_tab[0]->addPoints(Map::tmp_sum); //przekaż punkty graczowi
 	      this->players_tab[0]->removeLetters(insertions);  //to usun te litery, które zostały wykorzystane
 	      this->map->clearModAndBonus();                   //usun bonusy i modyfikacje
 	      this->players_tab[0]->addLetters(insertions.size()); //dodaj nowe litery
@@ -103,7 +104,7 @@ void Game::process()
       sleep(1.5);
       gtk_widget_destroy(dialogMessage);
     }
-
+  Map::tmp_sum = 0; //wyzeruj tymczasową sumę
 
 }
 

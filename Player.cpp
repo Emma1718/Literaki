@@ -39,3 +39,9 @@ void Player::removeLetters(list <Character> insertions)
   // for(it = this->letters.begin(); it != this->letters.end(); it++)
   //   cout<<"After Add:"<<(*it).getChar()<<endl;
 }
+
+void Player::addPoints(int sum)
+{
+  this->points+=sum;
+  cout<<"ActualPoints:"<<this->points<<endl;
+}
