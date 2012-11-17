@@ -21,7 +21,7 @@ GtkWidget * Field::draw(Gtk *graphic)
 {
   this->button = graphic->createButton((char*)"", 38, 38);
   graphic->changeColor(this->button,0);
-  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::Click), this);
+  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::clickButton), this);
   //  g_signal_connect(this->button, "enter", GTK_SIGNAL_FUNC(Field::Enter), this);
   return this->button;
 }
@@ -31,10 +31,10 @@ void Field::insert(Character c)
   this->c = c;
 }
 
-void Field::Click(void * widget, gpointer data)
+void Field::clickButton(void * widget, gpointer data)
 {
   Field *f = static_cast<Field*>(data);
-  f->ButtonClickedEvent();
+  f->buttonClickedEvent();
 }
 
 Field::Field()
@@ -49,7 +49,7 @@ void Field::backToStandart()
   this->c.backtoStart();
 }
 
-void Field::ButtonClickedEvent()
+void Field::buttonClickedEvent()
 {
   //  g_print("%d %d", this->row_no, this->col_no);
 

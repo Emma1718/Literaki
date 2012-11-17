@@ -15,12 +15,6 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack, Map * map)
   this->humanbox = new HumanBox(7, this->letters, graphic);
 }
 
-void Human::SetCommit()
-{
-  //  Human::commited = true;
-}
-
-
 void Human::addLetters(int amount)
 {
   list <Character>::iterator it;

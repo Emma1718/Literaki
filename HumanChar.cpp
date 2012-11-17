@@ -14,18 +14,18 @@ GtkWidget *HumanChar::draw()
 {
   this->button = graphic->createButton((char*)"", 38 ,38);
   this->drawLetter();
-  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(HumanChar::ButtonClicked), this);
+  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(HumanChar::buttonClicked), this);
   return this->button;
 }
 
-void HumanChar::ButtonClicked (GtkWidget * widget, gpointer data)
+void HumanChar::buttonClicked (GtkWidget * widget, gpointer data)
 {
   HumanChar *humanchar = static_cast<HumanChar*>(data);
-  humanchar->ButtonClickedEvent( humanchar->button);
+  humanchar->buttonClickedEvent( humanchar->button);
 }
 
 
-void HumanChar::ButtonClickedEvent(GtkWidget * button)
+void HumanChar::buttonClickedEvent(GtkWidget * button)
 {
 
 

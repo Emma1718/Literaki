@@ -262,10 +262,10 @@ void Map::findWords(list <string> *words, int opt)
 			    word+=(string)(this->matrix[i][p]->getCharacter().getChar());
 			  else
 			    {
-			      this->graphic->chooseLetter("litery");
-			      while (gtk_events_pending())
-			      	gtk_main_iteration();
-			      sleep(4.5);
+			      this->graphic->chooseLetter("litery");   
+ // while (gtk_events_pending())
+			      // 	gtk_main_iteration();
+			      // sleep(4.5);
 			      //while(Gtk::chooseWin);
 			    }
 			}

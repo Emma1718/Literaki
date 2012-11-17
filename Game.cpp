@@ -107,6 +107,28 @@ void Game::process()
 
 }
 
+void Game::omitMove()
+{
+  list <Character> insertions;
+  insertions = this->map->getAllInsertions();
+
+  static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
+  this->map->clearFields();
+
+  insertions.clear();
+
+  this->map->disableMap();	      //zdezaktywuj mape
+  static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
+
+  while (gtk_events_pending())
+    gtk_main_iteration();
+  sleep(1.5);
+
+  this->playerNumber++;
+  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
+  this->automaticMove();
+
+}
 void Game::automaticMove()
 {
   if (this->playerNumber > 0)

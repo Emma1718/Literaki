@@ -33,9 +33,11 @@ void HumanBox::draw()
     graphic->putField(0,i,this->board,this->lettersBox[i]->draw());
 
   this->button_OK = graphic->createButton((char*)"OK", 38, 45);
+  this->giveUpButton = graphic->createButton((char*)"PAS", 38, 45);
+  g_signal_connect(this->giveUpButton, "clicked", GTK_SIGNAL_FUNC(Gtk::buttonGupClicked), NULL);
   g_signal_connect(this->button_OK, "clicked", GTK_SIGNAL_FUNC(Gtk::buttonOKClicked), NULL);
 
-  graphic->humanboxIntoWindow(this->board, this->button_OK);
+  graphic->humanboxIntoWindow(this->board, this->button_OK, this->giveUpButton);
 }
 
 
@@ -49,6 +51,7 @@ void HumanBox::disableHumanChars()
   	}
     }
   this->graphic->changeSensitivity(this->button_OK, FALSE);
+  this->graphic->changeSensitivity(this->giveUpButton, FALSE);
 }
 
 
@@ -59,7 +62,8 @@ void HumanBox::enableHumanChars()
       this->lettersBox[i]->clicked = false;
       this->lettersBox[i]->enableButton();
     }
-  this->graphic->changeSensitivity(this->button_OK, TRUE);
+   this->graphic->changeSensitivity(this->button_OK, TRUE);
+   this->graphic->changeSensitivity(this->giveUpButton, TRUE);
 }
 
 void HumanBox::addLetters(list <Character> letters, int amount)

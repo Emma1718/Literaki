@@ -20,8 +20,8 @@ class HumanChar{
   bool clicked;
   HumanChar(Gtk *, HumanBox *);
   GtkWidget * draw();
-  static void ButtonClicked (GtkWidget *, gpointer);  //  ~HumanChar();
-  void ButtonClickedEvent(GtkWidget *);
+  static void buttonClicked (GtkWidget *, gpointer);  //  ~HumanChar();
+  void buttonClickedEvent(GtkWidget *);
   GtkWidget * getButton();
   Character getLetter();
   void insert(Character c);

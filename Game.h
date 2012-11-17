@@ -29,6 +29,7 @@ class Game {
   //~Game ();
   void  run ();
   void process();
+  void omitMove();
   void automaticMove();
 };
 

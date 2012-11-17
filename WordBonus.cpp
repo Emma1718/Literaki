@@ -23,7 +23,7 @@ GtkWidget *WordBonus::draw(Gtk *graphic)
   sprintf(str, "%dx", x);
   this->button = graphic->createButton(str, 38, 38);
   graphic->changeColor(this->button, 10);
-  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::Click), this);
+  g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::clickButton), this);
   return this->button;
 }
 

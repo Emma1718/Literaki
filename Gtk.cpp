@@ -2,6 +2,8 @@
 using namespace std;
 
 Character Gtk::tmp_char = Character();
+Character Gtk::chosenChar = Character();
+
 GtkWidget * Gtk::actual_letter;// = gtk_button_new_with_label((char*)"");
 Game *Gtk::game;
 GtkWidget *Gtk::chooseWin;
@@ -56,13 +58,14 @@ void Gtk::mapIntoWindow(GtkWidget *board)
   gtk_box_pack_start(GTK_BOX(this->vbox), board, TRUE, TRUE, 0);
 
 }
-void Gtk::humanboxIntoWindow(GtkWidget *board, GtkWidget *button)
+void Gtk::humanboxIntoWindow(GtkWidget *board, GtkWidget *button, GtkWidget *button2)
 {
   GtkWidget *hbox;
   hbox = gtk_hbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(this->vbox), hbox, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(hbox), board, TRUE, TRUE, 10);
   gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), button2, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(hbox), Gtk::actual_letter, TRUE, TRUE, 0);
 }
 
@@ -118,6 +121,12 @@ void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)
 {
   Gtk::game->process();
 }
+
+void Gtk::buttonGupClicked(GtkWidget *widget, gpointer data)
+{
+  Gtk::game->omitMove();
+}
+
 void Gtk::changeSensitivity(GtkWidget * button, gboolean x)
 {
   gtk_widget_set_sensitive(button, x);

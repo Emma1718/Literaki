@@ -26,8 +26,8 @@ protected:
   virtual void looseBonus();
   void insert (Character c);
 
-  static void Click(void *, gpointer);
-  void ButtonClickedEvent();
+  static void clickButton(void *, gpointer);
+  void buttonClickedEvent();
   Character getCharacter();
   void disableButton();
   void enableButton();

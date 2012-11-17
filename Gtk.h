@@ -27,13 +27,14 @@ class Gtk
   static Character tmp_char;
   static Character chosenChar;
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
+  static void buttonGupClicked(GtkWidget *widget, gpointer data);
   void changeActLetter(int, char*);
 
   GtkWidget *createTable(int width, int height);
   GtkWidget *createButton(char *label, int height, int width);
   void changeColor(GtkWidget *,int);
   void mapIntoWindow(GtkWidget *board);
-  void humanboxIntoWindow(GtkWidget *, GtkWidget *);
+  void humanboxIntoWindow(GtkWidget *, GtkWidget *, GtkWidget *);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void setLabel(GtkWidget *, char *);
   void run();

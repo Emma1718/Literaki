@@ -9,6 +9,7 @@ class HumanBox{
   HumanChar **lettersBox;
   GtkWidget *board;
   GtkWidget * button_OK;
+  GtkWidget * giveUpButton;
 
   Gtk * graphic;
   int length;
