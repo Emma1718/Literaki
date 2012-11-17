@@ -3,22 +3,26 @@
 
 #include "Player.h"
 
+#include <list>
+
 /// class Computer - 
 class Computer : public Player {
 
  public:
   Computer(std::string, int,Sack *,  Dictionary *, Map *);
   //~Computer();
-      
-  //znajduje slowo z podanych liter
-  void findWord(std::string sack, std::string letter, int left, int right);
 
-  //sprawdza czy slowo zawiera litere i zlicza ile liter jest po jej prawej a ile po lewej stronie
+  bool empty(std::string line);
+  char first (std::string line, int &i);
+  std::string letters_and_distances(std::string line, std::list<int> &distances);  
+
   bool contain_letter(std::string word, std::string letter, int &left, int &right);
-
-  //prawda, slowo bez podanej litery jezeli slowo taka zawiera
+  std::string nth_letter(int n, std::string word);
   bool without(std::string &word, std::string letter);
-  //~Computer();
+
+  void find(std::string letters, std::list<int> distances, std::string comp_letters);
+  void findWord(std::string line, std::string letters);
+
 };
 
 #endif 
