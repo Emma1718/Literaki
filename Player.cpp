@@ -9,7 +9,7 @@ void Player::removeLetters(list <Character> insertions)
   for(it2 = insertions.begin(); it2 != insertions.end(); it2++)
     for(it = this->letters.begin(); it != this->letters.end() ;it++)
       {
-	if((string)(*it).getChar() == (string)(*it2).getChar())
+	if((*it).getChar() == (*it2).getChar())
 	  {
 	    cout<<"it2:"<<(*it2).getChar()<<"it:"<<(*it).getChar()<<endl;
 	    if(it==this->letters.begin())

@@ -122,9 +122,9 @@ void Gtk::putField(int x, int y, GtkWidget *board, GtkWidget *widget)
   gtk_table_attach(GTK_TABLE(board), widget, y, y+1, x, x+1, GTK_FILL, GTK_FILL, 0, 0);
 }
 
-void Gtk::setLabel(GtkWidget * button, char * c)
+void Gtk::setLabel(GtkWidget * button, string c)
 {
-  gtk_button_set_label(GTK_BUTTON(button), c);
+  gtk_button_set_label(GTK_BUTTON(button), (char*)c.c_str());
 }
 
 void Gtk::run()
@@ -148,7 +148,7 @@ void Gtk::changeSensitivity(GtkWidget * button, gboolean x)
   gtk_widget_set_sensitive(button, x);
 }
 
-void Gtk::changeActLetter(int color, char * letter)
+void Gtk::changeActLetter(int color, string letter)
 {
   this->changeColor(Gtk::actual_letter, color);
   this->setLabel(Gtk::actual_letter, letter);
@@ -185,13 +185,13 @@ void Gtk::chooseLetter(string filename)
 	for(int j = 0 ; j < 8; j++)
 	  {
 	    int * val = new int;
-	    char * letter = new char[10];
+	    string letter;
 	    file>>letter>>unimp>>*val;
-	    GtkWidget * button = this->createButton(letter, 38, 38);
+	    GtkWidget * button = this->createButton((char*)letter.c_str(), 38, 38);
 	    this->changeColor(button, *val);
 	    this->putField(i, j, table, button);
 	    g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), (gpointer)val);
-	    delete [] letter;
+	  
 	    //delete val;
 	  }
     }
@@ -203,14 +203,14 @@ void Gtk::chooseLetter(string filename)
 
 void Gtk::letterChosen(GtkWidget * widget, gpointer data)
 {
-  char * l;
-  l = (char*)gtk_button_get_label(GTK_BUTTON(widget));
-  g_print("chosen: %s\n", l);
+  string l;
+  l = gtk_button_get_label(GTK_BUTTON(widget));
+  g_print("chosen: %s\n", (char*)l.c_str());
   int *v;
   v = (int*)data;
   g_print("val:%d\n",*v);
   Character x = Character(l,*v);
-  g_print("tmp:%s %d", x.getChar(), x.getValue());
+  g_print("tmp:%s %d", (char*)x.getChar().c_str(), x.getValue());
   Gtk::chosenChar = x;
   gtk_widget_destroy(chooseWin);
 }

@@ -130,7 +130,7 @@ bool Map::checkIfSet(int x, int y) //sprawdz czy dane pole jest ustawione, tzn. 
 
   if((x>=0) && (y>=0) && (x<this->height) && (y<this->width))
     {
-      if (!(this->modified[x][y]) && (this->matrix[x][y]->getCharacter().getChar() != '\0'))
+      if (!(this->modified[x][y]) && (this->matrix[x][y]->getCharacter().getChar() != ""))
 	return true;
       else
 	return false;
@@ -147,7 +147,7 @@ int Map::checkRow(int x)
     {
       if (interested)
   	{
-  	  if (this->matrix[x][j]->getCharacter().getChar() == '\0')
+  	  if (this->matrix[x][j]->getCharacter().getChar() == "")
   	    break;
   	  else if (this->modified[x][j])
   	    actual_amount++;
@@ -168,11 +168,11 @@ int Map::checkCol(int y)
   int actual_amount = 0;
   bool interested = false;
 
-  for(int j = 0; j < this->height; j++)
+   for(int j = 0; j < this->height; j++)
     {
       if (interested)
   	{
-  	  if (this->matrix[j][y]->getCharacter().getChar() == '\0')
+  	  if (this->matrix[j][y]->getCharacter().getChar() == "")
   	    break;
   	  else if (this->modified[j][y])
   	    actual_amount++;
@@ -191,7 +191,7 @@ int Map::goLeft(int i, int j) //idz w lewo dopoki nie skonczą się litery lub p
   int a;
   for (a = j; a>=0; a--)
     {
-      if(this->matrix[i][a]->getCharacter().getChar() == '\0')
+      if(this->matrix[i][a]->getCharacter().getChar() == "")
 	break;
     }
 
@@ -203,7 +203,7 @@ int Map::goRight(int i, int j) //idz w prawo dopoki nie skonczą się litery lub
   int a;
   for (a = j; a < this->width; a++)
     {
-      if(this->matrix[i][a]->getCharacter().getChar() == '\0')
+      if(this->matrix[i][a]->getCharacter().getChar() == "")
 	break;
     }
 
@@ -215,7 +215,7 @@ int Map::goUp(int i, int j) //idz do góry dopoki nie skonczą się litery lub p
   int a;
   for (a = i; a>=0; a--)
     {
-      if(this->matrix[a][j]->getCharacter().getChar() == '\0')
+      if(this->matrix[a][j]->getCharacter().getChar() == "")
 	break;
     }
   return a+1;
@@ -226,7 +226,7 @@ int Map::goDown(int i, int j) //idz w dół dopoki nie skonczą się litery lub 
   int a;
   for (a = i; a<this->height; a++)
     {
-      if(this->matrix[a][j]->getCharacter().getChar() == '\0')
+      if(this->matrix[a][j]->getCharacter().getChar() == "")
 	break;
     }
   return a-1;
@@ -256,8 +256,8 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 		    {
 		      for(int p = begin; p<=end; p++) //znajdz go
 			{
-			  if ((string)this->matrix[i][p]->getCharacter().getChar() != (string)"_")
-			    word+=(string)(this->matrix[i][p]->getCharacter().getChar());
+			  if (this->matrix[i][p]->getCharacter().getChar() != "_")
+			    word+=this->matrix[i][p]->getCharacter().getChar();
 			  else
 			    {
 			      this->graphic->chooseLetter("litery");   //jesli któraś z liter to blank, każ userowi wybrać jej znaczenie
@@ -278,7 +278,7 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
-			word+=(string)(this->matrix[p][j]->getCharacter().getChar());
+			word+=this->matrix[p][j]->getCharacter().getChar();
 		      words->push_back(word);
 		      word.clear();
 		      this->countPoints(2, begin, end, j);
@@ -289,7 +289,7 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 	    }
 	  else //jesli to juz następne zmodyfikowane pole
 	    {
-	      switch(opt) 
+	      switch(opt)
 		{
 		case 1: //to znajduj kolejne wyrazy w kolumnie
 		  begin = goUp(i-1,j);
@@ -297,7 +297,7 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
-			word+=(string)(this->matrix[p][j]->getCharacter().getChar());
+			word+=this->matrix[p][j]->getCharacter().getChar();
 		      words->push_back(word);
 		      word.clear();
 		      this->countPoints(2, begin, end, j);
@@ -309,7 +309,7 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 		  if (begin != end)
 		    {
 		      for(int p = begin; p<=end; p++)
-			word+=(string)(this->matrix[i][p]->getCharacter().getChar());
+			word+=this->matrix[i][p]->getCharacter().getChar();
 		      words->push_back(word);
 		      word.clear();
 		      this->countPoints(1, begin, end, i);

@@ -10,7 +10,7 @@ Sack::Sack(string filename_sack)
 
   for(int x=0; 1;)
     {
-      char * letter = new char[10];  
+      string letter;  
       read_file>>letter>>amount>>value;
       if(read_file.good())
 	{

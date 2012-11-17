@@ -1,20 +1,21 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <string>
 
 /// class Character - 
 class Character {
   // Attributes
-  char * c;
+  std::string c;
   int value;
   // Operations
 public:
-  Character (char* c, int value);
+  Character (std::string c, int value);
   Character ();
   ~Character ();
   void backtoStart();
   int getValue ();
-  char * getChar ();
+  std::string getChar ();
 };
 
 #endif 

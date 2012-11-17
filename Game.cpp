@@ -31,7 +31,7 @@ void Game::process()
   list <string>::iterator iter;
   list <Character>::iterator it;
 
-  if (Gtk::tmp_char.getChar() == '\0') //jeśli w pamięci nie ma żadnej litery
+  if (Gtk::tmp_char.getChar() == "") //jeśli w pamięci nie ma żadnej litery
     {
       insertions = this->map->getAllInsertions();  //to pobierz wszystkie wstawione litery, utworz z nich listę
 
@@ -100,7 +100,7 @@ void Game::process()
   else //jesli jest w pamięci litera
     {
       dialogMessage = this->graphic->createDialogMessage("W pamięci jest litera!\n Umieść ją na planszy lub w swoim pudełku liter!", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE); //poinformuj usera
-      while (gtk_events_pending())  
+      while (gtk_events_pending())
 	gtk_main_iteration();
       sleep(1.5);
       gtk_widget_destroy(dialogMessage);

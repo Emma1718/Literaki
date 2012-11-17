@@ -39,7 +39,7 @@ class Gtk
 
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
   static void buttonGupClicked(GtkWidget *widget, gpointer data);
-  void changeActLetter(int, char*);
+  void changeActLetter(int, std::string);
   void changeActPoints(int, int);
 
   GtkWidget *createTable(int width, int height);
@@ -48,7 +48,7 @@ class Gtk
   void mapIntoWindow(GtkWidget *board);
   void humanboxIntoWindow(GtkWidget *, GtkWidget *, GtkWidget *);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
-  void setLabel(GtkWidget *, char *);
+  void setLabel(GtkWidget *, std::string);
   void run();
   void changeSensitivity(GtkWidget *, gboolean);
   void chooseLetter(std::string filename);

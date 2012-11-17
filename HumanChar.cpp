@@ -29,9 +29,9 @@ void HumanChar::buttonClickedEvent(GtkWidget * button)
 {
 
 
-  if (Gtk::tmp_char.getChar() == '\0')
+  if (Gtk::tmp_char.getChar() == "")
     {
-      if  (this->letter.getChar() != '\0')
+      if  (this->letter.getChar() != "")
 	{
 	  this->graphic->changeColor(button, 0);
 	  this->graphic->setLabel(button, (char*)"");
@@ -42,7 +42,7 @@ void HumanChar::buttonClickedEvent(GtkWidget * button)
     }
   else
     {
-      if (this->letter.getChar() != '\0')
+      if (this->letter.getChar() != "")
 	{
 	  Character exchange;
 

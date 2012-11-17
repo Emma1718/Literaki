@@ -20,7 +20,7 @@ bool Dictionary::checkWord(string word )
   set<string>::iterator iter;
   
   iter = this->words.find(word);
-  cout<<"funkcja:"<<word;
+
   if (iter==this->words.end ())
     return false;
   else

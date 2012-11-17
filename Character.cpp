@@ -2,16 +2,15 @@
 
 using namespace std;
 
-Character::Character(char * c, int value)
+Character::Character(string c, int value)
 {
-  this->c = new char[10];
-this->c = c;
+  this->c = c;
   this->value = value;
 }
 
 Character::Character()
 {
-  this->c = '\0';
+  this->c = "";
   this->value = 0;
   }
 
@@ -25,13 +24,13 @@ int Character::getValue()
   return this->value;
 }
 
-char *Character::getChar()
+string Character::getChar()
 {
   return this->c;
 }
 
 void Character::backtoStart()
 {
-this->c = '\0';
+this->c = "";
 this->value = 0;
 }
