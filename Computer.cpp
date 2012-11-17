@@ -11,8 +11,8 @@ Computer::Computer(string name, int points, Sack * sack, Dictionary *dict, Map *
   this->map = map;
   this->sack->getCharacters(&(this->letters), 7);
  
-  this->findWord("    Ą C      K  ","DSACVZKBF");
-  cout<<"skonczylo"<<endl;
+  //  this->findWord("    Ą C      K  ","DSACVZKBF");
+  //cout<<"skonczylo"<<endl;
 
 }
 

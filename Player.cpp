@@ -45,3 +45,8 @@ void Player::addPoints(int sum)
   this->points+=sum;
   cout<<"ActualPoints:"<<this->points<<endl;
 }
+
+int Player::showActPoints()
+{
+  return this->points;
+}

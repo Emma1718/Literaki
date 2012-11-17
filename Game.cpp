@@ -14,7 +14,7 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
 
 void Game::run()
 {
-
+  g_print("TU");
   this->graphic->run();
 
 }
@@ -54,6 +54,7 @@ void Game::process()
 	  if (foundAll)  //jesli te wyrazy znajdują sie w słowniku
 	    {
 	      this->players_tab[0]->addPoints(Map::tmp_sum); //przekaż punkty graczowi
+	      this->graphic->changeActPoints(1, this->players_tab[0]->showActPoints());
 	      this->players_tab[0]->removeLetters(insertions);  //to usun te litery, które zostały wykorzystane
 	      this->map->clearModAndBonus();                   //usun bonusy i modyfikacje
 	      this->players_tab[0]->addLetters(insertions.size()); //dodaj nowe litery

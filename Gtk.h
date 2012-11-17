@@ -16,19 +16,31 @@ class Gtk
 
   GtkWidget *vbox;
   GtkWidget *hbox;
-  static  GtkWidget *actual_letter;
+  
   static gboolean deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data);
   static Game *game;
+
+  static GtkWidget *actual_letter;
+  GtkWidget *nameLabel1;
+  GtkWidget *nameLabel2;
+  GtkWidget *pointsLabel1;
+  GtkWidget *pointsLabel2;
+  GtkWidget *timeLabel1;
+  GtkWidget *timeLabel2;
 
  public:
 
   Gtk(int argc, char * argv[], Game *);
-  static  GtkWidget *chooseWin;
+  static GtkWidget *chooseWin;
   static Character tmp_char;
   static Character chosenChar;
+
+
+
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
   static void buttonGupClicked(GtkWidget *widget, gpointer data);
   void changeActLetter(int, char*);
+  void changeActPoints(int, int);
 
   GtkWidget *createTable(int width, int height);
   GtkWidget *createButton(char *label, int height, int width);

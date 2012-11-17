@@ -3,8 +3,7 @@ using namespace std;
 
 Character Gtk::tmp_char = Character();
 Character Gtk::chosenChar = Character();
-
-GtkWidget * Gtk::actual_letter;// = gtk_button_new_with_label((char*)"");
+GtkWidget *Gtk::actual_letter;
 Game *Gtk::game;
 GtkWidget *Gtk::chooseWin;
 
@@ -14,6 +13,13 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   /*Pola*/
   Gtk::game = parent;
   Gtk::actual_letter = this->createButton((char*)"", 38, 38);
+  this->nameLabel1 = gtk_label_new("Gracz");
+  this->nameLabel2 = gtk_label_new("Komputer");
+  this->pointsLabel1 = gtk_label_new("0");
+  this->pointsLabel2 = gtk_label_new("0");
+  this->timeLabel1 = gtk_label_new("120");
+  this->timeLabel2 = gtk_label_new("120");
+
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   this->hbox = gtk_hbox_new(FALSE,0);
   this->vbox = gtk_vbox_new(FALSE, 10);
@@ -22,6 +28,17 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   GtkWidget *frame;
   frame = gtk_frame_new("");
   gtk_widget_set_size_request(frame, 300, 600);
+
+  GtkWidget *tableInFrame = this->createTable(6,4);
+  this->putField(0, 0, tableInFrame, this->nameLabel1);
+  this->putField(0, 2, tableInFrame, this->nameLabel2);
+  this->putField(2, 0, tableInFrame, this->pointsLabel1);
+  this->putField(2, 2, tableInFrame, this->pointsLabel2);
+  this->putField(4, 0, tableInFrame, this->timeLabel1);
+  this->putField(4, 2, tableInFrame, this->timeLabel2);
+  gtk_container_add(GTK_CONTAINER(frame), tableInFrame);
+  gtk_container_border_width(GTK_CONTAINER(frame), 30);
+
   /*Tworzenie okna*/
   gtk_window_set_title (GTK_WINDOW(this->window), "LiTeRaKi");
   gtk_window_set_position (GTK_WINDOW(this->window), GTK_WIN_POS_CENTER);
@@ -100,9 +117,9 @@ void Gtk::changeColor(GtkWidget *widget, int colour_number)
   gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &color);
 }
 
-void Gtk::putField(int x, int y, GtkWidget *board, GtkWidget *button)
+void Gtk::putField(int x, int y, GtkWidget *board, GtkWidget *widget)
 {
-  gtk_table_attach(GTK_TABLE(board), button, y, y+1, x, x+1, GTK_FILL, GTK_FILL, 0, 0);
+  gtk_table_attach(GTK_TABLE(board), widget, y, y+1, x, x+1, GTK_FILL, GTK_FILL, 0, 0);
 }
 
 void Gtk::setLabel(GtkWidget * button, char * c)
@@ -114,7 +131,6 @@ void Gtk::run()
 {
   gtk_widget_show_all (this->window);
   gtk_main();
-
 }
 
 void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)
@@ -161,8 +177,8 @@ void Gtk::chooseLetter(string filename)
   gtk_container_add(GTK_CONTAINER(chooseWin), table);
 
   ifstream file(filename.c_str(), ifstream::in);
- 
- 
+
+
   if (file.is_open())
     {
       for(int i = 0; i < 4; i++)
@@ -208,5 +224,22 @@ GtkWidget * Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags fl
   gtk_widget_show(message);
 
   return message;
+}
+
+void Gtk::changeActPoints(int which, int actualPoints)
+{
+  char buffer[10];
+
+  switch(which)
+    {
+    case 1:
+      sprintf(buffer, "%d", actualPoints);
+      gtk_label_set(GTK_LABEL(this->pointsLabel1), buffer);
+      break;
+    case 2:
+      sprintf(buffer, "%d", actualPoints);
+      gtk_label_set(GTK_LABEL(this->pointsLabel2), buffer);
+      break;
+    }
 }
 
