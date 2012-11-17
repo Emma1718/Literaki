@@ -4,7 +4,7 @@ using namespace std;
 
 int Map::tmp_sum = 0;
 
-void Map::loadFromFile(string filename)
+void Map::loadFromFile(string filename)  //załaduj mapę z pliku
 {
 
   int option, wh_ch, mp;
@@ -44,7 +44,7 @@ void Map::loadFromFile(string filename)
     }
 }
 
-void Map::draw()
+void Map::draw() //narysuj mapę
 {
   this->board = graphic->createTable(this->width,this->height);
   for(int i=0; i<this->height; i++)
@@ -72,46 +72,44 @@ Map::Map(Gtk *graphic,string filename)
       this->modified[i][j] = false;
 }
 
-void Map::modifyField(int x, int y, bool mod)
+void Map::modifyField(int x, int y, bool mod) //zmodyfikuj pole
 {
   this->modified[x][y] = mod;
 }
 
-bool Map::checkIfModified(int x, int y)
+bool Map::checkIfModified(int x, int y) //sprawdz czy jest zmodyfikowane
 {
   return (this->modified[x][y]);
 }
 
-bool Map::checkMove(int &cs)
+bool Map::checkMove(int &cs)  //sprawdz ruch, przekaż informację czy zmodyfikowane pla są w rzedzie czy w kolumnie
 {
   int mod_amount = 0, x=-1, y=-1;
 
-  for( int i = 0; i < this->height; i++)
+  for( int i = 0; i < this->height; i++) //zlicz wszsytkie modyfikacje
     for( int j = 0; j < this->width; j++)
       {
 	if(this->modified[i][j])
 	  {
-	    cout<<i<<" "<<j<<" "<<this->matrix[i][j]->getCharacter().getChar()<<endl;
 	    if (mod_amount==0)
 	      {
-		x = i;
+		x = i; //pobierz współrzędne pierwszego zmodyfikowanego
 		y = j;
 	      }
 	    mod_amount++;
 	  }
       }
-  if (x<0) return false;
+  if (x<0) return false;  //jesli nie ma zmodyfukowanych to niepoprawny ruch
   cs = 0;
 
-  if (this->checkRow(x) != mod_amount)
+  if (this->checkRow(x) != mod_amount)   //jesli w wierszu nie ma wszsytkich zmodyfikowanych pól
     {
-      if ((this->checkCol(y)) != mod_amount)  return false;
-      cs = 2;
+      if ((this->checkCol(y)) != mod_amount)  return false; //oraz w kolumnie, niepoprawny ruch
+      cs = 2; //jesli jest w kolumnie, przekaz informacje 2
     }
-  if (cs == 0) cs = 1;
+  if (cs == 0) cs = 1;  //jesli jest w wierszu przekaz informacje 1
 
   /*---------Gdy nie zreturnuje to znaczy ze albo w kolumnie albo w wierszu znajduja sie wszystkie zmodyfikowane przyciski */
-  g_print("Modifikacje sie zgadzaja \n");
 
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this-> width; j++)
@@ -119,15 +117,15 @@ bool Map::checkMove(int &cs)
 	{
 	  if (((i==(this->width/2)) && (i==j)) || this->checkIfSet(i+1, j) || this->checkIfSet(i-1, j) || this->checkIfSet(i, j+1) || this->checkIfSet(i, j-1))
 	    {
-	      return true;
+	      return true; // jeśli choć jedno pole ma w otoczeniu ustawione litery bądź znajduje się pośrodku planszy - poprawnych ruch
 	    }
 	}
 
-  return false;
+  return false; //jeśli wyraz nie graniczy z innym niepoprawny ruch
 
 }
 
-bool Map::checkIfSet(int x, int y)
+bool Map::checkIfSet(int x, int y) //sprawdz czy dane pole jest ustawione, tzn. czy posiada literę i nie jest modyfikowane
 {
 
   if((x>=0) && (y>=0) && (x<this->height) && (y<this->width))
@@ -188,7 +186,7 @@ int Map::checkCol(int y)
   return actual_amount;
 }
 
-int Map::goLeft(int i, int j)
+int Map::goLeft(int i, int j) //idz w lewo dopoki nie skonczą się litery lub plansza
 {
   int a;
   for (a = j; a>=0; a--)
@@ -200,7 +198,7 @@ int Map::goLeft(int i, int j)
   return a+1;
 }
 
-int Map::goRight(int i, int j)
+int Map::goRight(int i, int j) //idz w prawo dopoki nie skonczą się litery lub plansza
 {
   int a;
   for (a = j; a < this->width; a++)
@@ -212,7 +210,7 @@ int Map::goRight(int i, int j)
   return a-1;
 }
 
-int Map::goUp(int i, int j)
+int Map::goUp(int i, int j) //idz do góry dopoki nie skonczą się litery lub plansza
 {
   int a;
   for (a = i; a>=0; a--)
@@ -223,7 +221,7 @@ int Map::goUp(int i, int j)
   return a+1;
 }
 
-int Map::goDown(int i, int j)
+int Map::goDown(int i, int j) //idz w dół dopoki nie skonczą się litery lub plansza
 {
   int a;
   for (a = i; a<this->height; a++)
@@ -234,7 +232,7 @@ int Map::goDown(int i, int j)
   return a-1;
 }
 
-void Map::findWords(list <string> *words, int opt)
+void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż je za pomocą listy, pobierz informację czy zmodyfikowane pola są w wierszu czy kolumnie (opt)
 {
   bool found1 = false;
   int begin, end;
@@ -244,37 +242,37 @@ void Map::findWords(list <string> *words, int opt)
 
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
-      if(this->modified[i][j])
+      if(this->modified[i][j]) //dla wszystkich zmodyfikowanych
 	{
-	  if (!found1)
+	  if (!found1) //jesli jest to pierwszy zmodyfikowany
 	    {
 	      found1 = true;
 	      switch(opt)
 		{
-		case 1:
+		case 1: //modyfikacje w wierszu
 		  begin = goLeft(i,j-1);
 		  end = goRight(i,j+1);
-		  if (begin != end)
+		  if (begin != end) //jesli wyraz jest co najmniej 2lierowy
 		    {
-		      for(int p = begin; p<=end; p++)
+		      for(int p = begin; p<=end; p++) //znajdz go
 			{
 			  if ((string)this->matrix[i][p]->getCharacter().getChar() != (string)"_")
 			    word+=(string)(this->matrix[i][p]->getCharacter().getChar());
 			  else
 			    {
-			      this->graphic->chooseLetter("litery");   
+			      this->graphic->chooseLetter("litery");   //jesli któraś z liter to blank, każ userowi wybrać jej znaczenie
  // while (gtk_events_pending())
 			      // 	gtk_main_iteration();
 			      // sleep(4.5);
 			      //while(Gtk::chooseWin);
 			    }
 			}
-		      words->push_back(word);
-		      word.clear();
-		      this->countPoints(1, begin, end, i);
+		      words->push_back(word); //wrzuc na listę
+		      word.clear();//i wyczyść
+		      this->countPoints(1, begin, end, i); //podlicz punkty
 		    }
 		  break;
-		case 2:
+		case 2: //modyfikacje w kolumnie
 		  begin = goUp(i-1,j);
 		  end = goDown(i+1,j);
 		  if (begin != end)
@@ -289,11 +287,11 @@ void Map::findWords(list <string> *words, int opt)
 		}
 	      j--;
 	    }
-	  else
+	  else //jesli to juz następne zmodyfikowane pole
 	    {
-	      switch(opt)
+	      switch(opt) 
 		{
-		case 1:
+		case 1: //to znajduj kolejne wyrazy w kolumnie
 		  begin = goUp(i-1,j);
 		  end = goDown(i+1,j);
 		  if (begin != end)
@@ -305,7 +303,7 @@ void Map::findWords(list <string> *words, int opt)
 		      this->countPoints(2, begin, end, j);
 		    }
 		  break;
-		case 2:
+		case 2://w wierszu
 		  begin = goLeft(i,j-1);
 		  end = goRight(i,j+1);
 		  if (begin != end)
@@ -323,7 +321,7 @@ void Map::findWords(list <string> *words, int opt)
 }
 
 
-void Map::clearModAndBonus()
+void Map::clearModAndBonus() //usuń modyfikacje i dostępne bonusy
 {
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
@@ -334,7 +332,7 @@ void Map::clearModAndBonus()
 	}
 }
 
-list <Character> Map::getAllInsertions()
+list <Character> Map::getAllInsertions()//pobierz wszystki modyfikacje
 {
   list <Character> insertions;
 
@@ -350,43 +348,39 @@ list <Character> Map::getAllInsertions()
 
 void Map::countPoints(int option, int begin, int end, int x)
 {
-  int word_multiplier = 1;
+  int word_multiplier = 1;//ustaw początkowo mnożnik słowa na 0
 
   switch(option)
     {
-    case 1:
+    case 1://jeśli wyraz w wierszu
       for(int j = begin; j <= end; j++)
-	{
-	  Map::tmp_sum+= this->matrix[x][j]->calculate(&word_multiplier);
-	  cout<<endl<<"word_multiplier:"<<word_multiplier<<endl<<"SUM"<<Map::tmp_sum<<endl;}
+	Map::tmp_sum+= this->matrix[x][j]->calculate(&word_multiplier);//policz dla każdej komórki, sprawdz czy nie zmienił sie mnożnik słowa
       break;
 
-    case 2:
+    case 2://jesli w kolumnie
       for(int i = begin; i <= end; i++)
-	{
-	  Map::tmp_sum+= this->matrix[i][x]->calculate(&word_multiplier);
-	}
+	Map::tmp_sum+= this->matrix[i][x]->calculate(&word_multiplier);
       break;
     }
   Map::tmp_sum*=word_multiplier;
-  cout<<"Sumaopkt:"<<Map::tmp_sum<<endl;
+  cout<<"Sumapkt:"<<Map::tmp_sum<<endl;
 }
 
-void Map::disableMap()
+void Map::disableMap() //dezaktywuj mapę
 {
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
       this->matrix[i][j]->disableButton();
 }
 
-void Map::enableMap()
+void Map::enableMap()//aktywuj
 {
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
       this->matrix[i][j]->enableButton();
 }
 
-void Map::clearFields()
+void Map::clearFields()//przywróc pola do stanu początkowego
 {
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)

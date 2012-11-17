@@ -31,9 +31,9 @@ void Game::process()
   list <string>::iterator iter;
   list <Character>::iterator it;
 
-  if (Gtk::tmp_char.getChar() == '\0')
+  if (Gtk::tmp_char.getChar() == '\0') //jeśli w pamięci nie ma żadnej litery
     {
-      insertions = this->map->getAllInsertions();
+      insertions = this->map->getAllInsertions();  //to pobierz wszystkie wstawione litery, utworz z nich listę
 
       if (this->map->checkMove(opt)) //jeśli poprawny ruch
 	{
@@ -57,7 +57,7 @@ void Game::process()
 	      this->map->clearModAndBonus();                   //usun bonusy i modyfikacje
 	      this->players_tab[0]->addLetters(insertions.size()); //dodaj nowe litery
 	    }
-	  else
+	  else //jesli nie
 	    {
 	      //dialogMessage = this->graphic->createDialogMessage((char*)"Nie", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
 	      // //gtk_dialog_run (GTK_DIALOG (dialogMessage));
@@ -67,8 +67,8 @@ void Game::process()
 
 	      // gtk_widget_destroy(dialogMessage);
 
-	      static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
-	      this->map->clearFields();
+	      static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);  //to "zawróc" litery
+	      this->map->clearFields(); //usun je z planszy
 	    }
 	}
       else
@@ -82,7 +82,7 @@ void Game::process()
 	  this->map->clearFields();
 	}
 
-      insertions.clear();
+      insertions.clear(); //wyczysc listę
 
       this->map->disableMap();	      //zdezaktywuj mape
       static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
@@ -91,14 +91,14 @@ void Game::process()
 	gtk_main_iteration();
       sleep(1.5);
 
-      this->playerNumber++;
-      if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
-      this->automaticMove();
+      this->playerNumber++; //inkrementuj nr zawodnika
+      if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
+      this->automaticMove(); //przjdz to automatycznego ruchu
     }
-  else
+  else //jesli jest w pamięci litera
     {
-      dialogMessage = this->graphic->createDialogMessage("W pamięci jest litera!\n Umieść ją na planszy lub w swoim pudełku liter!", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
-      while (gtk_events_pending())
+      dialogMessage = this->graphic->createDialogMessage("W pamięci jest litera!\n Umieść ją na planszy lub w swoim pudełku liter!", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE); //poinformuj usera
+      while (gtk_events_pending())  
 	gtk_main_iteration();
       sleep(1.5);
       gtk_widget_destroy(dialogMessage);
