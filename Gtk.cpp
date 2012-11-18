@@ -1,4 +1,4 @@
-#include "Game.h"
+ #include "Game.h"
 using namespace std;
 
 Character Gtk::tmp_char = Character();
@@ -184,15 +184,13 @@ void Gtk::chooseLetter(string filename)
       for(int i = 0; i < 4; i++)
 	for(int j = 0 ; j < 8; j++)
 	  {
-	    int * val = new int;
 	    string letter;
-	    file>>letter>>unimp>>*val;
+	    int val;
+	    file>>letter>>unimp>>val;
 	    GtkWidget * button = this->createButton((char*)letter.c_str(), 38, 38);
-	    this->changeColor(button, *val);
+	    this->changeColor(button, val);
 	    this->putField(i, j, table, button);
-	    g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), (gpointer)val);
-	  
-	    //delete val;
+	    g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), NULL);
 	  }
     }
 
@@ -206,12 +204,6 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)
   string l;
   l = gtk_button_get_label(GTK_BUTTON(widget));
   g_print("chosen: %s\n", (char*)l.c_str());
-  int *v;
-  v = (int*)data;
-  g_print("val:%d\n",*v);
-  Character x = Character(l,*v);
-  g_print("tmp:%s %d", (char*)x.getChar().c_str(), x.getValue());
-  Gtk::chosenChar = x;
   gtk_widget_destroy(chooseWin);
 }
 
