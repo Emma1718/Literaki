@@ -25,7 +25,7 @@ class Gtk
   GtkWidget *nameLabel2;
   GtkWidget *pointsLabel1;
   GtkWidget *pointsLabel2;
-  
+  GtkWidget *backButton;  
   static GtkWidget *timeLabel1;
   static GtkWidget *timeLabel2;
   static int seconds;

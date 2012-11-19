@@ -92,6 +92,10 @@ void Game::process()
       while (gtk_events_pending())
 	gtk_main_iteration();
       sleep(1.5);
+      
+      Gtk::clockEnd();
+      Gtk::clockStart(2);
+      Map::tmp_sum = 0; //wyzeruj tymczasową sumę punktów
 
       this->playerNumber++; //inkrementuj nr zawodnika
       if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
@@ -105,9 +109,6 @@ void Game::process()
       sleep(1.5);
       gtk_widget_destroy(dialogMessage);
     }
-  Gtk::clockEnd();
-  Gtk::clockStart(2);
-  Map::tmp_sum = 0; //wyzeruj tymczasową sumę punktów
 
 }
 
@@ -127,7 +128,10 @@ void Game::omitMove()
   while (gtk_events_pending())
     gtk_main_iteration();
   sleep(1.5);
-
+  
+  Gtk::clockEnd();
+  Gtk::clockStart(2);
+  
   this->playerNumber++;
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
   this->automaticMove();

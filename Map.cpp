@@ -261,10 +261,11 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 			  else
 			    {
 			      this->graphic->chooseLetter("litery");   //jesli któraś z liter to blank, każ userowi wybrać jej znaczenie
- // while (gtk_events_pending())
+			      // while (gtk_events_pending())
 			      // 	gtk_main_iteration();
 			      // sleep(4.5);
-			      //while(Gtk::chooseWin);
+			      // while(Gtk::chooseWin);
+			      this->disableMap();
 			    }
 			}
 		      words->push_back(word); //wrzuc na listę

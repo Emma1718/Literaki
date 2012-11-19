@@ -1,4 +1,5 @@
 #include "Game.h"
+
 using namespace std;
 
 Character Gtk::tmp_char = Character();
@@ -24,7 +25,7 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   this->nameLabel2 = gtk_label_new("Komputer");
   this->pointsLabel1 = gtk_label_new("0");
   this->pointsLabel2 = gtk_label_new("0");
-  Gtk::timeLabel1 = gtk_label_new("10");
+  Gtk::timeLabel1 = gtk_label_new("");
   this->timeLabel2 = gtk_label_new("120");
 
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -37,14 +38,21 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   gtk_widget_set_size_request(frame, 300, 600);
 
   GtkWidget *tableInFrame = this->createTable(6,4);
+  GtkWidget *vboxInFrame = gtk_vbox_new(FALSE, 10);
+  this->backButton = this->createButton("Cofnij", 60,100);
+  
   this->putField(0, 0, tableInFrame, this->nameLabel1);
   this->putField(0, 2, tableInFrame, this->nameLabel2);
   this->putField(2, 0, tableInFrame, this->pointsLabel1);
   this->putField(2, 2, tableInFrame, this->pointsLabel2);
   this->putField(4, 0, tableInFrame, this->timeLabel1);
   this->putField(4, 2, tableInFrame, this->timeLabel2);
-  gtk_container_add(GTK_CONTAINER(frame), tableInFrame);
+  
+  gtk_box_pack_start(GTK_BOX(vboxInFrame), tableInFrame, FALSE, TRUE, 5);
+  gtk_box_pack_start(GTK_BOX(vboxInFrame), this->backButton, FALSE, TRUE, 5);
   gtk_container_border_width(GTK_CONTAINER(frame), 30);
+  gtk_container_add(GTK_CONTAINER(frame), vboxInFrame);
+  
 
   /*Tworzenie okna*/
   gtk_window_set_title (GTK_WINDOW(this->window), "LiTeRaKi");
@@ -171,7 +179,6 @@ gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
 
 void Gtk::chooseLetter(string filename)
 {
-  //GtkWidget * win =
   chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
   int unimp;
@@ -257,6 +264,7 @@ guint Gtk::clockCallHuman(gpointer data)
     {
       Gtk::clockEnd();
       Gtk::seconds = 11;
+      Gtk::game->omitMove();
     }
 }
 
