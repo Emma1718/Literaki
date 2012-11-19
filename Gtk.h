@@ -25,12 +25,12 @@ class Gtk
   GtkWidget *nameLabel2;
   GtkWidget *pointsLabel1;
   GtkWidget *pointsLabel2;
+  
   static GtkWidget *timeLabel1;
-  GtkWidget *timeLabel2;
+  static GtkWidget *timeLabel2;
   static int seconds;
-
-  bool clockWorking;
-  guint clock;
+  static bool clockWorking;
+  static guint clock;
 
 
  public:
@@ -57,10 +57,10 @@ class Gtk
   void chooseLetter(std::string filename);
   static void letterChosen(GtkWidget *, gpointer);
   GtkWidget *createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
-  void clockStart();
-  void clockEnd();
-  static guint clockCall(gpointer);
-  //  ~Gtk();
+  static void clockStart(int);
+  static void clockEnd();
+  static guint clockCallHuman(gpointer);
+  static guint clockCallComp(gpointer);  //  ~Gtk();
 };
 
 #endif

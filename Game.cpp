@@ -105,6 +105,8 @@ void Game::process()
       sleep(1.5);
       gtk_widget_destroy(dialogMessage);
     }
+  Gtk::clockEnd();
+  Gtk::clockStart(2);
   Map::tmp_sum = 0; //wyzeruj tymczasową sumę punktów
 
 }
@@ -149,5 +151,7 @@ this->playerNumber++;
     {
       this->map->enableMap();
       static_cast<Human*>(this->players_tab[0])->enableHumanBox();
+      Gtk::clockEnd();
+      Gtk::clockStart(1);
     }
 }

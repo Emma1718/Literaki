@@ -1,4 +1,4 @@
- #include "Game.h"
+#include "Game.h"
 using namespace std;
 
 Character Gtk::tmp_char = Character();
@@ -6,7 +6,13 @@ Character Gtk::chosenChar = Character();
 GtkWidget *Gtk::actual_letter;
 Game *Gtk::game;
 GtkWidget *Gtk::chooseWin;
+
 GtkWidget *Gtk::timeLabel1;
+GtkWidget *Gtk::timeLabel2;
+int Gtk::seconds;
+guint Gtk::clock;
+bool Gtk::clockWorking; 
+
 
 Gtk::Gtk(int argc, char *argv[], Game* parent)
 {
@@ -131,8 +137,8 @@ void Gtk::setLabel(GtkWidget * button, string c)
 void Gtk::run()
 {
   gtk_widget_show_all (this->window);
-  this->clockWorking = FALSE;
-  clockStart();
+  Gtk::clockWorking = FALSE;
+  Gtk::clockStart(1);
   gtk_main();
 }
 
@@ -239,30 +245,61 @@ void Gtk::changeActPoints(int which, int actualPoints)
 }
 
 
-guint Gtk::clockCall(gpointer data)
+guint Gtk::clockCallHuman(gpointer data)
 {
-  // Gtk::seconds--;
-  // char buffer[10];
-  // sprintf(buffer, "%d", Gtk::seconds);
-  // gtk_label_set(GTK_LABEL(Gtk::timeLabel1), buffer);
+  Gtk::seconds--;
+
+  char buffer[10];
+  sprintf(buffer, "%d", Gtk::seconds);
+  gtk_label_set(GTK_LABEL(Gtk::timeLabel1), buffer);
+
+  if (Gtk::seconds == 0)
+    {
+      Gtk::clockEnd();
+      Gtk::seconds = 11;
+    }
+}
+
+guint Gtk::clockCallComp(gpointer data)
+{
+  Gtk::seconds--;
+
+  char buffer[10];
+  sprintf(buffer, "%d", Gtk::seconds);
+  gtk_label_set(GTK_LABEL(Gtk::timeLabel2), buffer);
+ 
+  if (Gtk::seconds == 0)
+    {
+      Gtk::clockEnd();
+      Gtk::seconds = 11;
+    }
 }
 
 
-void Gtk::clockStart()
+void Gtk::clockStart(int which)
 {
-  // if(!clockWorking)
-  //   {
-  //     Gtk::seconds = 11;
-  //     //   Gtk::clock = g_timeout_add((guint)1000, clockCall);
-  //     clockWorking = TRUE;
-  //   }
+  if(!Gtk::clockWorking)
+    {
+      Gtk::seconds = 11;
+      switch(which)
+	{
+	case 1:
+	  Gtk::clock = g_timeout_add(1000, GSourceFunc(Gtk::clockCallHuman), NULL);
+	  break;
+	case 2: 
+	  Gtk::clock = g_timeout_add(1000, GSourceFunc(Gtk::clockCallComp), NULL);
+	  break;
+	}
+      Gtk::clockWorking = TRUE;
+    }
 }
 
 void Gtk::clockEnd()
 {
-  // if(clockWorking)
-  //   {
-  //     gtk_timeout_remove(Gtk::clock);
-  //     clockWorking = FALSE;
-  //   }
+  if(Gtk::clockWorking)
+    {
+      gtk_timeout_remove(Gtk::clock);
+      Gtk::clockWorking = FALSE;
+    }
 }
+
