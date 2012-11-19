@@ -6,7 +6,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include "Character.h"
-
+#include <ctime>
 
 class Game;
 
@@ -25,8 +25,13 @@ class Gtk
   GtkWidget *nameLabel2;
   GtkWidget *pointsLabel1;
   GtkWidget *pointsLabel2;
-  GtkWidget *timeLabel1;
+  static GtkWidget *timeLabel1;
   GtkWidget *timeLabel2;
+  static int seconds;
+
+  bool clockWorking;
+  guint clock;
+
 
  public:
 
@@ -34,8 +39,6 @@ class Gtk
   static GtkWidget *chooseWin;
   static Character tmp_char;
   static Character chosenChar;
-
-
 
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
   static void buttonGupClicked(GtkWidget *widget, gpointer data);
@@ -54,7 +57,9 @@ class Gtk
   void chooseLetter(std::string filename);
   static void letterChosen(GtkWidget *, gpointer);
   GtkWidget *createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
-
+  void clockStart();
+  void clockEnd();
+  static guint clockCall(gpointer);
   //  ~Gtk();
 };
 

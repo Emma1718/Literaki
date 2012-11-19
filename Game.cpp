@@ -14,7 +14,7 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
 
 void Game::run()
 {
-  g_print("TU");
+
   this->graphic->run();
 
 }
@@ -105,7 +105,7 @@ void Game::process()
       sleep(1.5);
       gtk_widget_destroy(dialogMessage);
     }
-  Map::tmp_sum = 0; //wyzeruj tymczasową sumę
+  Map::tmp_sum = 0; //wyzeruj tymczasową sumę punktów
 
 }
 
@@ -134,8 +134,11 @@ void Game::omitMove()
 void Game::automaticMove()
 {
   if (this->playerNumber > 0)
-    g_print("Automatic!\n");
-  this->playerNumber++;
+    {
+      g_print("Automatic!\n");
+    }  
+
+this->playerNumber++;
 
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
 

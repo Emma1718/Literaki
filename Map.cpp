@@ -391,3 +391,9 @@ void Map::clearFields()//przywróc pola do stanu początkowego
 	  this->modified[i][j]=false;
 	}
 }
+
+
+void Map::setField(int x, int y, Character c)
+{
+  //  this->graphic->setLabel(this->matrix[3][5]->button, "B");
+}

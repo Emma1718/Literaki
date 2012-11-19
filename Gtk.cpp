@@ -6,6 +6,7 @@ Character Gtk::chosenChar = Character();
 GtkWidget *Gtk::actual_letter;
 Game *Gtk::game;
 GtkWidget *Gtk::chooseWin;
+GtkWidget *Gtk::timeLabel1;
 
 Gtk::Gtk(int argc, char *argv[], Game* parent)
 {
@@ -17,7 +18,7 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   this->nameLabel2 = gtk_label_new("Komputer");
   this->pointsLabel1 = gtk_label_new("0");
   this->pointsLabel2 = gtk_label_new("0");
-  this->timeLabel1 = gtk_label_new("120");
+  Gtk::timeLabel1 = gtk_label_new("10");
   this->timeLabel2 = gtk_label_new("120");
 
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -130,6 +131,8 @@ void Gtk::setLabel(GtkWidget * button, string c)
 void Gtk::run()
 {
   gtk_widget_show_all (this->window);
+  this->clockWorking = FALSE;
+  clockStart();
   gtk_main();
 }
 
@@ -235,3 +238,31 @@ void Gtk::changeActPoints(int which, int actualPoints)
     }
 }
 
+
+guint Gtk::clockCall(gpointer data)
+{
+  // Gtk::seconds--;
+  // char buffer[10];
+  // sprintf(buffer, "%d", Gtk::seconds);
+  // gtk_label_set(GTK_LABEL(Gtk::timeLabel1), buffer);
+}
+
+
+void Gtk::clockStart()
+{
+  // if(!clockWorking)
+  //   {
+  //     Gtk::seconds = 11;
+  //     //   Gtk::clock = g_timeout_add((guint)1000, clockCall);
+  //     clockWorking = TRUE;
+  //   }
+}
+
+void Gtk::clockEnd()
+{
+  // if(clockWorking)
+  //   {
+  //     gtk_timeout_remove(Gtk::clock);
+  //     clockWorking = FALSE;
+  //   }
+}
