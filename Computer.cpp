@@ -283,5 +283,3 @@ void Computer::findWord(string line, string comp_letters)
   distances.clear();
 }
 
-
-

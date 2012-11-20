@@ -255,19 +255,7 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 		  if (begin != end) //jesli wyraz jest co najmniej 2lierowy
 		    {
 		      for(int p = begin; p<=end; p++) //znajdz go
-			{
-			  if (this->matrix[i][p]->getCharacter().getChar() != "_")
 			    word+=this->matrix[i][p]->getCharacter().getChar();
-			  else
-			    {
-			      this->graphic->chooseLetter("litery");   //jesli któraś z liter to blank, każ userowi wybrać jej znaczenie
-			      // while (gtk_events_pending())
-			      // 	gtk_main_iteration();
-			      // sleep(4.5);
-			      // while(Gtk::chooseWin);
-			      this->disableMap();
-			    }
-			}
 		      words->push_back(word); //wrzuc na listę
 		      word.clear();//i wyczyść
 		      this->countPoints(1, begin, end, i); //podlicz punkty
@@ -333,7 +321,7 @@ void Map::clearModAndBonus() //usuń modyfikacje i dostępne bonusy
 	}
 }
 
-list <Character> Map::getAllInsertions()//pobierz wszystki modyfikacje
+list <Character> Map::getAllInsertions(bool check)//pobierz wszystki modyfikacje
 {
   list <Character> insertions;
 
@@ -341,10 +329,23 @@ list <Character> Map::getAllInsertions()//pobierz wszystki modyfikacje
     for(int j = 0; j < this->width; j++)
       {
 	if (this->modified[i][j])
-	  insertions.push_back(this->matrix[i][j]->getCharacter());
+	  {
+	    switch(check)
+	      {
+	      case false:
+		insertions.push_back(this->matrix[i][j]->getCharacter());
+		break;
+	      case true:
+		insertions.push_back(this->matrix[i][j]->getCharacter());
+		if(this->matrix[i][j]->getCharacter().getChar() == "_")	  
+		  {
+		    insertions.push_back(this->matrix[i][j]->getCharacter());
+		    this->graphic->chooseLetter("litery", this->matrix[i][j]);
+		  }
+	      }
+	  }
       }
-
-  return insertions;
+	return insertions;
 }
 
 void Map::countPoints(int option, int begin, int end, int x)

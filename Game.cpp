@@ -33,12 +33,16 @@ void Game::process()
 
   if (Gtk::tmp_char.getChar() == "") //jeśli w pamięci nie ma żadnej litery
     {
-      insertions = this->map->getAllInsertions();  //to pobierz wszystkie wstawione litery, utworz z nich listę
-
+      
       if (this->map->checkMove(opt)) //jeśli poprawny ruch
 	{
 	  g_print("poprawny ruch\n");
-	  this->map->findWords(&wordsToCheck, opt); //to znajdz wyrazy
+	  
+	  insertions = this->map->getAllInsertions(true);  //to pobierz wszystkie wstawione litery,sprawdz czy nie ma blanka,  utworz z nich listę
+	  while(gtk_events_pending())
+	    gtk_main_iteration();
+	  sleep(10);	  
+	  this->map->findWords(&wordsToCheck, opt); //znajdz wyrazy
 
 	  for(iter = wordsToCheck.begin();iter!=wordsToCheck.end();iter++) //sprawdz je w słowniku
 	    {
@@ -72,9 +76,11 @@ void Game::process()
 	      static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);  //to "zawróc" litery
 	      this->map->clearFields(); //usun je z planszy
 	    }
+	  insertions.clear(); //wyczysc listę
 	}
       else
 	{
+	  insertions = this->map->getAllInsertions(false);  //to pobierz wszystkie wstawione litery, nie sprawdzaj czy jest blank, bo to niekonieczne,  utworz z nich listę
 	  dialogMessage = this->graphic->createDialogMessage("BŁEDNY", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
 	  while (gtk_events_pending())
 	    gtk_main_iteration();
@@ -82,9 +88,11 @@ void Game::process()
 	  gtk_widget_destroy(dialogMessage);
 	  static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
 	  this->map->clearFields();
+
+	  insertions.clear(); //wyczysc listę
 	}
 
-      insertions.clear(); //wyczysc listę
+     
 
       this->map->disableMap();	      //zdezaktywuj mape
       static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
@@ -115,7 +123,7 @@ void Game::process()
 void Game::omitMove()
 {
   list <Character> insertions;
-  insertions = this->map->getAllInsertions();
+  insertions = this->map->getAllInsertions(false);
 
   static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
   this->map->clearFields();

@@ -8,7 +8,9 @@
 #include "Character.h"
 #include <ctime>
 
+#define DEF_SEC 20
 class Game;
+class Field;
 
 class Gtk
 {
@@ -54,13 +56,15 @@ class Gtk
   void setLabel(GtkWidget *, std::string);
   void run();
   void changeSensitivity(GtkWidget *, gboolean);
-  void chooseLetter(std::string filename);
+  void chooseLetter(std::string filename, Field*);
   static void letterChosen(GtkWidget *, gpointer);
+  static void dispose(GtkWidget *, gpointer);
   GtkWidget *createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
   static void clockStart(int);
   static void clockEnd();
   static guint clockCallHuman(gpointer);
   static guint clockCallComp(gpointer);  //  ~Gtk();
+
 };
 
 #endif

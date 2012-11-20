@@ -2,6 +2,7 @@
 
 using namespace std;
 
+
 Character Gtk::tmp_char = Character();
 Character Gtk::chosenChar = Character();
 GtkWidget *Gtk::actual_letter;
@@ -38,7 +39,7 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   gtk_widget_set_size_request(frame, 300, 600);
 
   GtkWidget *tableInFrame = this->createTable(6,4);
-  GtkWidget *vboxInFrame = gtk_vbox_new(FALSE, 10);
+  GtkWidget *vboxInFrame = gtk_vbox_new(FALSE, 70);
   this->backButton = this->createButton("Cofnij", 60,100);
   
   this->putField(0, 0, tableInFrame, this->nameLabel1);
@@ -48,8 +49,8 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   this->putField(4, 0, tableInFrame, this->timeLabel1);
   this->putField(4, 2, tableInFrame, this->timeLabel2);
   
-  gtk_box_pack_start(GTK_BOX(vboxInFrame), tableInFrame, FALSE, TRUE, 5);
-  gtk_box_pack_start(GTK_BOX(vboxInFrame), this->backButton, FALSE, TRUE, 5);
+  gtk_box_pack_start(GTK_BOX(vboxInFrame), tableInFrame, FALSE, FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(vboxInFrame), this->backButton, FALSE, FALSE, 15);
   gtk_container_border_width(GTK_CONTAINER(frame), 30);
   gtk_container_add(GTK_CONTAINER(frame), vboxInFrame);
   
@@ -177,42 +178,48 @@ gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
   exit(0); //potem trzeba przerobic na lagodniejsze
 }
 
-void Gtk::chooseLetter(string filename)
+void Gtk::chooseLetter(string filename, Field *f)
 {
-  chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-  int unimp;
-
-  gtk_window_set_title (GTK_WINDOW(chooseWin), "Wybierz literę");
-  gtk_window_set_position (GTK_WINDOW(chooseWin), GTK_WIN_POS_CENTER);
-  gtk_widget_set_size_request(chooseWin,370,170);
-  gtk_window_set_resizable(GTK_WINDOW(chooseWin), FALSE);
-
-  GtkWidget *table = this->createTable(4,8);
-  gtk_container_border_width(GTK_CONTAINER(chooseWin), 5);
-  gtk_container_add(GTK_CONTAINER(chooseWin), table);
-
-  ifstream file(filename.c_str(), ifstream::in);
-
-
-  if (file.is_open())
+  if (!chooseWin)
     {
-      for(int i = 0; i < 4; i++)
-	for(int j = 0 ; j < 8; j++)
-	  {
-	    string letter;
-	    int val;
-	    file>>letter>>unimp>>val;
-	    GtkWidget * button = this->createButton((char*)letter.c_str(), 38, 38);
-	    this->changeColor(button, val);
-	    this->putField(i, j, table, button);
-	    g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), NULL);
-	  }
+     chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+      int unimp;
+
+      gtk_window_set_title (GTK_WINDOW(chooseWin), "Wybierz literę");
+      gtk_window_set_position (GTK_WINDOW(chooseWin), GTK_WIN_POS_CENTER);
+      gtk_widget_set_size_request(chooseWin,370,170);
+      gtk_window_set_resizable(GTK_WINDOW(chooseWin), FALSE);
+
+      GtkWidget *table = this->createTable(4,8);
+      gtk_container_border_width(GTK_CONTAINER(chooseWin), 5);
+      gtk_container_add(GTK_CONTAINER(chooseWin), table);
+
+      ifstream file(filename.c_str(), ifstream::in);
+
+
+      if (file.is_open())
+	{
+	  for(int i = 0; i < 4; i++)
+	    for(int j = 0 ; j < 8; j++)
+	      {
+		string letter;
+		int val;
+		file>>letter>>unimp>>val;
+		GtkWidget * button = this->createButton((char*)letter.c_str(), 38, 38);
+		this->changeColor(button, val);
+		this->putField(i, j, table, button);
+		g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), NULL);
+	      }
+	}
+
+      file.close();
+      gtk_widget_show_all(chooseWin);
     }
-
-  file.close();
-  gtk_widget_show_all(chooseWin);
-
+  else 
+    {
+      gtk_widget_show(chooseWin);
+    }
 }
 
 void Gtk::letterChosen(GtkWidget * widget, gpointer data)
@@ -220,7 +227,13 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)
   string l;
   l = gtk_button_get_label(GTK_BUTTON(widget));
   g_print("chosen: %s\n", (char*)l.c_str());
-  gtk_widget_destroy(chooseWin);
+  //  g_object_unref(chooseWin);
+ gtk_widget_hide(chooseWin);
+}
+
+void Gtk::dispose(GtkWidget *widget, gpointer data)
+{
+  gtk_widget_destroy(widget);
 }
 
 GtkWidget * Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags flag, GtkButtonsType butType)
@@ -288,7 +301,7 @@ void Gtk::clockStart(int which)
 {
   if(!Gtk::clockWorking)
     {
-      Gtk::seconds = 11;
+      Gtk::seconds = DEF_SEC;
       switch(which)
 	{
 	case 1:
