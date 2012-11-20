@@ -153,7 +153,7 @@ void Gtk::run()
 
 void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)
 {
-  Gtk::game->process();
+  Gtk::game->checkifProcess();
 }
 
 void Gtk::buttonGupClicked(GtkWidget *widget, gpointer data)
@@ -209,7 +209,7 @@ void Gtk::chooseLetter(string filename, Field *f)
 		GtkWidget * button = this->createButton((char*)letter.c_str(), 38, 38);
 		this->changeColor(button, val);
 		this->putField(i, j, table, button);
-		g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), NULL);
+		g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), (gpointer)f);
 	      }
 	}
 
@@ -227,8 +227,18 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)
   string l;
   l = gtk_button_get_label(GTK_BUTTON(widget));
   g_print("chosen: %s\n", (char*)l.c_str());
-  //  g_object_unref(chooseWin);
- gtk_widget_hide(chooseWin);
+  
+  gtk_widget_hide(chooseWin);  
+  
+  Character x(l,0);
+  Field * field = static_cast<Field*>(data);
+  field->insert(x);
+  field->changeButton();
+
+
+  game->process();
+
+
 }
 
 void Gtk::dispose(GtkWidget *widget, gpointer data)

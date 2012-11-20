@@ -54,7 +54,7 @@ class Map {
   void disableMap();
   void enableMap();
   //----Usuwanie liter--------
-  std::list <Character> getAllInsertions(bool);
+  bool getAllInsertions(bool, std::list <Character> &);
 
 };
 

@@ -321,9 +321,10 @@ void Map::clearModAndBonus() //usuń modyfikacje i dostępne bonusy
 	}
 }
 
-list <Character> Map::getAllInsertions(bool check)//pobierz wszystki modyfikacje
+bool Map::getAllInsertions(bool check, list <Character> &insertions)//pobierz wszystki modyfikacje
 {
-  list <Character> insertions;
+  //  list <Character> insertions;
+  bool isBlank = false;
 
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)
@@ -339,13 +340,13 @@ list <Character> Map::getAllInsertions(bool check)//pobierz wszystki modyfikacje
 		insertions.push_back(this->matrix[i][j]->getCharacter());
 		if(this->matrix[i][j]->getCharacter().getChar() == "_")	  
 		  {
-		    insertions.push_back(this->matrix[i][j]->getCharacter());
+		    isBlank = true;
 		    this->graphic->chooseLetter("litery", this->matrix[i][j]);
 		  }
 	      }
 	  }
-      }
-	return insertions;
+	}
+  return isBlank;
 }
 
 void Map::countPoints(int option, int begin, int end, int x)

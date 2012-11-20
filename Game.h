@@ -23,12 +23,16 @@ class Game {
   int playerNumber;
   Player *players_tab[2];
   Dictionary* dictionary;
-  // Operations
+ 
+  std::list <Character> insertions;
+  int option;
+ // Operations
  public:
   Game (int argc, char *argv[],std::string filename_matrix, std::string filename_sack, std::string filename_dict);
   //~Game ();
   void  run ();
   void process();
+  void checkifProcess();
   void omitMove();
   void automaticMove();
 };
