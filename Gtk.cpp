@@ -112,13 +112,13 @@ void Gtk::changeColor(GtkWidget *widget, int colour_number)
       colour = (char*)"white";
       break;
     case 1:
-      colour = (char*)"yellow";
+      colour = (char*)"#ffff33";
       break;
     case 2:
-      colour = (char*)"green";
+      colour = (char*)"#99ff99";
       break;
     case 3:
-      colour = (char*)"royalblue";
+      colour = (char*)"#6699cc";
       break;
     case 5:
       colour =(char*)"red";

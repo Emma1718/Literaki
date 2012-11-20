@@ -8,7 +8,7 @@
 #include "Character.h"
 #include <ctime>
 
-#define DEF_SEC 20
+#define DEF_SEC 120
 class Game;
 class Field;
 
