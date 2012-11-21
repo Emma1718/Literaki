@@ -15,22 +15,17 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
 
 void Game::run()
 {
-
   this->graphic->run();
-
 }
 
 void Game::process()
 {
-  //int opt;
   bool foundAll = false;
   GtkWidget *dialogMessage;
 
   list <string> wordsToCheck;
-  // list <Character> insertions;
 
   list <string>::iterator iter;
-  //list <Character>::iterator it;
   
   this->map->findWords(&wordsToCheck, this->option); //znajdz wyrazy
 
@@ -69,27 +64,26 @@ void Game::process()
   this->insertions.clear(); //wyczysc listę
           
 
-      this->map->disableMap();	      //zdezaktywuj mape
-      static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
+  this->map->disableMap();	      //zdezaktywuj mape
+  static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
 
-      while (gtk_events_pending())
-	gtk_main_iteration();
-      sleep(1.5);
+  while (gtk_events_pending())
+    gtk_main_iteration();
+  sleep(1.5);
       
-      Gtk::clockEnd();
-      Gtk::clockStart(2);
-      Map::tmp_sum = 0; //wyzeruj tymczasową sumę punktów
+  Gtk::clockEnd();
+  //Gtk::clockStart(2);
+  Map::tmp_sum = 0; //wyzeruj tymczasową sumę punktów
 
-      this->playerNumber++; //inkrementuj nr zawodnika
-      if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
-      this->automaticMove(); //przjdz to automatycznego ruchu
+  this->playerNumber++; //inkrementuj nr zawodnika
+  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
+  this->automaticMove(); //przjdz to automatycznego ruchu
 }
 
 
 
 void Game::omitMove()
 {
-  //list <Character> insertions;
   this->map->getAllInsertions(false, this->insertions);
 
   static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
@@ -105,7 +99,7 @@ void Game::omitMove()
   sleep(1.5);
   
   Gtk::clockEnd();
-  Gtk::clockStart(2);
+  //Gtk::clockStart(2);
   
   this->playerNumber++;
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
@@ -116,13 +110,15 @@ void Game::automaticMove()
 {
   if (this->playerNumber > 0)
     {
+      Gtk::clockStart(2);  
       g_print("Automatic!\n");
-    }  
+      static_cast<Computer*>(this->players_tab[playerNumber])->findWord();
+	
+    }
 
 this->playerNumber++;
 
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
-
   if (this->playerNumber != 0)
     this->automaticMove();
 
@@ -162,6 +158,21 @@ void Game::checkifProcess()
 	  this->map->clearFields();
 
 	  this->insertions.clear(); //wyczysc listę
+
+	  this->map->disableMap();	      //zdezaktywuj mape
+	  static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
+
+	  while (gtk_events_pending())
+	    gtk_main_iteration();
+	  sleep(1.5);
+      
+	  Gtk::clockEnd();
+	  //Gtk::clockStart(2);
+
+	  this->playerNumber++; //inkrementuj nr zawodnika
+	  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczby zawodników, ustaw na 0
+	  this->automaticMove(); //przjdz to automatycznego ruchu
+
 	}
     }
   else //jesli jest w pamięci litera
@@ -172,4 +183,19 @@ void Game::checkifProcess()
       sleep(1.5);
       gtk_widget_destroy(dialogMessage);
     }
+}
+
+Game::~Game()
+{
+  
+  for(int i = 0; i < this->playerNumber; i++)
+    delete this->players_tab[i];
+
+  this->insertions.clear();
+  delete this->dictionary;
+  delete this->sack;
+  delete this->map; 
+  delete this->graphic;
+
+  exit(0);
 }

@@ -50,3 +50,8 @@ int Player::showActPoints()
 {
   return this->points;
 }
+
+Player::~Player()
+{
+  //
+}

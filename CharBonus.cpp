@@ -35,3 +35,9 @@ void CharBonus::looseBonus()
 {
   this->multiplier = 1;
 }
+
+CharBonus::~CharBonus()
+{
+  //  delete this->parent;
+  //  delete this->graphic;
+}

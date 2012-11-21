@@ -39,3 +39,10 @@ void Human::enableHumanBox()
 {
   this->humanbox->enableHumanChars();
 }
+
+Human::~Human()
+{
+  delete this->humanbox;
+  delete this->map;
+  delete this->sack;
+}

@@ -27,9 +27,3 @@ bool Dictionary::checkWord(string word )
     return true;
 }
 
-void Dictionary::ShowD()
-{
-  set <string>::iterator it;
-  for(it=this->words.begin();it!=this->words.end();it++)
-    cout<<(*it)<<endl;
-}

@@ -86,3 +86,13 @@ void HumanBox::addLetters(list <Character> letters, int amount)
 	}
     }
 }
+
+
+HumanBox::~HumanBox()
+{ 
+  for(int i = 0; i < this->length; i++)
+    delete this->lettersBox[i];
+  delete this->lettersBox;
+
+  delete this->graphic;
+}

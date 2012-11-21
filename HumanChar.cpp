@@ -1,4 +1,4 @@
-#include "HumanBox.h"
+ #include "HumanBox.h"
 
 
 HumanChar::HumanChar(Gtk * graphic, HumanBox* hb)
@@ -94,4 +94,10 @@ void HumanChar::drawLetter()
 {
   this->graphic->changeColor(this->button, this->letter.getValue());
   this->graphic->setLabel(this->button, this->letter.getChar());
+}
+
+HumanChar::~HumanChar()
+{
+  delete this->parent;
+  delete this->graphic; 
 }

@@ -41,3 +41,9 @@ void WordBonus::looseBonus()
 {
   this->multiplier = 1;
 }
+
+WordBonus::~WordBonus()
+{
+  //  delete this->parent;
+  //  delete this->graphic;
+}

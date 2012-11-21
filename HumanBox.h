@@ -15,6 +15,7 @@ class HumanBox{
   int length;
  public:
   HumanBox(int, std::list <Character>, Gtk*);
+  ~HumanBox();
   void draw();
   void loadLetters(std::list <Character> );
   bool Check_if_clicked(Character &);

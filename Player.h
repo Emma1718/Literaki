@@ -28,5 +28,6 @@ public:
   virtual void addLetters(int); 
   void addPoints(int);
   int showActPoints();
+  virtual ~Player();
 };
 #endif 

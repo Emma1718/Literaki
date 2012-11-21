@@ -4,7 +4,6 @@
 #include "Player.h"
 
 #include <list>
-
 /// class Computer - 
 class Computer : public Player {
 
@@ -20,8 +19,12 @@ class Computer : public Player {
   std::string nth_letter(int n, std::string word);
   bool without(std::string &word, std::string letter);
 
-  void find(std::string letters, std::list<int> distances, std::string comp_letters);
-  void findWord(std::string line, std::string letters);
+  void find(int RowOrCol, int nr, std::string letters, std::list<int> distances);
+  void findWord();
+
+  void findInLine(int RowOrCol, int nr, std::string &letters, std::list<int> &distances);
+
+  std::list <Character> copy_list();
 
 };
 

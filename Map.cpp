@@ -400,3 +400,77 @@ void Map::setField(int x, int y, Character c)
 {
   //  this->graphic->setLabel(this->matrix[3][5]->button, "B");
 }
+
+void Map::getLine(char RowOrCol, int i, string &letters, list<int> &distances)
+{
+  letters="";
+  int empty=0;
+
+  if(RowOrCol=='r')
+    {
+      for(int j=0; j<this->width; ++j)
+	{
+	  if(this->matrix[i][j]->getCharacter().getChar()=="")
+	    ++empty;
+	  else
+	    {
+	      distances.push_back(empty);
+	      empty=0;
+	      letters=letters+this->matrix[i][j]->getCharacter().getChar();
+	    }
+	}
+    }
+  else //if(RowOrCol=='c')
+    {
+      for(int j=0; j<this->height; ++j)
+	{
+	  if(this->matrix[j][i]->getCharacter().getChar()=="")
+	    ++empty;
+	  else
+	    {
+	      distances.push_back(empty);
+	      empty=0;
+	      letters=letters+this->matrix[j][i]->getCharacter().getChar();
+	    }
+	}
+    }
+
+  distances.push_back(empty);
+
+  list<int>::iterator iter=distances.begin();
+  (*iter)=(*iter)+1;
+
+  iter=distances.end(); 
+  iter--;
+  (*iter)=(*iter)+1;
+}
+
+int Map::mapWidth()
+{
+  return this->width;
+}
+
+int Map::mapHeight()
+{
+  return this->height;
+}
+
+Map::~Map()
+{
+  for(int i = 0; i < this->height; i++)
+    delete [] this->modified[i];
+  
+  delete this->modified;
+
+  for(int i = 0; i < this-> height; i++)
+    for(int j = 0; j < this->width; j++)
+      delete this->matrix[i][j];
+
+  for(int i = 0; i < this->height; i++)
+    delete [] this->matrix[i];
+    
+   delete this->matrix;
+
+
+}
+

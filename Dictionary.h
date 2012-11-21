@@ -15,7 +15,6 @@ public:
   std::set <std::string> words;
   Dictionary(std::string filename_dict);
   bool checkWord(std::string word);
-  void ShowD();
 };
 
 #endif

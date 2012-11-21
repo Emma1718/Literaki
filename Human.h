@@ -16,7 +16,7 @@ class Human : public Player {
  public :
 
   Human(std::string, int, Gtk *, Sack *, Map *);
-  //~Human();  
+  ~Human();  
   //  static void HumanChar_ButtonClicked(Gtk*, gpointer);
 
  void disableHumanBox();

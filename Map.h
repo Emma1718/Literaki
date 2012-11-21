@@ -28,7 +28,7 @@ class Map {
   static int tmp_sum;
 
   Map (Gtk * ,std::string);
-  //~Map ();
+  ~Map ();
   void setField (int x, int y, Character c);
   void clearFields ();
   //-----------Rysowanie-------
@@ -56,6 +56,9 @@ class Map {
   //----Usuwanie liter--------
   bool getAllInsertions(bool, std::list <Character> &);
 
+  int mapWidth();
+  int mapHeight();
+  void getLine(char RowOrCol, int i, std::string &letters, std::list<int> &distances);
 };
 
 #endif

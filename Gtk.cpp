@@ -4,11 +4,10 @@ using namespace std;
 
 
 Character Gtk::tmp_char = Character();
-Character Gtk::chosenChar = Character();
 GtkWidget *Gtk::actual_letter;
 Game *Gtk::game;
 GtkWidget *Gtk::chooseWin;
-
+/*----Mierzenie czasu */
 GtkWidget *Gtk::timeLabel1;
 GtkWidget *Gtk::timeLabel2;
 int Gtk::seconds;
@@ -20,27 +19,29 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
 {
   gtk_init(&argc, &argv); //inicjacja biblioteki GTK
   /*Pola*/
-  Gtk::game = parent;
-  Gtk::actual_letter = this->createButton((char*)"", 38, 38);
+  Gtk::game = parent; //wskazznik na gre/rodzica
+  Gtk::actual_letter = this->createButton((char*)"", 38, 38); //przycisk z aktualną literą
+  /*-----Etykiety z nazwami, czasem i punktami-----*/
   this->nameLabel1 = gtk_label_new("Gracz");
   this->nameLabel2 = gtk_label_new("Komputer");
   this->pointsLabel1 = gtk_label_new("0");
   this->pointsLabel2 = gtk_label_new("0");
   Gtk::timeLabel1 = gtk_label_new("");
-  this->timeLabel2 = gtk_label_new("120");
+  Gtk::timeLabel2 = gtk_label_new("120");
 
+  /*---Twprzenie okna głównego i boxów-----*/
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   this->hbox = gtk_hbox_new(FALSE,0);
   this->vbox = gtk_vbox_new(FALSE, 10);
-
-
+  /*--------------------------------------*/
+  /*-----Ramka obok planszy---------*/
   GtkWidget *frame;
   frame = gtk_frame_new("");
   gtk_widget_set_size_request(frame, 300, 600);
 
   GtkWidget *tableInFrame = this->createTable(6,4);
   GtkWidget *vboxInFrame = gtk_vbox_new(FALSE, 70);
-  this->backButton = this->createButton("Cofnij", 60,100);
+  this->backButton = this->createButton((char*)"Cofnij", 60,100);
   
   this->putField(0, 0, tableInFrame, this->nameLabel1);
   this->putField(0, 2, tableInFrame, this->nameLabel2);
@@ -53,7 +54,7 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   gtk_box_pack_start(GTK_BOX(vboxInFrame), this->backButton, FALSE, FALSE, 15);
   gtk_container_border_width(GTK_CONTAINER(frame), 30);
   gtk_container_add(GTK_CONTAINER(frame), vboxInFrame);
-  
+  /*---------------------------------------------*/
 
   /*Tworzenie okna*/
   gtk_window_set_title (GTK_WINDOW(this->window), "LiTeRaKi");
@@ -65,17 +66,17 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   gtk_container_add(GTK_CONTAINER(this->window), this->hbox);
   gtk_box_pack_start(GTK_BOX(this->hbox), this->vbox, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(this->hbox), frame, TRUE, TRUE, 0);
-
+  /*sygnał zamnięcia okna*/
   g_signal_connect (window, "delete-event", G_CALLBACK (deleteEvent), NULL);
 }
 
-GtkWidget * Gtk::createTable(int width, int height)
-{
+GtkWidget * Gtk::createTable(int width, int height) //tworzy tabele o podanym rozmiarze
+ {
   GtkWidget *board = gtk_table_new(height, width, TRUE);
   return board;
 }
 
-GtkWidget * Gtk::createButton(char *label, int height, int width)
+GtkWidget * Gtk::createButton(char *label, int height, int width) //tworzy przycisk o podanym rozmiarze i etykiecie
 {
   GtkWidget *button;
 
@@ -85,13 +86,13 @@ GtkWidget * Gtk::createButton(char *label, int height, int width)
   return button;
 }
 
-void Gtk::mapIntoWindow(GtkWidget *board)
+void Gtk::mapIntoWindow(GtkWidget *board)  //wrzuca planszę do okna
 {
 
   gtk_box_pack_start(GTK_BOX(this->vbox), board, TRUE, TRUE, 0);
 
 }
-void Gtk::humanboxIntoWindow(GtkWidget *board, GtkWidget *button, GtkWidget *button2)
+void Gtk::humanboxIntoWindow(GtkWidget *board, GtkWidget *button, GtkWidget *button2)  //wrzuca wizualizacje liter gracza do okna 
 {
   GtkWidget *hbox;
   hbox = gtk_hbox_new(FALSE, 0);
@@ -102,7 +103,7 @@ void Gtk::humanboxIntoWindow(GtkWidget *board, GtkWidget *button, GtkWidget *but
   gtk_box_pack_start(GTK_BOX(hbox), Gtk::actual_letter, TRUE, TRUE, 0);
 }
 
-void Gtk::changeColor(GtkWidget *widget, int colour_number)
+void Gtk::changeColor(GtkWidget *widget, int colour_number)   //zmienia kolor widżetu (najczęsciej przycisku), zgodnie z podanym numerem
 {
   GdkColor color;
   char * colour;
@@ -133,40 +134,40 @@ void Gtk::changeColor(GtkWidget *widget, int colour_number)
   gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &color);
 }
 
-void Gtk::putField(int x, int y, GtkWidget *board, GtkWidget *widget)
+void Gtk::putField(int x, int y, GtkWidget *board, GtkWidget *widget)  //wstawia pole w odpowiedznie miejsce na planszy
 {
   gtk_table_attach(GTK_TABLE(board), widget, y, y+1, x, x+1, GTK_FILL, GTK_FILL, 0, 0);
 }
 
-void Gtk::setLabel(GtkWidget * button, string c)
+void Gtk::setLabel(GtkWidget * button, string c) //ustawia podaną etykietę na przycisku
 {
   gtk_button_set_label(GTK_BUTTON(button), (char*)c.c_str());
 }
 
-void Gtk::run()
+void Gtk::run()  //uruchamia grafikę
 {
   gtk_widget_show_all (this->window);
   Gtk::clockWorking = FALSE;
-  Gtk::clockStart(1);
+  Gtk::clockStart(1); //start zegara
   gtk_main();
 }
 
-void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)
+void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)  //zdarzenie: kliknięcie na OK
 {
-  Gtk::game->checkifProcess();
+  Gtk::game->checkifProcess(); //wywołanie funkcji gry
 }
 
-void Gtk::buttonGupClicked(GtkWidget *widget, gpointer data)
+void Gtk::buttonGupClicked(GtkWidget *widget, gpointer data) //zdarzenie: kliknięcie na PAS
 {
   Gtk::game->omitMove();
 }
 
-void Gtk::changeSensitivity(GtkWidget * button, gboolean x)
+void Gtk::changeSensitivity(GtkWidget * button, gboolean x) //zmiana aktywności widżetu
 {
   gtk_widget_set_sensitive(button, x);
 }
 
-void Gtk::changeActLetter(int color, string letter)
+void Gtk::changeActLetter(int color, string letter) //zmiana aktualnie wybranej litery
 {
   this->changeColor(Gtk::actual_letter, color);
   this->setLabel(Gtk::actual_letter, letter);
@@ -175,30 +176,29 @@ void Gtk::changeActLetter(int color, string letter)
 gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
 {
   gtk_main_quit();
-  exit(0); //potem trzeba przerobic na lagodniejsze
+  //exit(0); //potem trzeba przerobic na lagodniejsze
 }
 
-void Gtk::chooseLetter(string filename, Field *f)
+void Gtk::chooseLetter(string filename, Field *f)  //wyświetlenie okna z literami do wyboru w zamian za blanka, podany plik i wskaznik na pole na którym jest blank
 {
   if (!chooseWin)
     {
-     chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
       int unimp;
 
+      chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);  //tworzenie okna
       gtk_window_set_title (GTK_WINDOW(chooseWin), "Wybierz literę");
       gtk_window_set_position (GTK_WINDOW(chooseWin), GTK_WIN_POS_CENTER);
       gtk_widget_set_size_request(chooseWin,370,170);
       gtk_window_set_resizable(GTK_WINDOW(chooseWin), FALSE);
 
-      GtkWidget *table = this->createTable(4,8);
+      GtkWidget *table = this->createTable(4,8);  //tworzenie tabelki
       gtk_container_border_width(GTK_CONTAINER(chooseWin), 5);
       gtk_container_add(GTK_CONTAINER(chooseWin), table);
 
       ifstream file(filename.c_str(), ifstream::in);
 
 
-      if (file.is_open())
+      if (file.is_open()) //wczytywanie liter i kolorów
 	{
 	  for(int i = 0; i < 4; i++)
 	    for(int j = 0 ; j < 8; j++)
@@ -222,8 +222,8 @@ void Gtk::chooseLetter(string filename, Field *f)
     }
 }
 
-void Gtk::letterChosen(GtkWidget * widget, gpointer data)
-{
+void Gtk::letterChosen(GtkWidget * widget, gpointer data)  //funkcja zwrotna kliknięcia/wyboru litery zamiast blanka
+ {
   string l;
   l = gtk_button_get_label(GTK_BUTTON(widget));
   g_print("chosen: %s\n", (char*)l.c_str());
@@ -235,18 +235,10 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)
   field->insert(x);
   field->changeButton();
 
-
   game->process();
-
-
 }
 
-void Gtk::dispose(GtkWidget *widget, gpointer data)
-{
-  gtk_widget_destroy(widget);
-}
-
-GtkWidget * Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags flag, GtkButtonsType butType)
+GtkWidget * Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags flag, GtkButtonsType butType)  //tworzenie informacji o błędzie/zapytaniu usera
 {
   GtkWidget *message;
 
@@ -257,7 +249,7 @@ GtkWidget * Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags fl
   return message;
 }
 
-void Gtk::changeActPoints(int which, int actualPoints)
+void Gtk::changeActPoints(int which, int actualPoints) //ustawienie odpowiedniej ilości punktów na odpowiedniej etykiecie, 1 - gracz, 2 - komputer
 {
   char buffer[10];
 
@@ -275,7 +267,7 @@ void Gtk::changeActPoints(int which, int actualPoints)
 }
 
 
-guint Gtk::clockCallHuman(gpointer data)
+guint Gtk::clockCallHuman(gpointer data)   //wywoływana co 1sek funkcja zwrotna zegara, zmienia czas na etykiecie gracza
 {
   Gtk::seconds--;
 
@@ -286,12 +278,12 @@ guint Gtk::clockCallHuman(gpointer data)
   if (Gtk::seconds == 0)
     {
       Gtk::clockEnd();
-      Gtk::seconds = 11;
+      Gtk::seconds = DEF_SEC;
       Gtk::game->omitMove();
     }
 }
 
-guint Gtk::clockCallComp(gpointer data)
+guint Gtk::clockCallComp(gpointer data)   //wywoływana co 1sek funkcja zwrotna zegara, zmienia czas na etykiecie komputera
 {
   Gtk::seconds--;
 
@@ -302,12 +294,12 @@ guint Gtk::clockCallComp(gpointer data)
   if (Gtk::seconds == 0)
     {
       Gtk::clockEnd();
-      Gtk::seconds = 11;
+      Gtk::seconds = DEF_SEC;
     }
 }
 
 
-void Gtk::clockStart(int which)
+void Gtk::clockStart(int which)  //włączenie zegara, parametr odpowiada za wywołanie właściwego callbacka
 {
   if(!Gtk::clockWorking)
     {
@@ -325,7 +317,7 @@ void Gtk::clockStart(int which)
     }
 }
 
-void Gtk::clockEnd()
+void Gtk::clockEnd()   //zatrzymanie zegara
 {
   if(Gtk::clockWorking)
     {

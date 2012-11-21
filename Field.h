@@ -20,6 +20,7 @@ protected:
 
   Field (Map * , Gtk * , int, int );
   Field ();
+  virtual ~Field();
 
   virtual int calculate (int *word_multiplier);
   virtual GtkWidget *draw(Gtk *graphic);

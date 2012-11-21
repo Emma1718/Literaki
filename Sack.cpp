@@ -74,3 +74,7 @@ void Sack::show()
     cout << (*iter).first << " => " << (*iter).second.getChar() << endl;
 }
 				    
+Sack::~Sack()
+{
+  this->characters.clear();
+}

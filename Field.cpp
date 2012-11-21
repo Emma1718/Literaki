@@ -11,6 +11,11 @@ Field::Field(Map * parent, Gtk * graphic, int x, int y)
   this->parent = parent;
 }
 
+Field::Field()
+{
+  this->c = Character();
+}
+
 int Field::calculate(int * word_multiplier)
 {
   int x = this->c.getValue();
@@ -35,11 +40,6 @@ void Field::clickButton(void * widget, gpointer data)
 {
   Field *f = static_cast<Field*>(data);
   f->buttonClickedEvent();
-}
-
-Field::Field()
-{
-  //
 }
 
 void Field::backToStandart()
@@ -131,4 +131,10 @@ void Field::disableButton()
 void Field::enableButton()
 {
   this->graphic->changeSensitivity(this->button, TRUE);
+}
+
+Field::~Field()
+{
+  //  delete this->parent;
+  //  delete this->graphic;
 }

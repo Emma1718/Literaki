@@ -17,24 +17,25 @@
 /// class Game -
 class Game {
   // Associations
-  Sack* sack;
-  Gtk* graphic;
-  Map* map;
-  int playerNumber;
-  Player *players_tab[2];
-  Dictionary* dictionary;
+  Sack* sack;//wskaźnik na worek
+  Gtk* graphic;//wskaźnik na grafikę
+  Map* map;//wskaźnika na mapę
+  int playerNumber; //liczba graczy
+  Player *players_tab[2]; //tablica graczy
+  Dictionary* dictionary;//wskaźnik na słownik
  
-  std::list <Character> insertions;
-  int option;
+  std::list <Character> insertions; //lista z wszystkimi literami wstawionymi podczas danego ruchu
+  int option; //opcja - czy głowny wyraz znajduje się w kolumnie czy też w wierszu
  // Operations
  public:
-  Game (int argc, char *argv[],std::string filename_matrix, std::string filename_sack, std::string filename_dict);
-  //~Game ();
-  void  run ();
-  void process();
-  void checkifProcess();
-  void omitMove();
-  void automaticMove();
+  Game (int argc, char *argv[],std::string filename_matrix, std::string filename_sack, std::string filename_dict); 
+  ~Game ();
+  void run (); //rozpoczęcie gry
+  void process(); //główna funkcja obsługująca ruch gracza
+  void checkifProcess(); //sprawdzenie czy można szukać wyrazu
+  void omitMove(); //funkcja wywoływana po wciśniećiu PAS
+  void automaticMove(); //wywołanie ruchu automatycznego komputera
+  void dispose(); //zwalnianie pamięci
 };
 
 #endif

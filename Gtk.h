@@ -8,20 +8,19 @@
 #include "Character.h"
 #include <ctime>
 
-#define DEF_SEC 120
+#define DEF_SEC 120  //domyślny czas na ułożenie jednego słowa
+
 class Game;
 class Field;
 
 class Gtk
 {
+  static Game *game; //wskaźnik na grę  
+  /*----Głowne widgety----*/ 
   GtkWidget *window;
-
   GtkWidget *vbox;
   GtkWidget *hbox;
-  
-  static gboolean deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data);
-  static Game *game;
-
+  static GtkWidget *chooseWin;   
   static GtkWidget *actual_letter;
   GtkWidget *nameLabel1;
   GtkWidget *nameLabel2;
@@ -30,20 +29,32 @@ class Gtk
   GtkWidget *backButton;  
   static GtkWidget *timeLabel1;
   static GtkWidget *timeLabel2;
+  
+  /*----Dla zegara-----*/
   static int seconds;
   static bool clockWorking;
   static guint clock;
+  
+  static gboolean deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data);
 
 
- public:
+public:
 
   Gtk(int argc, char * argv[], Game *);
-  static GtkWidget *chooseWin;
-  static Character tmp_char;
-  static Character chosenChar;
+  
+  static Character tmp_char; //tymczasowa litera, która gracz pobrał z planszy/humanboxa
 
+  /*-----funkcje statyczne, wywoływane na skutek zdarzeń-----*/
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
   static void buttonGupClicked(GtkWidget *widget, gpointer data);
+  static void letterChosen(GtkWidget *, gpointer); 
+  static guint clockCallHuman(gpointer);
+  static guint clockCallComp(gpointer); 
+
+
+  static void clockStart(int);
+  static void clockEnd();
+
   void changeActLetter(int, std::string);
   void changeActPoints(int, int);
 
@@ -57,13 +68,8 @@ class Gtk
   void run();
   void changeSensitivity(GtkWidget *, gboolean);
   void chooseLetter(std::string filename, Field*);
-  static void letterChosen(GtkWidget *, gpointer);
-  static void dispose(GtkWidget *, gpointer);
   GtkWidget *createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
-  static void clockStart(int);
-  static void clockEnd();
-  static guint clockCallHuman(gpointer);
-  static guint clockCallComp(gpointer);  //  ~Gtk();
+ //  ~Gtk();
 
 };
 

@@ -19,6 +19,7 @@ class HumanChar{
 
   bool clicked;
   HumanChar(Gtk *, HumanBox *);
+  ~HumanChar();
   GtkWidget * draw();
   static void buttonClicked (GtkWidget *, gpointer);  //  ~HumanChar();
   void buttonClickedEvent(GtkWidget *);
