@@ -10,7 +10,7 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
   this->sack = new Sack(filename_sack);
   this->dictionary = new Dictionary(filename_dict);//wczytanie słów ze słownika
   this->players_tab[0] = new Human("Gracz", 0, this->graphic, this->sack, this->map);
-  this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary, this->map);
+  this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary, this->map, filename_sack);
 }
 
 void Game::run()
@@ -112,7 +112,8 @@ void Game::automaticMove()
     {
       Gtk::clockStart(2);  
       g_print("Automatic!\n");
-      static_cast<Computer*>(this->players_tab[playerNumber])->findWord();
+      if (static_cast<Computer*>(this->players_tab[playerNumber])->findWord())
+	g_print("TA");
 	
     }
 

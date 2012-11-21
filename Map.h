@@ -29,7 +29,7 @@ class Map {
 
   Map (Gtk * ,std::string);
   ~Map ();
-  void setField (int x, int y, Character c);
+  bool setField (int x, int y, Character c);
   void clearFields ();
   //-----------Rysowanie-------
   void draw ();

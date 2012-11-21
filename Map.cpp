@@ -396,9 +396,17 @@ void Map::clearFields()//przywróc pola do stanu początkowego
 }
 
 
-void Map::setField(int x, int y, Character c)
+bool Map::setField(int x, int y, Character c)
 {
   //  this->graphic->setLabel(this->matrix[3][5]->button, "B");
+  if (!checkIfSet(x,y))
+    {
+      this->matrix[x][y]->insert(c);
+      this->matrix[x][y]->changeButton();
+      cout<<"Wstawiam "<<c.getChar()<<"na "<<x<<" "<<y<<endl;
+      return true;
+    }
+  else return false;
 }
 
 void Map::getLine(char RowOrCol, int i, string &letters, list<int> &distances)

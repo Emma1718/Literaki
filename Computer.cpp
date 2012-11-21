@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Computer::Computer(string name, int points, Sack * sack, Dictionary *dict, Map * map)
+Computer::Computer(string name, int points, Sack * sack, Dictionary *dict, Map * map, string filename)
 {
   this->name = name;
   this->points = points;
@@ -10,7 +10,7 @@ Computer::Computer(string name, int points, Sack * sack, Dictionary *dict, Map *
   this->dict = dict;
   this->map = map;
   this->sack->getCharacters(&(this->letters), 7);
-
+  this->loadLettersFromFile(filename);
   //litery komputera
   for (list<Character>::iterator it=this->letters.begin(); it!=this->letters.end(); ++it)
     cout<<(*it).getChar();
@@ -103,8 +103,9 @@ string Computer::nth_letter(int n, string word)
   return false;
   }
 */
-void Computer::find(int RowOrCol, int nr, string letters, list<int> distances)
+bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances)
 {
+  cout<<"Find"<<endl;
   int j=0; 
   string letter="";
   letter=letter+letters[j];
@@ -268,24 +269,78 @@ void Computer::find(int RowOrCol, int nr, string letters, list<int> distances)
 			}
 		      if(ok) 
 			{
-			  
+			  string::iterator strIter;
 			  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			  end=begin+(int)word1.length()-1;
 			  cout<<*iter<<" begin:"<<begin<<" end:"<<end<<" i:"<<nr<<" "<<RowOrCol<<endl;
-			  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			  int i = begin - 1;
+			  bool ins = false;
+			  string ss = *iter; 
+			  string str = "";
+			  Character ch;
+			  for(strIter = ss.begin(); strIter < ss.end(); strIter++)
+			    {
+			      switch(RowOrCol)
+				{
+				case 1: 
+				  str = str + (*strIter);
+				  if ((int)(*strIter)<0) 
+				    {
+				      strIter++;
+				      str = str + (*strIter);
+				    }
+				  cout<<"ins1:"<<(str)<<endl;
+				  ch = this->fromStringToCharacter(str);
+				  if(!ins)
+				    ins = this->map->setField(nr,i,ch); 
+				  else
+				    this->map->setField(nr,i,ch); 
+				  str.clear();
+				  break;
+				case 2:
+				  str = str + (*strIter);
+				  if ((int)(*strIter)<0)
+				    {
+				      strIter++;
+				      str = str + (*strIter);
+				    }
+				  cout<<"ins:"<<(str)<<endl;
+				  ch = this->fromStringToCharacter(str);
+				  if(!ins) 
+				    ins = this->map->setField(i, nr,ch); 
+				  else
+				    this->map->setField(i,nr,ch); 
+				  str.clear();
+				  break;
+				}
+			      i++;
+			    }
+			  if (ins)
+			    {
+			      cout<<"INS!!!"<<endl; //else continue;
+			      // ok = false;
+			      //iter = this->dict->words.end();
+			      return true;//break;
+			    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			}
 		    }
 		}
 	    }
 	}
     }
+  return false;
 }
 
-void Computer::findInLine(int RowOrCol, int nr, string &letters, list<int> &distances)
+bool Computer::findInLine(int RowOrCol, int nr, string &letters, list<int> &distances)
 {
+  bool ins = false;
+cout<<"Find in line"<<endl;
   while(letters.length()>0)
     {
-      this->find(RowOrCol, nr, letters, distances);
+      cout<<"Find in line"<<endl;
+      ins = this->find(RowOrCol, nr, letters, distances);
+	if (ins) return true;
 
       if((int)letters[0]<0)
 	letters=letters.substr(2);
@@ -295,27 +350,32 @@ void Computer::findInLine(int RowOrCol, int nr, string &letters, list<int> &dist
       distances.pop_front();
     }
   distances.clear();
+  return false;
 }
 
 
-void Computer::findWord()
+bool Computer::findWord()
 {
   //tworzymy liste liter i odleglosci pomiedzy nimi
   list<int> distances;
   string letters;
-
+  bool ins = false;
   //dla wszystkich wierszy
+  cout<<"Find Words"<<endl;
   for(int i=0; i<this->map->mapHeight(); ++i)
     {
       this->map->getLine('r',i,letters,distances);
-      this->findInLine(1,i,letters,distances);
+      ins = this->findInLine(1,i,letters,distances);
+	if(ins) return true;
     }
 
   //dla wszystkich kolumn
+  cout<<"Find Words"<<endl;
   for(int i=0; i<this->map->mapWidth(); ++i)
     {
       this->map->getLine('c',i,letters, distances);
-      this->findInLine(2,i,letters,distances);
+      ins = this->findInLine(2,i,letters,distances);
+	if(ins) return true;
     }
   
 }
@@ -351,6 +411,36 @@ list <Character> Computer::copy_list()
   return tmp_letters;
 }
 
+void Computer::loadLettersFromFile(string filename)
+{
+  int unimp;
+  ifstream read_file(filename.c_str(), ifstream::in);
+  
+ while (read_file.good()) //wczytywanie liter i kolorów
+    {
+      string letter;
+      int val;
+      
+      read_file>>letter>>unimp>>val;
+      this->listOfLetters.push_back(Character(letter, val));
+    }
 
+  read_file.close();
 
+  list <Character>::iterator iter;
+  for(iter = listOfLetters.begin(); iter != listOfLetters.end(); iter++)
+    cout<<"litera:"<<(*iter).getChar()<<endl;
+}
+
+Character Computer::fromStringToCharacter(string l)
+{
+  list <Character>::iterator iter;
+  
+  
+  for(iter = listOfLetters.begin(); iter != listOfLetters.end(); iter++)
+    {
+      if(l == (*iter).getChar())
+	return (*iter);
+    }
+}
 

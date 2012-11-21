@@ -7,8 +7,10 @@
 /// class Computer - 
 class Computer : public Player {
 
+  std::list <Character> listOfLetters;
+  void loadLettersFromFile(std::string filename);
  public:
-  Computer(std::string, int,Sack *,  Dictionary *, Map *);
+  Computer(std::string, int,Sack *,  Dictionary *, Map *, std::string);
   //~Computer();
 
   bool empty(std::string line);
@@ -19,13 +21,13 @@ class Computer : public Player {
   std::string nth_letter(int n, std::string word);
   bool without(std::string &word, std::string letter);
 
-  void find(int RowOrCol, int nr, std::string letters, std::list<int> distances);
-  void findWord();
+  bool find(int RowOrCol, int nr, std::string letters, std::list<int> distances);
+  bool findWord();
 
-  void findInLine(int RowOrCol, int nr, std::string &letters, std::list<int> &distances);
+  bool findInLine(int RowOrCol, int nr, std::string &letters, std::list<int> &distances);
 
   std::list <Character> copy_list();
-
+  Character fromStringToCharacter(std::string);
 };
 
 #endif 
