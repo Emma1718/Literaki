@@ -26,7 +26,7 @@ void Game::process()
   list <string> wordsToCheck;
 
   list <string>::iterator iter;
-  
+
   this->map->findWords(&wordsToCheck, this->option); //znajdz wyrazy
 
   for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++) //sprawdz je w słowniku
@@ -42,8 +42,8 @@ void Game::process()
 
   if (foundAll)  //jesli te wyrazy znajdują sie w słowniku
     {
-      this->players_tab[0]->addPoints(Map::tmp_sum); //przekaż punkty graczowi
-      this->graphic->changeActPoints(1, this->players_tab[0]->showActPoints());
+      this->players_tab[0]->addPoints(this->map->tmp_sum); //przekaż punkty graczowi
+      this->graphic->changeActPoints(1, this->players_tab[0]->getActPoints());
       this->players_tab[0]->removeLetters(this->insertions);  //to usun te litery, które zostały wykorzystane
       this->map->clearModAndBonus();                   //usun bonusy i modyfikacje
       this->players_tab[0]->addLetters(this->insertions.size()); //dodaj nowe litery
@@ -62,7 +62,7 @@ void Game::process()
       this->map->clearFields(); //usun je z planszy
     }
   this->insertions.clear(); //wyczysc listę
-          
+
 
   this->map->disableMap();	      //zdezaktywuj mape
   static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
@@ -70,10 +70,10 @@ void Game::process()
   while (gtk_events_pending())
     gtk_main_iteration();
   sleep(1.5);
-      
+
   Gtk::clockEnd();
   //Gtk::clockStart(2);
-  Map::tmp_sum = 0; //wyzeruj tymczasową sumę punktów
+  this->map->tmp_sum = 0; //wyzeruj tymczasową sumę punktów
 
   this->playerNumber++; //inkrementuj nr zawodnika
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
@@ -97,10 +97,10 @@ void Game::omitMove()
   while (gtk_events_pending())
     gtk_main_iteration();
   sleep(1.5);
-  
+
   Gtk::clockEnd();
   //Gtk::clockStart(2);
-  
+
   this->playerNumber++;
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
   this->automaticMove();
@@ -110,19 +110,24 @@ void Game::automaticMove()
 {
   if (this->playerNumber > 0)
     {
-      Gtk::clockStart(2);  
-      g_print("Automatic!\n");
-      if (static_cast<Computer*>(this->players_tab[playerNumber])->findWord())
-	g_print("TA");
-	
-    }
-
-this->playerNumber++;
+      //Gtk::clockStart(2);
+      static_cast<Computer*>(this->players_tab[playerNumber])->findWord();
+      
+      this->map->getAllInsertions(false, this->insertions);
+      this->graphic->changeActPoints(2, this->players_tab[playerNumber]->getActPoints());
+      this->players_tab[playerNumber]->removeLetters(this->insertions);  //to usun te litery, które zostały wykorzystane
+      this->players_tab[playerNumber]->addLetters(this->insertions.size());
+      this->map->clearModAndBonus(); 
+      this->map->tmp_sum = 0;
+      this->insertions.clear();
+ }
+  
+  this->playerNumber++;
 
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
+  
   if (this->playerNumber != 0)
     this->automaticMove();
-
   else
     {
       this->map->enableMap();
@@ -136,13 +141,13 @@ void Game::checkifProcess()
 {
 
   GtkWidget *dialogMessage;
-  
+
   if (Gtk::tmp_char.getChar() == "") //jeśli w pamięci nie ma żadnej litery
     {
       if (this->map->checkMove(this->option)) //jeśli poprawny ruch
 	{
 	  g_print("poprawny ruch\n");
-	  
+
 	  if(!(this->map->getAllInsertions(true, this->insertions)))
 	    this->process();
 	}  //to pobierz wszystkie wstawione litery,sprawdz czy nie ma blanka,  utworz z nich listę
@@ -166,7 +171,7 @@ void Game::checkifProcess()
 	  while (gtk_events_pending())
 	    gtk_main_iteration();
 	  sleep(1.5);
-      
+
 	  Gtk::clockEnd();
 	  //Gtk::clockStart(2);
 
@@ -188,14 +193,14 @@ void Game::checkifProcess()
 
 Game::~Game()
 {
-  
+
   for(int i = 0; i < this->playerNumber; i++)
     delete this->players_tab[i];
 
   this->insertions.clear();
   delete this->dictionary;
   delete this->sack;
-  delete this->map; 
+  delete this->map;
   delete this->graphic;
 
   exit(0);

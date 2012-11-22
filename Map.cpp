@@ -2,8 +2,6 @@
 
 using namespace std;
 
-int Map::tmp_sum = 0;
-
 void Map::loadFromFile(string filename)  //załaduj mapę z pliku
 {
 
@@ -338,7 +336,7 @@ bool Map::getAllInsertions(bool check, list <Character> &insertions)//pobierz ws
 		break;
 	      case true:
 		insertions.push_back(this->matrix[i][j]->getCharacter());
-		if(this->matrix[i][j]->getCharacter().getChar() == "_")	  
+		if(this->matrix[i][j]->getCharacter().getChar() == "_")
 		  {
 		    isBlank = true;
 		    this->graphic->chooseLetter("litery", this->matrix[i][j]);
@@ -352,21 +350,23 @@ bool Map::getAllInsertions(bool check, list <Character> &insertions)//pobierz ws
 void Map::countPoints(int option, int begin, int end, int x)
 {
   int word_multiplier = 1;//ustaw początkowo mnożnik słowa na 0
-
+  cout<<"Count: "<<begin<<" "<<end<<" "<<x<<endl;
   switch(option)
     {
     case 1://jeśli wyraz w wierszu
       for(int j = begin; j <= end; j++)
-	Map::tmp_sum+= this->matrix[x][j]->calculate(&word_multiplier);//policz dla każdej komórki, sprawdz czy nie zmienił sie mnożnik słowa
-      break;
+	this->tmp_sum+= this->matrix[x][j]->calculate(&word_multiplier);//policz dla każdej komórki, sprawdz czy nie zmienił sie mnożnik słowa
+      cout<<"sum_tmp1:"<<tmp_sum<<endl;
+	break;
 
     case 2://jesli w kolumnie
       for(int i = begin; i <= end; i++)
-	Map::tmp_sum+= this->matrix[i][x]->calculate(&word_multiplier);
-      break;
+	this->tmp_sum+= this->matrix[i][x]->calculate(&word_multiplier);
+      cout<<"sum_tmp1:"<<tmp_sum<<endl;
+     break;
     }
-  Map::tmp_sum*=word_multiplier;
-  cout<<"Sumapkt:"<<Map::tmp_sum<<endl;
+  this->tmp_sum*=word_multiplier;
+  cout<<"Sumapkt:"<<this->tmp_sum<<endl;
 }
 
 void Map::disableMap() //dezaktywuj mapę
@@ -449,7 +449,7 @@ void Map::getLine(char RowOrCol, int i, string &letters, list<int> &distances)
   list<int>::iterator iter=distances.begin();
   (*iter)=(*iter)+1;
 
-  iter=distances.end(); 
+  iter=distances.end();
   iter--;
   (*iter)=(*iter)+1;
 }
@@ -468,7 +468,7 @@ Map::~Map()
 {
   for(int i = 0; i < this->height; i++)
     delete [] this->modified[i];
-  
+
   delete this->modified;
 
   for(int i = 0; i < this-> height; i++)
@@ -477,7 +477,7 @@ Map::~Map()
 
   for(int i = 0; i < this->height; i++)
     delete [] this->matrix[i];
-    
+
    delete this->matrix;
 
 

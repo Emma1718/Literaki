@@ -27,7 +27,7 @@ public:
   void removeLetters(std::list <Character>);
   virtual void addLetters(int); 
   void addPoints(int);
-  int showActPoints();
+  int getActPoints();
   virtual ~Player();
 };
 #endif 

@@ -25,7 +25,7 @@ class Map {
 
   // Operations
  public:
-  static int tmp_sum;
+  int tmp_sum;
 
   Map (Gtk * ,std::string);
   ~Map ();

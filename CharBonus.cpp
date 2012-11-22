@@ -29,6 +29,7 @@ void CharBonus::backToStandart()
   // this->graphic->changeColor(this->button, this->which_char);
   // this->graphic->setLabel(this->button, (char*)"");
   this->c.backtoStart();
+  this->changeButton();
 }
 
 void CharBonus::changeButton()
