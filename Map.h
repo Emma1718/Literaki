@@ -31,6 +31,7 @@ class Map {
   ~Map ();
   bool setField (int x, int y, Character c);
   void clearFields ();
+  void drawModFields();
   //-----------Rysowanie-------
   void draw ();
   void putField(int x, int y, GtkWidget *button);

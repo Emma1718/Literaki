@@ -31,6 +31,7 @@ void Player::removeLetters(list <Character> insertions)
 	    break;	
 	  }
       }
+  cout<<"erased:"<<erased<<endl;
 
   while(s != erased)  
     {
@@ -38,7 +39,6 @@ void Player::removeLetters(list <Character> insertions)
 	{
 	  if((*it).getChar() == "_")
 	    {
-	    cout<<"it2:"<<(*it2).getChar()<<"it:"<<(*it).getChar()<<endl;
 	    if(it==this->letters.begin())
 	      {
 		this->letters.pop_front();

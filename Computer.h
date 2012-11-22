@@ -21,10 +21,10 @@ class Computer : public Player {
   std::string nth_letter(int n, std::string word);
   bool without(std::string &word, std::string letter);
 
-  bool find(int RowOrCol, int nr, std::string letters, std::list<int> distances);
+  bool find(int RowOrCol, int nr, std::string letters, std::list<int> distances, int);
   bool findWord();
 
-  bool findInLine(int RowOrCol, int nr, std::string &letters, std::list<int> &distances);
+  bool findInLine(int RowOrCol, int nr, std::string &letters, std::list<int> &distances, int);
 
   std::list <Character> copy_list();
   Character fromStringToCharacter(std::string);

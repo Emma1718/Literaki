@@ -154,7 +154,8 @@ void Gtk::run()  //uruchamia grafikę
 
 void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)  //zdarzenie: kliknięcie na OK
 {
-  Gtk::game->checkifProcess(); //wywołanie funkcji gry
+  if(Gtk::game->getPlNumber() == 0)
+    Gtk::game->checkifProcess(); //wywołanie funkcji gry
 }
 
 void Gtk::buttonGupClicked(GtkWidget *widget, gpointer data) //zdarzenie: kliknięcie na PAS
@@ -181,8 +182,8 @@ gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
 
 void Gtk::chooseLetter(string filename, Field *f)  //wyświetlenie okna z literami do wyboru w zamian za blanka, podany plik i wskaznik na pole na którym jest blank
 {
-  if (!chooseWin)
-    {
+  // if (!chooseWin)
+  //{
       int unimp;
 
       chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);  //tworzenie okna
@@ -215,11 +216,11 @@ void Gtk::chooseLetter(string filename, Field *f)  //wyświetlenie okna z litera
 
       file.close();
       gtk_widget_show_all(chooseWin);
-    }
-  else 
-    {
-      gtk_widget_show(chooseWin);
-    }
+  //   }
+  // else 
+  //   {
+  //     gtk_widget_show(chooseWin);
+  //   }
 }
 
 void Gtk::letterChosen(GtkWidget * widget, gpointer data)  //funkcja zwrotna kliknięcia/wyboru litery zamiast blanka

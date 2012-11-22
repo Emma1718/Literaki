@@ -351,21 +351,24 @@ void Map::countPoints(int option, int begin, int end, int x)
 {
   int word_multiplier = 1;//ustaw początkowo mnożnik słowa na 0
   cout<<"Count: "<<begin<<" "<<end<<" "<<x<<endl;
+  int sum = 0;
+  
   switch(option)
     {
     case 1://jeśli wyraz w wierszu
       for(int j = begin; j <= end; j++)
-	this->tmp_sum+= this->matrix[x][j]->calculate(&word_multiplier);//policz dla każdej komórki, sprawdz czy nie zmienił sie mnożnik słowa
-      cout<<"sum_tmp1:"<<tmp_sum<<endl;
+	sum+= this->matrix[x][j]->calculate(&word_multiplier);//policz dla każdej komórki, sprawdz czy nie zmienił sie mnożnik słowa
+      cout<<"sum_tmp1:"<<sum<<endl;
 	break;
 
     case 2://jesli w kolumnie
       for(int i = begin; i <= end; i++)
-	this->tmp_sum+= this->matrix[i][x]->calculate(&word_multiplier);
-      cout<<"sum_tmp1:"<<tmp_sum<<endl;
+	sum+= this->matrix[i][x]->calculate(&word_multiplier);
+      cout<<"sum_tmp1:"<<sum<<endl;
      break;
     }
-  this->tmp_sum*=word_multiplier;
+  sum*=word_multiplier;
+  this->tmp_sum+=sum;
   cout<<"Sumapkt:"<<this->tmp_sum<<endl;
 }
 
@@ -403,11 +406,21 @@ bool Map::setField(int x, int y, Character c)
     {
       this->matrix[x][y]->insert(c);
       this->modified[x][y] = true;
-      this->matrix[x][y]->changeButton();
+      //this->matrix[x][y]->changeButton();
       cout<<"Wstawiam "<<c.getChar()<<" na "<<x<<" "<<y<<endl;
       return true;
     }
   else return false;
+}
+
+void Map::drawModFields()
+{
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; j < this->width; j++)
+      {
+	if(this->modified[i][j])
+	  this->matrix[i][j]->changeButton();
+      }
 }
 
 void Map::getLine(char RowOrCol, int i, string &letters, list<int> &distances)

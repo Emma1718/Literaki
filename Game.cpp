@@ -205,3 +205,8 @@ Game::~Game()
 
   exit(0);
 }
+
+int Game::getPlNumber()
+{
+  return this->playerNumber;
+}
