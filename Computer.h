@@ -28,6 +28,7 @@ class Computer : public Player {
 
   std::list <Character> copy_list();
   Character fromStringToCharacter(std::string);
+  bool insertWord(std::string, int, int, int);
 };
 
 #endif 

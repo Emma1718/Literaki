@@ -269,60 +269,38 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances)
 			}
 		      if(ok) 
 			{
-			  string::iterator strIter;
-			  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			  end=begin+(int)word1.length()-1;
-			  cout<<*iter<<" begin:"<<begin<<" end:"<<end<<" i:"<<nr<<" "<<RowOrCol<<endl;
-			  int i = begin - 1;
-			  bool ins = false;
-			  string ss = *iter; 
-			  string str = "";
-			  Character ch;
-			  for(strIter = ss.begin(); strIter < ss.end(); strIter++)
-			    {
-			      switch(RowOrCol)
-				{
-				case 1: 
-				  str = str + (*strIter);
-				  if ((int)(*strIter)<0) 
-				    {
-				      strIter++;
-				      str = str + (*strIter);
-				    }
-				  cout<<"ins1:"<<(str)<<endl;
-				  ch = this->fromStringToCharacter(str);
-				  if(!ins)
-				    ins = this->map->setField(nr,i,ch); 
-				  else
-				    this->map->setField(nr,i,ch); 
-				  str.clear();
-				  break;
-				case 2:
-				  str = str + (*strIter);
-				  if ((int)(*strIter)<0)
-				    {
-				      strIter++;
-				      str = str + (*strIter);
-				    }
-				  cout<<"ins:"<<(str)<<endl;
-				  ch = this->fromStringToCharacter(str);
-				  if(!ins) 
-				    ins = this->map->setField(i, nr,ch); 
-				  else
-				    this->map->setField(i,nr,ch); 
-				  str.clear();
-				  break;
-				}
-			      i++;
-			    }
-			  if (ins)
+			  end=begin+(int)word1.length()-1;			  
+			  cout<<*iter<<" begin:"<<begin<<" end:"<<end<<" i:"<<nr<<" "<<RowOrCol<<endl;			  
+			  
+			  if (this->insertWord(*iter, begin, nr, RowOrCol))
 			    {
 			      cout<<"INS!!!"<<endl; //else continue;
-			      // ok = false;
-			      //iter = this->dict->words.end();
-			      return true;//break;
+			      bool foundAll = false;
+			      list <string> wordsToCheck;
+			      list <string>::iterator iter;
+
+			      this->map->findWords(&wordsToCheck, RowOrCol);                                                                                                    
+			      for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++)
+				{
+				  if(this->dict->checkWord((*iter))==true)
+				    foundAll = true;
+				  else
+				    {
+				      foundAll = false;
+				      break;
+				    }
+				}
+			      if (foundAll)                                                                     
+				{
+				  this->addPoints(Map::tmp_sum); 
+				  this->map->clearModAndBonus();                                                                        
+				  return true;
+				}
+			      else 
+				{
+				  this->map->clearFields();
+				}			     
 			    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			}
 		    }
 		}
@@ -335,7 +313,7 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances)
 bool Computer::findInLine(int RowOrCol, int nr, string &letters, list<int> &distances)
 {
   bool ins = false;
-cout<<"Find in line"<<endl;
+
   while(letters.length()>0)
     {
       cout<<"Find in line"<<endl;
@@ -361,7 +339,6 @@ bool Computer::findWord()
   string letters;
   bool ins = false;
   //dla wszystkich wierszy
-  cout<<"Find Words"<<endl;
   for(int i=0; i<this->map->mapHeight(); ++i)
     {
       this->map->getLine('r',i,letters,distances);
@@ -387,26 +364,10 @@ list <Character> Computer::copy_list()
   
   list<Character>::iterator list_iter;
 
-  //  copy( this->letters.begin(), this->letters.end(), tmp_letters.begin() );
-
-
   for (list_iter=this->letters.begin(); list_iter!=this->letters.end(); ++list_iter)
     {
-      //      cout<<"letters:"<<(*list_iter).getChar()<<endl;
       tmp_letters.push_back(*list_iter);
     }
-
-  // for (list_iter=tmp_letters.begin(); list_iter!=tmp_letters.end(); ++list_iter)
-  //   {
-  //     cout<<"copy:"<<(*list_iter).getChar()<<endl;
-  //   }
-  
-  // for (list_iter=this->letters.begin(); list_iter!=this->letters.end(); ++list_iter)
-  //   {
-  //     cout<<"letters:"<<(*list_iter).getChar();
-  //   }
-
-  // cout<<endl;
 
   return tmp_letters;
 }
@@ -426,16 +387,11 @@ void Computer::loadLettersFromFile(string filename)
     }
 
   read_file.close();
-
-  list <Character>::iterator iter;
-  for(iter = listOfLetters.begin(); iter != listOfLetters.end(); iter++)
-    cout<<"litera:"<<(*iter).getChar()<<endl;
 }
 
 Character Computer::fromStringToCharacter(string l)
 {
   list <Character>::iterator iter;
-  
   
   for(iter = listOfLetters.begin(); iter != listOfLetters.end(); iter++)
     {
@@ -444,3 +400,80 @@ Character Computer::fromStringToCharacter(string l)
     }
 }
 
+bool Computer::insertWord(string word, int begin, int nr, int RowOrCol)
+{
+  string::iterator strIter;
+  int i = begin - 1;
+  bool ins = false;
+  string str = "";
+  Character ch;
+
+  for(strIter = word.begin(); strIter < word.end(); strIter++)
+    {
+      switch(RowOrCol)
+	{
+	case 1: 
+	  str = str + (*strIter);
+	  if ((int)(*strIter)<0) 
+	    {
+	      strIter++;
+	      str = str + (*strIter);
+	    }
+	  ch = this->fromStringToCharacter(str);
+	  if(!ins)
+	    ins = this->map->setField(nr,i,ch); 
+	  else
+	    this->map->setField(nr,i,ch); 
+	  str.clear();
+	  break;
+	
+	case 2:
+	  str = str + (*strIter);
+	  if ((int)(*strIter)<0)
+	    {
+	      strIter++;
+	      str = str + (*strIter);
+	    }
+	  ch = this->fromStringToCharacter(str);
+	  if(!ins) 
+	    ins = this->map->setField(i,nr,ch); 
+	  else
+	    this->map->setField(i,nr,ch); 
+	  str.clear();
+	  break;
+	}
+      i++;
+    }
+
+  return ins;
+}
+			  
+// bool foundAll = false;
+// list <string> wordsToCheck;
+// list <string>::iterator iter;
+
+// this->map->findWords(&wordsToCheck, RowOrCol); //znajdz wyrazy                                                                                                    
+
+// for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++) //sprawdz je w słowniku                                                                          
+//   {
+//     if(this->dictionary->checkWord((*iter))==true)
+//       foundAll = true;
+//     else
+//       {
+// 	foundAll = false;
+// 	break;
+//       }
+//   }
+
+// if (foundAll)  //jesli te wyrazy znajdują sie w słowniku                                                                                                              
+//   {
+//     this->addPoints(Map::tmp_sum); //przekaż punkty graczowi                                                                                          
+//     //this->graphic->changeActPoints(1, this->players_tab[0]->showActPoints());
+//     //this->players_tab[0]->removeLetters(this->insertions);  //to usun te litery, które zostały wykorzystane                                                           
+//     this->map->clearModAndBonus();                   //usun bonusy i modyfikacje                                                                                      
+//     //this->players_tab[0]->addLetters(this->insertions.size()); dodaj nowe litery                                                                       
+//     return true;
+//  else //jesli nie                                                                                                                                                      
+//    {
+//      this->map->clearFields();
+//    }

@@ -232,7 +232,7 @@ int Map::goDown(int i, int j) //idz w dół dopoki nie skonczą się litery lub 
   return a-1;
 }
 
-void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż je za pomocą listy, pobierz informację czy zmodyfikowane pola są w wierszu czy kolumnie (opt)
+void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż je za pomocą listy, pobierz informację czy zmodyfikowane pola są w wierszu czy kolumnie (
 {
   bool found1 = false;
   int begin, end;
@@ -402,8 +402,9 @@ bool Map::setField(int x, int y, Character c)
   if (!checkIfSet(x,y))
     {
       this->matrix[x][y]->insert(c);
+      this->modified[x][y] = true;
       this->matrix[x][y]->changeButton();
-      cout<<"Wstawiam "<<c.getChar()<<"na "<<x<<" "<<y<<endl;
+      cout<<"Wstawiam "<<c.getChar()<<" na "<<x<<" "<<y<<endl;
       return true;
     }
   else return false;

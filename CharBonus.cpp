@@ -26,9 +26,23 @@ GtkWidget *CharBonus::draw(Gtk *graphic)
 }
 void CharBonus::backToStandart()
 {
-  this->graphic->changeColor(this->button, this->which_char);
-  this->graphic->setLabel(this->button, (char*)"");
+  // this->graphic->changeColor(this->button, this->which_char);
+  // this->graphic->setLabel(this->button, (char*)"");
   this->c.backtoStart();
+}
+
+void CharBonus::changeButton()
+{
+  if(this->c.getChar() != "")
+    {
+      this->graphic->changeColor(this->button, this->c.getValue());
+      this->graphic->setLabel(this->button, this->c.getChar());
+    }
+  else 
+    {
+      this->graphic->changeColor(this->button, this->which_char);
+      this->graphic->setLabel(this->button, (char*)"");
+    }
 }
 
 void CharBonus::looseBonus()

@@ -29,14 +29,31 @@ GtkWidget *WordBonus::draw(Gtk *graphic)
 
 void WordBonus::backToStandart()
 {
-  char * str = new char[10];
-  int x = this->multiplier;
-  sprintf(str, "%dx", x);
-  this->graphic->setLabel(this->button, str);
-  graphic->changeColor(this->button, 10);
+  // char * str = new char[10];
+  // int x = this->multiplier;
+  // sprintf(str, "%dx", x);
+  // this->graphic->setLabel(this->button, str);
+  // graphic->changeColor(this->button, 10);
   this->c.backtoStart();
+  this->changeButton();
 }
 
+void WordBonus::changeButton()
+{
+  if(this->c.getChar() != "")
+    {
+      this->graphic->changeColor(this->button, this->c.getValue());
+      this->graphic->setLabel(this->button, this->c.getChar());
+    }
+  else 
+    {
+      char * str = new char[10];
+      int x = this->multiplier;
+      sprintf(str, "%dx", x);
+      this->graphic->setLabel(this->button, str);
+      graphic->changeColor(this->button, 10);
+    }
+}
 void WordBonus::looseBonus()
 {
   this->multiplier = 1;

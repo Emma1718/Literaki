@@ -44,9 +44,10 @@ void Field::clickButton(void * widget, gpointer data)
 
 void Field::backToStandart()
 {
-  this->graphic->changeColor(this->button, 0);
-  this->graphic->setLabel(this->button, (char*)"");
   this->c.backtoStart();
+ //  this->graphic->changeColor(this->button, 0);
+//   this->graphic->setLabel(this->button, (char*)"");
+  this->changeButton();
 }
 
 void Field::changeButton()
@@ -96,23 +97,6 @@ void Field::buttonClickedEvent()
     }
 }
 
-  // void Field::Enter(void * widget, gpointer data)
-  // {
-  //   Field * f = static_cast<Field*>(data);
-//   f->ButtonEnterEvent();
-// }
-
-// void Field::ButtonEnterEvent()
-// {
-//   if (Gtk::tmp_char.getChar()!="")
-//     {
-//       this->graphic->setLabel(this->button, (Gtk::tmp_char).getChar());
-//       this->graphic->changeColor(this->button, (Gtk::tmp_char).getValue());
-//     }
-// }
-
-
-
 Character Field::getCharacter()
 {
   return this->c;
@@ -135,6 +119,5 @@ void Field::enableButton()
 
 Field::~Field()
 {
-  //  delete this->parent;
-  //  delete this->graphic;
+  //
 }

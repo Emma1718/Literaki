@@ -14,6 +14,7 @@ public:
   GtkWidget *draw(Gtk *);
   void looseBonus();
   void backToStandart();
+  void changeButton();
 };
 
 #endif
