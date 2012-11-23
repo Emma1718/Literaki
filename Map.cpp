@@ -496,3 +496,27 @@ Map::~Map()
 
 }
 
+Map::Map(const Map & copMap)
+{
+  cout<<"KONSTRUKTOR koop"<<endl;
+  this->height = copMap.height;
+  this->width = copMap.width;
+  
+  this-> matrix=new Field**[this->height];
+  for(int i = 0; i<this->height; i++)
+    matrix[i]=new Field*[this->width];
+
+  for(int i=0;i<this->height;i++)
+    for(int j=0;j<this->width;j++)
+      this->matrix[i][j] = new Field(*copMap.matrix[i][j]);//->insert(copMap.matrix[i][j]->getCharacter());
+}
+
+void Map::readMap()
+{
+ for(int i = 0; i < this->height; i++)
+    {
+      for(int j = 0;j < this->width; j++)
+	cout<<this->matrix[i][j]->getCharacter().getChar();
+      cout<<endl;
+    }
+}

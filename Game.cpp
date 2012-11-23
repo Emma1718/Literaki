@@ -63,6 +63,7 @@ void Game::process()
     }
   this->insertions.clear(); //wyczysc listę
 
+  this->history.push_back(History(this->map));
 
   this->map->disableMap();	      //zdezaktywuj mape
   static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
@@ -78,6 +79,12 @@ void Game::process()
   this->playerNumber++; //inkrementuj nr zawodnika
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
   this->automaticMove(); //przjdz to automatycznego ruchu
+
+
+  while (gtk_events_pending())
+    gtk_main_iteration();
+  //  sleep(1.5);
+
 }
 
 
@@ -209,4 +216,11 @@ Game::~Game()
 int Game::getPlNumber()
 {
   return this->playerNumber;
+}
+
+void Game::backInHistory()
+{
+  list <History>::iterator it;
+  for(it = this->history.begin(); it != history.end(); it++)
+    (*it).loadHistory();
 }

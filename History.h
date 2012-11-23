@@ -13,7 +13,7 @@ class History {
 
  public:
 
-  History();
+  History(Map*);
   //  ~History();
   void saveHistory();
   void loadHistory();

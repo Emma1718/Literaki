@@ -35,8 +35,9 @@ class Game {
   void checkifProcess(); //sprawdzenie czy można szukać wyrazu
   void omitMove(); //funkcja wywoływana po wciśniećiu PAS
   void automaticMove(); //wywołanie ruchu automatycznego komputera
-  void dispose(); //zwalnianie pamięci
   int getPlNumber();
+  void backInHistory();
+
 };
 
 #endif

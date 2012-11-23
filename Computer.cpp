@@ -286,38 +286,38 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
 			  if (this->insertWord(*iter, begin, nr, RowOrCol))
 			    {
 			      cout<<"INS!!!"<<endl; //else continue;
-			      return true;
-			    }// bool foundAll = false;
-			      // list <string> wordsToCheck;
-			      // list <string>::iterator iter;
-			      // int cs;
 			      
-			  //     if(this->map->checkMove(cs))
-			  // 	{
-			  // 	  this->map->findWords(&wordsToCheck, RowOrCol);
-			  // 	  for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++)
-			  // 	    {
-			  // 	      if(this->dict->checkWord((*iter))==true)
-			  // 		foundAll = true;
-			  // 	      else
-			  // 		{
-			  // 		  foundAll = false;
-			  // 		  break;
-			  // 		}
-			  // 	    }
-			  // 	  if (foundAll)
-			  // 	    {
-			  // 	      this->map->drawModFields();
-			  // 	      this->addPoints(this->map->tmp_sum);
-			  // 	      return true;
-			  // 	    }
-			  // 	  else
-			  // 	    {
-			  // 	      this->map->clearFields();
-			  // 	      this->map->tmp_sum = 0;
-			  // 	    }
-			  //}
-			  //}
+			      bool foundAll = false;
+			      list <string> wordsToCheck;
+			      list <string>::iterator iter;
+			      int cs;
+			      
+			      if(this->map->checkMove(cs))
+			  	{
+			  	  this->map->findWords(&wordsToCheck, RowOrCol);
+			  	  for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++)
+			  	    {
+			  	      if(this->dict->checkWord((*iter))==true)
+			  		foundAll = true;
+			  	      else
+			  		{
+			  		  foundAll = false;
+			  		  break;
+			  		}
+			  	    }
+			  	  if (foundAll)
+			  	    {
+			  	      this->map->drawModFields();
+			  	      this->addPoints(this->map->tmp_sum);
+			  	      return true;
+			  	    }
+			  	  else
+			  	    {
+			  	      this->map->clearFields();
+			  	      this->map->tmp_sum = 0;
+			  	    }
+				}
+			    }
 			}
 		    }
 		}

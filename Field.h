@@ -20,6 +20,7 @@ protected:
 
   Field (Map * , Gtk * , int, int );
   Field ();
+  Field (Field &);
   virtual ~Field();
 
   virtual int calculate (int *word_multiplier);

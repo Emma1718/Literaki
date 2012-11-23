@@ -28,6 +28,7 @@ class Map {
   int tmp_sum;
 
   Map (Gtk * ,std::string);
+  Map(const Map &);
   ~Map ();
   bool setField (int x, int y, Character c);
   void clearFields ();
@@ -60,6 +61,7 @@ class Map {
   int mapWidth();
   int mapHeight();
   void getLine(char RowOrCol, int i, std::string &letters, std::list<int> &distances);
+  void readMap();
 };
 
 #endif

@@ -47,6 +47,7 @@ public:
   /*-----funkcje statyczne, wywoływane na skutek zdarzeń-----*/
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
   static void buttonGupClicked(GtkWidget *widget, gpointer data);
+  static void backButtonClicked(GtkWidget *, gpointer);
   static void letterChosen(GtkWidget *, gpointer); 
   static guint clockCallHuman(gpointer);
   static guint clockCallComp(gpointer); 

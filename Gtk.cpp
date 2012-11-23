@@ -42,6 +42,7 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   GtkWidget *tableInFrame = this->createTable(6,4);
   GtkWidget *vboxInFrame = gtk_vbox_new(FALSE, 70);
   this->backButton = this->createButton((char*)"Cofnij", 60,100);
+  g_signal_connect(this->backButton, "clicked", G_CALLBACK(Gtk::backButtonClicked), NULL);
   
   this->putField(0, 0, tableInFrame, this->nameLabel1);
   this->putField(0, 2, tableInFrame, this->nameLabel2);
@@ -163,9 +164,19 @@ void Gtk::buttonGupClicked(GtkWidget *widget, gpointer data) //zdarzenie: klikni
   Gtk::game->omitMove();
 }
 
+void Gtk::backButtonClicked(GtkWidget *, gpointer data)
+{
+  game->backInHistory();
+}
+
 void Gtk::changeSensitivity(GtkWidget * button, gboolean x) //zmiana aktywności widżetu
 {
   gtk_widget_set_sensitive(button, x);
+  if (x == FALSE)
+    {
+      gtk_widget_set_state(button, GTK_STATE_INSENSITIVE);
+    }
+  else gtk_widget_set_state(button, GTK_STATE_NORMAL);
 }
 
 void Gtk::changeActLetter(int color, string letter) //zmiana aktualnie wybranej litery

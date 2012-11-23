@@ -16,6 +16,10 @@ Field::Field()
   this->c = Character();
 }
 
+Field::Field(Field & f)
+{
+  this->c = f.c;
+}
 int Field::calculate(int * word_multiplier)
 {
   int x = this->c.getValue();
