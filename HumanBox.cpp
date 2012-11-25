@@ -52,6 +52,9 @@ void HumanBox::disableHumanChars()
     }
   this->graphic->changeSensitivity(this->button_OK, FALSE);
   this->graphic->changeSensitivity(this->giveUpButton, FALSE);
+  this->graphic->changeVisibility(this->button_OK, FALSE);
+  this->graphic->changeVisibility(this->giveUpButton, FALSE);
+  
 }
 
 
@@ -64,6 +67,8 @@ void HumanBox::enableHumanChars()
     }
    this->graphic->changeSensitivity(this->button_OK, TRUE);
    this->graphic->changeSensitivity(this->giveUpButton, TRUE);
+   this->graphic->changeVisibility(this->button_OK, TRUE);
+   this->graphic->changeVisibility(this->giveUpButton, TRUE);
 }
 
 void HumanBox::addLetters(list <Character> letters, int amount)

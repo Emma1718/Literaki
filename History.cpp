@@ -1,8 +1,11 @@
 #include "History.h"
 
-History::History(Map *map)
+History::History(Map *map, Sack * sack, Player *tab[])
 {
   this->mapHist = new Map(*map);//Map(&map);
+  this->sackHist = new Sack(*sack);
+  for(int i = 0; i < 2; i++)
+    this->playersHist[i] = new Player(*tab[i]);
 }
 
 // History::~History()
@@ -15,7 +18,18 @@ void History::saveHistory()
   //
 }
 
-void History::loadHistory()
+Map* History::loadMapHist()
 {
-  this->mapHist->readMap();
+  return this->mapHist;
+}
+
+
+Sack* History::loadSackHist()
+{
+  return this->sackHist;
+}
+
+Player* History::loadPlayerHist(int which)
+{
+  return this->playersHist[which];
 }

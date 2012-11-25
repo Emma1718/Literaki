@@ -78,3 +78,17 @@ Sack::~Sack()
 {
   this->characters.clear();
 }
+
+Sack::Sack(Sack &s)
+{
+  map <int, Character>::iterator it;
+  for(it = s.characters.begin(); it != s.characters.end(); it++)
+    this->characters.insert(*it);
+}
+
+void Sack::readSack()
+{
+  map <int, Character>::iterator it;
+for(it = characters.begin(); it != characters.end(); it++)
+  cout<<(*it).first<<":"<<(*it).second.getChar()<<endl;
+}

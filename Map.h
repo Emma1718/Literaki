@@ -18,6 +18,7 @@ class Map {
   // Attributes
   bool** modified;
   Field*** matrix;
+  int ** helpMat;
   GtkWidget *board;
   int height;
   int width;
@@ -61,7 +62,8 @@ class Map {
   int mapWidth();
   int mapHeight();
   void getLine(char RowOrCol, int i, std::string &letters, std::list<int> &distances);
-  void readMap();
+  void readMap(Map &);
+  void drawAfterBack();
 };
 
 #endif

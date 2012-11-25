@@ -155,8 +155,7 @@ void Gtk::run()  //uruchamia grafikę
 
 void Gtk::buttonOKClicked(GtkWidget *widget, gpointer data)  //zdarzenie: kliknięcie na OK
 {
-  if(Gtk::game->getPlNumber() == 0)
-    Gtk::game->checkifProcess(); //wywołanie funkcji gry
+  Gtk::game->checkifProcess(); //wywołanie funkcji gry
 }
 
 void Gtk::buttonGupClicked(GtkWidget *widget, gpointer data) //zdarzenie: kliknięcie na PAS
@@ -172,11 +171,14 @@ void Gtk::backButtonClicked(GtkWidget *, gpointer data)
 void Gtk::changeSensitivity(GtkWidget * button, gboolean x) //zmiana aktywności widżetu
 {
   gtk_widget_set_sensitive(button, x);
-  if (x == FALSE)
-    {
-      gtk_widget_set_state(button, GTK_STATE_INSENSITIVE);
-    }
-  else gtk_widget_set_state(button, GTK_STATE_NORMAL);
+}
+
+void Gtk::changeVisibility(GtkWidget *widget, gboolean x)
+{
+  if(x == TRUE)
+    gtk_widget_show(widget);
+  else 
+    gtk_widget_hide(widget);
 }
 
 void Gtk::changeActLetter(int color, string letter) //zmiana aktualnie wybranej litery

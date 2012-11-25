@@ -18,10 +18,12 @@ class Sack {
  public:
 
   Sack(std::string filename_sack);
+  Sack (Sack &);
   ~Sack();
   //  std::string
   int getCharacters(std::list <Character> *letters, int  amount);
   void show();
+  void readSack();
 };
 
 #endif 

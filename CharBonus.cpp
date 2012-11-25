@@ -1,5 +1,7 @@
 #include "CharBonus.h"
 
+using namespace std;
+
 CharBonus::CharBonus(Map * map, int a, int b, int x, int y)
 {
 
@@ -53,6 +55,20 @@ void CharBonus::looseBonus()
 
 CharBonus::~CharBonus()
 {
-  //  delete this->parent;
-  //  delete this->graphic;
+  //
+}
+
+CharBonus::CharBonus(CharBonus & chB)
+{
+  cout<<"CharBonus ConstructorCopy"<<endl;
+  this->c = chB.c;
+  this->multiplier = chB.multiplier;
+  this->which_char = chB.which_char;
+}
+
+void CharBonus::copyData(Field &f)
+{
+  this->c = static_cast<CharBonus&>(f).c;
+  this->multiplier = static_cast<CharBonus&>(f).multiplier; 
+  this->which_char = static_cast<CharBonus&>(f).which_char; 
 }

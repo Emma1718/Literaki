@@ -11,6 +11,7 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
   this->dictionary = new Dictionary(filename_dict);//wczytanie słów ze słownika
   this->players_tab[0] = new Human("Gracz", 0, this->graphic, this->sack, this->map);
   this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary, this->map, filename_sack);
+  this->history.push_back(History(this->map, this->sack, this->players_tab));
 }
 
 void Game::run()
@@ -63,7 +64,7 @@ void Game::process()
     }
   this->insertions.clear(); //wyczysc listę
 
-  this->history.push_back(History(this->map));
+  this->history.push_back(History(this->map, this->sack, this->players_tab));
 
   this->map->disableMap();	      //zdezaktywuj mape
   static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
@@ -81,10 +82,12 @@ void Game::process()
   this->automaticMove(); //przjdz to automatycznego ruchu
 
 
-  while (gtk_events_pending())
-    gtk_main_iteration();
+  // while (gtk_events_pending())
+  //   gtk_main_iteration_do(FALSE);
   //  sleep(1.5);
-
+  GtkWidget *spinner = gtk_spinner_new();
+  gtk_spinner_start(GTK_SPINNER(spinner));
+  gtk_widget_show(spinner);
 }
 
 
@@ -128,6 +131,8 @@ void Game::automaticMove()
       this->map->tmp_sum = 0;
       this->insertions.clear();
  }
+  this->history.push_back(History(this->map, this->sack, this->players_tab));
+
   
   this->playerNumber++;
 
@@ -220,7 +225,13 @@ int Game::getPlNumber()
 
 void Game::backInHistory()
 {
-  list <History>::iterator it;
-  for(it = this->history.begin(); it != history.end(); it++)
-    (*it).loadHistory();
+  list <History>::reverse_iterator it;  
+ 
+  this->history.pop_back();
+  it = this->history.rbegin();
+  this->map->readMap(*((*it).loadMapHist()));
+  this->map->drawAfterBack();
+  
+  // for(it = this->history.begin(); it != history.end(); it++)
+  //   (*it).loadHistory();
 }

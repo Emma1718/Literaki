@@ -29,5 +29,7 @@ public:
   void addPoints(int);
   int getActPoints();
   virtual ~Player();
+  Player(Player &);
+  Player();
 };
 #endif 

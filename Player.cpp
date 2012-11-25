@@ -11,6 +11,9 @@ void Player::removeLetters(list <Character> insertions)
 
   cout<<"s1: "<<s<<endl;
 
+  for(it = this->letters.begin(); it != this->letters.end() ;it++)
+    cout<<"lista:"<<(*it).getChar()<<endl;
+
   for(it2 = insertions.begin(); it2 != insertions.end(); it2++)
     for(it = this->letters.begin(); it != this->letters.end() ;it++)
       {
@@ -77,4 +80,17 @@ int Player::getActPoints()
 Player::~Player()
 {
   //
+}
+
+Player::Player()
+{
+  //
+}
+Player::Player(Player &copyP)
+{
+  this->points = copyP.points;
+
+  list <Character>::iterator it;
+  for(it = copyP.letters.begin(); it != copyP.letters.end(); it++)
+    this->letters.push_back(*it);
 }

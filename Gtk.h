@@ -68,6 +68,7 @@ public:
   void setLabel(GtkWidget *, std::string);
   void run();
   void changeSensitivity(GtkWidget *, gboolean);
+  void changeVisibility(GtkWidget *, gboolean);
   void chooseLetter(std::string filename, Field*);
   GtkWidget *createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
  //  ~Gtk();

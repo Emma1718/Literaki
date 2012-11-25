@@ -13,10 +13,12 @@ class History {
 
  public:
 
-  History(Map*);
+  History(Map*, Sack*, Player* []);
   //  ~History();
   void saveHistory();
-  void loadHistory();
+  Map* loadMapHist();
+  Sack* loadSackHist();
+  Player* loadPlayerHist(int);
 
 };
 

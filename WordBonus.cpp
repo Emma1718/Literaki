@@ -1,5 +1,7 @@
 #include "WordBonus.h"
 
+using namespace std;
+
 WordBonus::WordBonus(Map * map, int a, int x, int y)
 {
   this->c = Character();
@@ -61,6 +63,18 @@ void WordBonus::looseBonus()
 
 WordBonus::~WordBonus()
 {
-  //  delete this->parent;
-  //  delete this->graphic;
+  //
+}
+
+WordBonus::WordBonus(WordBonus &wB)
+{
+  cout<<"WordBonus ConstructorCopy"<<endl;
+  this->c = wB.c;
+  this->multiplier = wB.multiplier;
+}
+
+void WordBonus::copyData(Field &f)
+{
+  this->c = static_cast<WordBonus&>(f).c;
+  this->multiplier = static_cast<WordBonus&>(f).multiplier;
 }

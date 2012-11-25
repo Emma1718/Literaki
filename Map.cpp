@@ -13,6 +13,10 @@ void Map::loadFromFile(string filename)  //załaduj mapę z pliku
     {
       file>>this->height>>this->width;
 
+      this-> helpMat=new int*[this->height];
+      for(int i = 0; i<this->height; i++)
+	helpMat[i]=new int[this->width];
+
       this-> matrix=new Field**[this->height];
       for(int i = 0; i<this->height; i++)
 	matrix[i]=new Field*[this->width];
@@ -26,15 +30,18 @@ void Map::loadFromFile(string filename)  //załaduj mapę z pliku
 		{
 		case 0:
 		  this->matrix[i][j] = new Field(this, this->graphic, i, j);
+		  this->helpMat[i][j] = 0;
 		  // g_print("%d %d \n" ,i, j);
 		  break;
 		case 1:
 		  file>>wh_ch>>mp;
 		  this->matrix[i][j]=new CharBonus(this, wh_ch, mp, i, j);
+		  this->helpMat[i][j] = 1;
 		  break;
 		case 2:
 		  file>>mp;
 		  this->matrix[i][j] = new WordBonus(this, mp, i, j);
+		  this->helpMat[i][j] = 2;		  
 		  break;
 		}
 	    }
@@ -498,7 +505,6 @@ Map::~Map()
 
 Map::Map(const Map & copMap)
 {
-  cout<<"KONSTRUKTOR koop"<<endl;
   this->height = copMap.height;
   this->width = copMap.width;
   
@@ -508,11 +514,28 @@ Map::Map(const Map & copMap)
 
   for(int i=0;i<this->height;i++)
     for(int j=0;j<this->width;j++)
-      this->matrix[i][j] = new Field(*copMap.matrix[i][j]);//->insert(copMap.matrix[i][j]->getCharacter());
+      {
+	switch(copMap.helpMat[i][j])
+	  {
+	  case 0:
+	    this->matrix[i][j] = new Field(*copMap.matrix[i][j]);
+	    break;
+	  case 1:
+	    this->matrix[i][j] = new CharBonus(static_cast<CharBonus&>(*copMap.matrix[i][j]));
+	    break;
+	  case 2:
+	    this->matrix[i][j] = new WordBonus(static_cast<WordBonus&>(*copMap.matrix[i][j]));
+	    break;
+	  }
+      }
 }
 
-void Map::readMap()
+void Map::readMap(Map &mapToRead)
 {
+  for(int i = 0; i < this->height; i++)
+      for(int j = 0;j < this->width; j++)
+	this->matrix[i][j]->copyData(*mapToRead.matrix[i][j]);
+
  for(int i = 0; i < this->height; i++)
     {
       for(int j = 0;j < this->width; j++)
@@ -520,3 +543,10 @@ void Map::readMap()
       cout<<endl;
     }
 }
+
+void Map::drawAfterBack()
+{
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0; j < this->width; j++)
+      this->matrix[i][j]->changeButton();
+} 

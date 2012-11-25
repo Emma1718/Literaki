@@ -18,8 +18,10 @@ Field::Field()
 
 Field::Field(Field & f)
 {
+  cout<<"FieldConsturctor"<<endl;
   this->c = f.c;
 }
+
 int Field::calculate(int * word_multiplier)
 {
   int x = this->c.getValue();
@@ -49,8 +51,6 @@ void Field::clickButton(void * widget, gpointer data)
 void Field::backToStandart()
 {
   this->c.backtoStart();
- //  this->graphic->changeColor(this->button, 0);
-//   this->graphic->setLabel(this->button, (char*)"");
   this->changeButton();
 }
 
@@ -124,4 +124,9 @@ void Field::enableButton()
 Field::~Field()
 {
   //
+}
+
+void Field::copyData(Field &f)
+{
+  this->c = f.c;
 }

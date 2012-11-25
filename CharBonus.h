@@ -11,12 +11,14 @@ class CharBonus : public Field {
  public:
 
   CharBonus(Map *, int, int, int, int);
+  CharBonus(CharBonus &);
   ~CharBonus();
   int calculate (int *);
   GtkWidget *draw(Gtk *);
   void looseBonus();
   void backToStandart();
   void changeButton();
+  void copyData(Field &);
 };
 
 #endif
