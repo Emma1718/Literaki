@@ -23,6 +23,7 @@ class Human : public Player {
  void enableHumanBox();
  void addLetters(int);
  void returnLetters(std::list <Character>);
+ void drawAfterBack();
 
 };
 

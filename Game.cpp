@@ -228,10 +228,22 @@ void Game::backInHistory()
   list <History>::reverse_iterator it;  
  
   this->history.pop_back();
+  if (this->history.size() == 1)
+    this->graphic->changeSensitivity();
+
   it = this->history.rbegin();
   this->map->readMap(*((*it).loadMapHist()));
   this->map->drawAfterBack();
-  
-  // for(it = this->history.begin(); it != history.end(); it++)
+
+  this->sack->readSack(*(*it).loadSackHist());
+
+  for(int i = 0; i < sizeof(players_tab)/sizeof(players_tab[0]);i++) 
+    {
+      this->players_tab[i]->readPlayer(*(*it).loadPlayerHist(i)); 
+      this->graphic->changeActPoints(i+1, this->players_tab[i]->getActPoints());
+    }
+  static_cast<Human*>(this->players_tab[0])->drawAfterBack();
+
+ // for(it = this->history.begin(); it != history.end(); it++)
   //   (*it).loadHistory();
 }

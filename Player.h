@@ -31,5 +31,6 @@ public:
   virtual ~Player();
   Player(Player &);
   Player();
+  void readPlayer(Player &);
 };
 #endif 

@@ -67,7 +67,7 @@ public:
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void setLabel(GtkWidget *, std::string);
   void run();
-  void changeSensitivity(GtkWidget *, gboolean);
+  void changeSensitivity(GtkWidget * button, gboolean x);
   void changeVisibility(GtkWidget *, gboolean);
   void chooseLetter(std::string filename, Field*);
   GtkWidget *createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);

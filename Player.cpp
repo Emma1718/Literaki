@@ -94,3 +94,14 @@ Player::Player(Player &copyP)
   for(it = copyP.letters.begin(); it != copyP.letters.end(); it++)
     this->letters.push_back(*it);
 }
+
+void Player::readPlayer(Player &pl)
+{
+  this->points = pl.points;
+
+  this->letters.clear();
+
+  list <Character>::iterator it;
+  for(it = pl.letters.begin(); it != pl.letters.end(); it++)
+    this->letters.push_back(*it);
+}

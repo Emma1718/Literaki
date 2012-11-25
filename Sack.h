@@ -23,7 +23,7 @@ class Sack {
   //  std::string
   int getCharacters(std::list <Character> *letters, int  amount);
   void show();
-  void readSack();
+  void readSack(Sack &);
 };
 
 #endif 

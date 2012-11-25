@@ -46,3 +46,8 @@ Human::~Human()
   delete this->map;
   delete this->sack;
 }
+
+void Human::drawAfterBack()
+{
+  this->humanbox->drawAfterBack(this->letters);
+}

@@ -101,3 +101,15 @@ HumanBox::~HumanBox()
 
   delete this->graphic;
 }
+
+void HumanBox::drawAfterBack(list <Character> letters)
+{
+  int i;
+  list <Character>::iterator iter;
+
+  for(i=0, iter = letters.begin(); i<this->length, iter != letters.end(); i++, iter++)
+    {
+      this->lettersBox[i]->insert(*iter);
+      this->lettersBox[i]->drawLetter();
+    }
+}

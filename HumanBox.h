@@ -22,7 +22,8 @@ class HumanBox{
   void disableHumanChars();
   void enableHumanChars();
   void addLetters(std::list <Character>, int);
-  // ~HumanBox();
+  void drawAfterBack(std::list <Character>);
+// ~HumanBox();
 };
 
 #endif
