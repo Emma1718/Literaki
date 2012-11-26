@@ -18,7 +18,6 @@ Field::Field()
 
 Field::Field(const Field & f)
 {
-  cout<<"FieldConsturctor"<<endl;
   this->c = f.c;
 }
 

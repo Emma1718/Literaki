@@ -28,7 +28,6 @@ class Gtk
   GtkWidget *pointsLabel2;
   GtkWidget *backButton;  
   static GtkWidget *timeLabel1;
-  static GtkWidget *timeLabel2;
   
   /*----Dla zegara-----*/
   static int seconds;
@@ -50,10 +49,8 @@ public:
   static void backButtonClicked(GtkWidget *, gpointer);
   static void letterChosen(GtkWidget *, gpointer); 
   static guint clockCallHuman(gpointer);
-  static guint clockCallComp(gpointer); 
 
-
-  static void clockStart(int);
+  static void clockStart();
   static void clockEnd();
 
   void changeActLetter(int, std::string);

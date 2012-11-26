@@ -26,6 +26,11 @@ Sack::Sack(string filename_sack)
     }
   this->size = this->characters.size();
   read_file.close();
+
+  map<int,Character>::iterator iter;
+  cout<<"sizechar:"<<this->characters.size()<<endl;
+  for ( iter = this->characters.begin() ; iter != this->characters.end(); iter++ )
+    cout << (*iter).first << " => " << (*iter).second.getChar() << endl;
 }
 
 int Sack::getCharacters(list <Character> *letters, int amount)
@@ -70,7 +75,7 @@ void Sack::show()
 {
   map<int,Character>::iterator iter;
   cout<<"sizechar:"<<this->characters.size()<<endl;
-  for ( iter=characters.begin() ; iter != characters.end(); iter++ )
+  for ( iter = this->characters.begin() ; iter != this->characters.end(); iter++ )
     cout << (*iter).first << " => " << (*iter).second.getChar() << endl;
 }
 				    

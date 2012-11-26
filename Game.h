@@ -26,7 +26,8 @@ class Game {
   std::list <History> history;
   std::list <Character> insertions; //lista z wszystkimi literami wstawionymi podczas danego ruchu
   int option; //opcja - czy głowny wyraz znajduje się w kolumnie czy też w wierszu
- // Operations
+  int leftTurns;
+// Operations
  public:
   Game (int argc, char *argv[],std::string filename_matrix, std::string filename_sack, std::string filename_dict); 
   ~Game ();

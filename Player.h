@@ -29,5 +29,7 @@ public:
   Player(Player &);
   Player();
   void readPlayer(Player &);
+  int getFinalPoints();
+  std::string getName();
 };
 #endif 

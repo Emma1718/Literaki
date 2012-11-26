@@ -9,7 +9,7 @@ Game *Gtk::game;
 GtkWidget *Gtk::chooseWin;
 /*----Mierzenie czasu */
 GtkWidget *Gtk::timeLabel1;
-GtkWidget *Gtk::timeLabel2;
+
 int Gtk::seconds;
 guint Gtk::clock;
 bool Gtk::clockWorking; 
@@ -27,7 +27,6 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   this->pointsLabel1 = gtk_label_new("0");
   this->pointsLabel2 = gtk_label_new("0");
   Gtk::timeLabel1 = gtk_label_new("");
-  Gtk::timeLabel2 = gtk_label_new("120");
 
   /*---Twprzenie okna głównego i boxów-----*/
   this->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -49,7 +48,6 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
   this->putField(2, 0, tableInFrame, this->pointsLabel1);
   this->putField(2, 2, tableInFrame, this->pointsLabel2);
   this->putField(4, 0, tableInFrame, this->timeLabel1);
-  this->putField(4, 2, tableInFrame, this->timeLabel2);
   
   gtk_box_pack_start(GTK_BOX(vboxInFrame), tableInFrame, FALSE, FALSE, 5);
   gtk_box_pack_start(GTK_BOX(vboxInFrame), this->backButton, FALSE, FALSE, 15);
@@ -149,7 +147,7 @@ void Gtk::run()  //uruchamia grafikę
 {
   gtk_widget_show_all (this->window);
   Gtk::clockWorking = FALSE;
-  Gtk::clockStart(1); //start zegara
+  Gtk::clockStart(); //start zegara
   gtk_main();
 }
 
@@ -296,37 +294,12 @@ guint Gtk::clockCallHuman(gpointer data)   //wywoływana co 1sek funkcja zwrotna
       Gtk::game->omitMove();
     }
 }
-
-guint Gtk::clockCallComp(gpointer data)   //wywoływana co 1sek funkcja zwrotna zegara, zmienia czas na etykiecie komputera
-{
-  Gtk::seconds--;
-
-  char buffer[10];
-  sprintf(buffer, "%d", Gtk::seconds);
-  gtk_label_set(GTK_LABEL(Gtk::timeLabel2), buffer);
- 
-  if (Gtk::seconds == 0)
-    {
-      Gtk::clockEnd();
-      Gtk::seconds = DEF_SEC;
-    }
-}
-
-
-void Gtk::clockStart(int which)  //włączenie zegara, parametr odpowiada za wywołanie właściwego callbacka
+void Gtk::clockStart()  //włączenie zegara, parametr odpowiada za wywołanie właściwego callbacka
 {
   if(!Gtk::clockWorking)
     {
       Gtk::seconds = DEF_SEC;
-      switch(which)
-	{
-	case 1:
-	  Gtk::clock = g_timeout_add(1000, GSourceFunc(Gtk::clockCallHuman), NULL);
-	  break;
-	case 2: 
-	  Gtk::clock = g_timeout_add(1000, GSourceFunc(Gtk::clockCallComp), NULL);
-	  break;
-	}
+      Gtk::clock = g_timeout_add(1000, GSourceFunc(Gtk::clockCallHuman), NULL);
       Gtk::clockWorking = TRUE;
     }
 }

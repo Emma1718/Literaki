@@ -19,10 +19,11 @@ void Human::addLetters(int amount)
 {
   list <Character>::iterator it;
 
-  this->sack->getCharacters(&(this->letters) , amount);
-  // for(it = this->letters.begin(); it != this->letters.end(); it++)
-  //   g_print("After Add:%s\n", (*it).getChar());
-   this->humanbox->addLetters(this->letters, amount);
+int i =  this->sack->getCharacters(&(this->letters) , amount);
+ cout<<"AMOUNT:"<<i<<" "<<this->letters.size()<<endl;
+ for(it = this->letters.begin(); it != this->letters.end(); it++)
+   g_print("After Add:%s\n", (char*)(*it).getChar().c_str());
+   this->humanbox->addLetters(this->letters, i);
 }
 
 void Human::returnLetters(list <Character> lettersToBack)

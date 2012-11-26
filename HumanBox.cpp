@@ -75,8 +75,9 @@ void HumanBox::addLetters(list <Character> letters, int amount)
 {
   int i,j=0;
   list <Character>::reverse_iterator iter;
+  iter = letters.rbegin();
 
-  for(i = 1, iter = letters.rbegin(); i <= amount, iter != letters.rend(); i++, iter++)
+  for(i = 1; i <= amount; i++)
     {
       while(j<this->length)
 	{
@@ -85,6 +86,7 @@ void HumanBox::addLetters(list <Character> letters, int amount)
 	      this->lettersBox[j]->insert(*iter);
 	      this->lettersBox[j]->drawLetter();
 	      j++;
+	      iter++;
 	      break;
 	    }
 	  else j++;

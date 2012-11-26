@@ -400,7 +400,7 @@ void Map::clearFields()//przywróc pola do stanu początkowego
       if (this->modified[i][j])
 	{
 	  g_print("clear:%d %d\n", i,j);
-         this->matrix[i][j]->backToStandart();
+	  this->matrix[i][j]->backToStandart();
 	  this->modified[i][j]=false;
 	}
 }
@@ -499,8 +499,11 @@ Map::~Map()
     delete [] this->matrix[i];
 
    delete this->matrix;
+  
+   for(int i = 0; i < this->height; i++)
+     delete [] this->helpMat[i];
 
-
+   delete this->helpMat;
 }
 
 Map::Map(const Map & copMap)

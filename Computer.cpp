@@ -289,7 +289,8 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
 			      
 			      if(this->map->checkMove(cs))
 			  	{
-			  	  this->map->findWords(&wordsToCheck, RowOrCol);
+			  	  cout<<"GOOD MOVE"<<endl;
+				  this->map->findWords(&wordsToCheck, RowOrCol);
 			  	  for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++)
 			  	    {
 			  	      if(this->dict->checkWord((*iter))==true)

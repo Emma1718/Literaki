@@ -9,6 +9,9 @@ void Player::removeLetters(list <Character> insertions)
   int s = insertions.size();
   int erased = 0;
 
+  for(it = insertions.begin(); it != insertions.end() ;it++)
+    cout<<"to erase:"<<(*it).getChar()<<endl;
+
   cout<<"s1: "<<s<<endl;
 
   for(it = this->letters.begin(); it != this->letters.end() ;it++)
@@ -109,4 +112,23 @@ void Player::readPlayer(Player &pl)
 int Player::getLettersAmount()
 {
   return this->letters.size();
+}
+
+int Player::getFinalPoints()
+{
+  list <Character> ::iterator iter;
+  int toSubstract = 0;
+  int finalP = 0;
+
+  for(iter = this->letters.begin(); iter != this->letters.end(); iter++)
+    toSubstract+=(*iter).getValue();
+  
+  finalP = this->points - toSubstract;
+
+  return finalP;
+}
+
+string Player::getName()
+{
+  return this->name;
 }
