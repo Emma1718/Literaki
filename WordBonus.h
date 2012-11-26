@@ -2,17 +2,18 @@
 #define WORDBONUS_H
 #include "Field.h"
 
-/// class TripleBonus -
 class WordBonus : public Field {
 
-  // Operations
   int multiplier;
+
 public:
+
   WordBonus(Map *, int, int, int);
-  WordBonus(WordBonus&);
+  WordBonus(const WordBonus&);
   ~WordBonus();
-  int calculate (int *);
+
   GtkWidget *draw(Gtk *);
+  int calculate (int *);
   void looseBonus();
   void backToStandart();
   void changeButton();

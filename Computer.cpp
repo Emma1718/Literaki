@@ -11,11 +11,6 @@ Computer::Computer(string name, int points, Sack * sack, Dictionary *dict, Map *
   this->map = map;
   this->sack->getCharacters(&(this->letters), 7);
   this->loadLettersFromFile(filename);
-  //litery komputera
-  // for (list<Character>::iterator it=this->letters.begin(); it!=this->letters.end(); ++it)
-  //   cout<<(*it).getChar();
-  // cout<<endl;
-
 }
 
 bool Computer::contain_letter(string word, string letter, int &left, int &right)

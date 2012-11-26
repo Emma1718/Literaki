@@ -31,11 +31,6 @@ GtkWidget *WordBonus::draw(Gtk *graphic)
 
 void WordBonus::backToStandart()
 {
-  // char * str = new char[10];
-  // int x = this->multiplier;
-  // sprintf(str, "%dx", x);
-  // this->graphic->setLabel(this->button, str);
-  // graphic->changeColor(this->button, 10);
   this->c.backtoStart();
   this->changeButton();
 }
@@ -66,9 +61,8 @@ WordBonus::~WordBonus()
   //
 }
 
-WordBonus::WordBonus(WordBonus &wB)
+WordBonus::WordBonus(const WordBonus &wB)
 {
-  cout<<"WordBonus ConstructorCopy"<<endl;
   this->c = wB.c;
   this->multiplier = wB.multiplier;
 }

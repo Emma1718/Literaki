@@ -2,22 +2,18 @@
 #define PLAYER_H
 
 #include "Sack.h"
-#include <string>
-//#include <vector>
-#include <list>
 #include "Map.h"
 #include "Dictionary.h"
 
-#include <set>
-
+#include <string>
+#include <list>
 
 /// class Player - 
 class Player {
   // Attributes
-protected:
+ protected:
   std::string name;
   int points;
-  //  int left_time;
   Sack * sack;
   Dictionary * dict;
   Map * map;
@@ -28,6 +24,7 @@ public:
   virtual void addLetters(int); 
   void addPoints(int);
   int getActPoints();
+  int getLettersAmount();
   virtual ~Player();
   Player(Player &);
   Player();

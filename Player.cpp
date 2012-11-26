@@ -105,3 +105,8 @@ void Player::readPlayer(Player &pl)
   for(it = pl.letters.begin(); it != pl.letters.end(); it++)
     this->letters.push_back(*it);
 }
+
+int Player::getLettersAmount()
+{
+  return this->letters.size();
+}

@@ -11,7 +11,7 @@ class CharBonus : public Field {
  public:
 
   CharBonus(Map *, int, int, int, int);
-  CharBonus(CharBonus &);
+  CharBonus(const CharBonus &);
   ~CharBonus();
   int calculate (int *);
   GtkWidget *draw(Gtk *);

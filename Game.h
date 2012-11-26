@@ -37,7 +37,7 @@ class Game {
   void automaticMove(); //wywołanie ruchu automatycznego komputera
   int getPlNumber();
   void backInHistory();
-
+  void endOfGame();
 };
 
 #endif

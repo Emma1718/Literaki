@@ -25,7 +25,6 @@ void Game::process()
   GtkWidget *dialogMessage;
 
   list <string> wordsToCheck;
-
   list <string>::iterator iter;
 
   this->map->findWords(&wordsToCheck, this->option); //znajdz wyrazy
@@ -64,8 +63,11 @@ void Game::process()
     }
   this->insertions.clear(); //wyczysc listę
 
+  if(this->players_tab[0]->getLettersAmount() == 0)
+    this->endOfGame();
+  
   this->history.push_back(History(this->map, this->sack, this->players_tab));
-
+    
   this->map->disableMap();	      //zdezaktywuj mape
   static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
 
@@ -74,20 +76,13 @@ void Game::process()
   sleep(1.5);
 
   Gtk::clockEnd();
-  //Gtk::clockStart(2);
   this->map->tmp_sum = 0; //wyzeruj tymczasową sumę punktów
 
   this->playerNumber++; //inkrementuj nr zawodnika
-  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
+  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0]))
+    this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
   this->automaticMove(); //przjdz to automatycznego ruchu
 
-
-  // while (gtk_events_pending())
-  //   gtk_main_iteration_do(FALSE);
-  //  sleep(1.5);
-  GtkWidget *spinner = gtk_spinner_new();
-  gtk_spinner_start(GTK_SPINNER(spinner));
-  gtk_widget_show(spinner);
 }
 
 
@@ -109,8 +104,7 @@ void Game::omitMove()
   sleep(1.5);
 
   Gtk::clockEnd();
-  //Gtk::clockStart(2);
-
+ 
   this->playerNumber++;
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
   this->automaticMove();
@@ -120,7 +114,6 @@ void Game::automaticMove()
 {
   if (this->playerNumber > 0)
     {
-      //Gtk::clockStart(2);
       static_cast<Computer*>(this->players_tab[playerNumber])->findWord();
       
       this->map->getAllInsertions(false, this->insertions);
@@ -131,12 +124,15 @@ void Game::automaticMove()
       this->map->tmp_sum = 0;
       this->insertions.clear();
  }
+  if(this->players_tab[playerNumber]->getLettersAmount() == 0)
+    this->endOfGame();
+
   this->history.push_back(History(this->map, this->sack, this->players_tab));
 
-  
   this->playerNumber++;
 
-  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
+  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) 
+    this->playerNumber = 0;
   
   if (this->playerNumber != 0)
     this->automaticMove();
@@ -144,7 +140,6 @@ void Game::automaticMove()
     {
       this->map->enableMap();
       static_cast<Human*>(this->players_tab[0])->enableHumanBox();
-      Gtk::clockEnd();
       Gtk::clockStart(1);
     }
 }
@@ -158,14 +153,13 @@ void Game::checkifProcess()
     {
       if (this->map->checkMove(this->option)) //jeśli poprawny ruch
 	{
-	  g_print("poprawny ruch\n");
-
 	  if(!(this->map->getAllInsertions(true, this->insertions)))
 	    this->process();
 	}  //to pobierz wszystkie wstawione litery,sprawdz czy nie ma blanka,  utworz z nich listę
       else
 	{
-	  this->map->getAllInsertions(false, this->insertions);  //to pobierz wszystkie wstawione litery, nie sprawdzaj czy jest blank, bo to niekonieczne,  utworz z nich listę
+	  this->map->getAllInsertions(false, this->insertions);
+	  
 	  dialogMessage = this->graphic->createDialogMessage("BŁEDNY RUCH", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
 	  while (gtk_events_pending())
 	    gtk_main_iteration();
@@ -185,10 +179,10 @@ void Game::checkifProcess()
 	  sleep(1.5);
 
 	  Gtk::clockEnd();
-	  //Gtk::clockStart(2);
-
+	  
 	  this->playerNumber++; //inkrementuj nr zawodnika
-	  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0; //jesli numer jest większy od liczby zawodników, ustaw na 0
+	  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0]))
+	    this->playerNumber = 0; //jesli numer jest większy od liczby zawodników, ustaw na 0
 	  this->automaticMove(); //przjdz to automatycznego ruchu
 
 	}
@@ -214,6 +208,7 @@ Game::~Game()
   delete this->sack;
   delete this->map;
   delete this->graphic;
+  this->history.clear();
 
   exit(0);
 }
@@ -228,8 +223,8 @@ void Game::backInHistory()
   list <History>::reverse_iterator it;  
  
   this->history.pop_back();
-  if (this->history.size() == 1)
-    this->graphic->changeSensitivity();
+  // if (this->history.size() == 1)
+  //   this->graphic->changeSensitivity();
 
   it = this->history.rbegin();
   this->map->readMap(*((*it).loadMapHist()));

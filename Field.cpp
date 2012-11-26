@@ -16,7 +16,7 @@ Field::Field()
   this->c = Character();
 }
 
-Field::Field(Field & f)
+Field::Field(const Field & f)
 {
   cout<<"FieldConsturctor"<<endl;
   this->c = f.c;

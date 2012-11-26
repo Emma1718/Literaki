@@ -28,8 +28,6 @@ GtkWidget *CharBonus::draw(Gtk *graphic)
 }
 void CharBonus::backToStandart()
 {
-  // this->graphic->changeColor(this->button, this->which_char);
-  // this->graphic->setLabel(this->button, (char*)"");
   this->c.backtoStart();
   this->changeButton();
 }
@@ -58,9 +56,8 @@ CharBonus::~CharBonus()
   //
 }
 
-CharBonus::CharBonus(CharBonus & chB)
+CharBonus::CharBonus(const CharBonus & chB)
 {
-  cout<<"CharBonus ConstructorCopy"<<endl;
   this->c = chB.c;
   this->multiplier = chB.multiplier;
   this->which_char = chB.which_char;
