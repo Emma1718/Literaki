@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <time.h>
 
-#define MAX_TIME 60
+#define MAX_TIME 1
 /// class Computer - 
 class Computer : public Player {
 

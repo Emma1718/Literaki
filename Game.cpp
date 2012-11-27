@@ -102,6 +102,7 @@ this->graphic->createDialogMessage((char*)"BŁĘDNY WYRAZ!!!", GTK_DIALOG_MODAL,
 void Game::omitMove()
 {
   this->leftTurns++;
+  cout<<"left turns:"<<leftTurns<<"pl:"<<2*(sizeof(players_tab)/sizeof(players_tab[0]))<<endl;
   this->map->getAllInsertions(false, this->insertions);
 
   static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
@@ -111,6 +112,7 @@ void Game::omitMove()
 
   if(this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0])))
     {
+      cout<<"KONIEC"<<endl;
       this->endOfGame();
       return;
     }
@@ -143,7 +145,10 @@ void Game::automaticMove()
       this->map->getAllInsertions(false, this->insertions);
       
       if(this->insertions.size() == 0) 
-	this->leftTurns++;
+	{
+	  this->leftTurns++;
+	  cout<<"left turns:"<<leftTurns<<endl;
+	}      
       else this->leftTurns = 0;
 
       this->graphic->changeActPoints(2, this->players_tab[playerNumber]->getActPoints());
@@ -153,9 +158,6 @@ void Game::automaticMove()
       this->map->tmp_sum = 0;
       this->insertions.clear();
     }
-
-  if(this->players_tab[playerNumber]->getLettersAmount() == 0)
-    this->endOfGame();
 
   this->history.push_back(History(this->map, this->sack, this->players_tab));
   this->graphic->changebackButton(this->history.size());
@@ -172,6 +174,12 @@ void Game::automaticMove()
       this->map->enableMap();
       static_cast<Human*>(this->players_tab[0])->enableHumanBox();
       Gtk::clockStart();
+    }
+
+  if((this->players_tab[0]->getLettersAmount() == 0) || (this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0]))))
+    {
+      this->endOfGame();
+      return;
     }
 }
 
@@ -287,8 +295,8 @@ void Game::endOfGame()
       }
   sprintf(winner, "WYGRAŁ %s", (char*)this->players_tab[max]->getName().c_str());
   
-  // message = this->graphic->createDialogMessage(winner,GTK_DIALOG_MODAL, GTK_BUTTONS_OK);
+  this->graphic->createDialogMessage(winner,GTK_DIALOG_MODAL, GTK_BUTTONS_OK);
   // result = gtk_dialog_run(GTK_DIALOG(message));
   // if (result == GTK_RESPONSE_OK)
-  //   gtk_main_quit();
+     gtk_main_quit();
 }  
