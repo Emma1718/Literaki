@@ -171,18 +171,16 @@ void Gtk::changeSensitivity(GtkWidget * button, gboolean x) //zmiana aktywności
   gtk_widget_set_sensitive(button, x);
 }
 
-void Gtk::changeVisibility(GtkWidget *widget, gboolean x)
-{
-  if(x == TRUE)
-    gtk_widget_show(widget);
-  else 
-    gtk_widget_hide(widget);
-}
-
 void Gtk::changeActLetter(int color, string letter) //zmiana aktualnie wybranej litery
 {
   this->changeColor(Gtk::actual_letter, color);
   this->setLabel(Gtk::actual_letter, letter);
+}
+
+void Gtk::changebackButton(int x)
+{
+  if (x==1) this->changeSensitivity(this->backButton, FALSE);
+  if (x>1)  this->changeSensitivity(this->backButton, TRUE);
 }
 
 gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
@@ -250,15 +248,20 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)  //funkcja zwrotna kli
   game->process();
 }
 
-GtkWidget * Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags flag, GtkButtonsType butType)  //tworzenie informacji o błędzie/zapytaniu usera
+void Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags flag, GtkButtonsType butType)  //tworzenie informacji o błędzie/zapytaniu usera
 {
   GtkWidget *message;
-
+  gint result;
   message=gtk_message_dialog_new(GTK_WINDOW(this->window), flag, GTK_MESSAGE_OTHER, butType, messageText);
   //gtk_widget_set_usize(message,szer,wys);
   gtk_widget_show(message);
 
-  return message;
+  result = gtk_dialog_run(GTK_DIALOG (message));
+  if(result == GTK_RESPONSE_OK)
+    gtk_widget_destroy(message);
+
+
+  //return message;
 }
 
 void Gtk::changeActPoints(int which, int actualPoints) //ustawienie odpowiedniej ilości punktów na odpowiedniej etykiecie, 1 - gracz, 2 - komputer

@@ -8,7 +8,7 @@
 #include "Character.h"
 #include <ctime>
 
-#define DEF_SEC 120  //domyślny czas na ułożenie jednego słowa
+#define DEF_SEC 90  //domyślny czas na ułożenie jednego słowa
 
 class Game;
 class Field;
@@ -55,6 +55,7 @@ public:
 
   void changeActLetter(int, std::string);
   void changeActPoints(int, int);
+  void changebackButton(int);
 
   GtkWidget *createTable(int width, int height);
   GtkWidget *createButton(char *label, int height, int width);
@@ -65,9 +66,8 @@ public:
   void setLabel(GtkWidget *, std::string);
   void run();
   void changeSensitivity(GtkWidget * button, gboolean x);
-  void changeVisibility(GtkWidget *, gboolean);
   void chooseLetter(std::string filename, Field*);
-  GtkWidget *createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
+  void createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
  //  ~Gtk();
 
 };

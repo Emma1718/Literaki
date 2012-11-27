@@ -4,6 +4,10 @@
 #include "Player.h"
 
 #include <list>
+#include <algorithm>
+#include <time.h>
+
+#define MAX_TIME 60
 /// class Computer - 
 class Computer : public Player {
 
@@ -21,15 +25,19 @@ class Computer : public Player {
   std::string nth_letter(int n, std::string word);
   bool without(std::string &word, std::string letter);
 
-  bool find(int RowOrCol, int nr, std::string letters, std::list<int> distances, int);
+  bool find(int RowOrCol, int nr, std::string letters, std::list<int> distances, int, clock_t start, bool &tooLong);
   bool findWord();
 
-  bool findInLine(int RowOrCol, int nr, std::string &letters, std::list<int> &distances, int);
+  bool findInLine(int RowOrCol, int nr, std::string &letters, std::list<int> &distances, int, clock_t start, bool &tooLong);
 
   std::list <Character> copy_list();
   Character fromStringToCharacter(std::string);
   bool insertWord(std::string, int, int, int);
   void addLetters(int);
+
+std::string lettersToStr();
+bool findIfEmpty();
+bool checkSubset(std::string subset);
 };
 
 #endif 

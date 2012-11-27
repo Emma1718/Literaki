@@ -12,7 +12,8 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
   this->players_tab[0] = new Human("Gracz", 0, this->graphic, this->sack, this->map);
   this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary, this->map, filename_sack);
   this->history.push_back(History(this->map, this->sack, this->players_tab));
-  this->sack->show();  
+  this->graphic->changebackButton(this->history.size());
+
   this->leftTurns = 0;
 }
 
@@ -25,6 +26,7 @@ void Game::process()
 {
   bool foundAll = false;
   GtkWidget *dialogMessage;
+  gint result;
 
   list <string> wordsToCheck;
   list <string>::iterator iter;
@@ -54,13 +56,16 @@ void Game::process()
   else //jesli nie
     {
       this->leftTurns++;
-      dialogMessage = this->graphic->createDialogMessage((char*)"Nie", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
-      //gtk_dialog_run (GTK_DIALOG (dialogMessage));
-      while (gtk_events_pending())
-      	gtk_main_iteration();
-      sleep(1.5);
+      //      dialogMessage = 
+this->graphic->createDialogMessage((char*)"BŁĘDNY WYRAZ!!!", GTK_DIALOG_MODAL,GTK_BUTTONS_OK);
+      
+      // while (gtk_events_pending())
+      // 	gtk_main_iteration();
+      // sleep(1.5);
 
-      gtk_widget_destroy(dialogMessage);
+      // result = gtk_dialog_run(GTK_DIALOG (dialogMessage));
+      // if(result == GTK_RESPONSE_OK)
+      // 	gtk_widget_destroy(dialogMessage);
 
       static_cast<Human*>(this->players_tab[0])->returnLetters(this->insertions);  //to "zawróc" litery
       this->map->clearFields(); //usun je z planszy
@@ -69,7 +74,8 @@ void Game::process()
   this->insertions.clear(); //wyczysc listę
 
   this->history.push_back(History(this->map, this->sack, this->players_tab));
-  
+  this->graphic->changebackButton(this->history.size());
+
   if((this->players_tab[0]->getLettersAmount() == 0) || (this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0]))))
     {
       this->endOfGame();
@@ -108,6 +114,8 @@ void Game::omitMove()
       this->endOfGame();
       return;
     }
+  this->history.push_back(History(this->map, this->sack, this->players_tab));
+  this->graphic->changebackButton(this->history.size());
  
   this->map->disableMap();	      
   static_cast<Human*>(this->players_tab[0])->disableHumanBox(); 
@@ -127,21 +135,30 @@ void Game::automaticMove()
 {
   if (this->playerNumber > 0)
     {
-      static_cast<Computer*>(this->players_tab[playerNumber])->findWord();
-      
+      if(this->map->isEmpty())
+	static_cast<Computer*>(this->players_tab[playerNumber])->findIfEmpty();
+      else   
+	static_cast<Computer*>(this->players_tab[playerNumber])->findWord();
+
       this->map->getAllInsertions(false, this->insertions);
+      
+      if(this->insertions.size() == 0) 
+	this->leftTurns++;
+      else this->leftTurns = 0;
+
       this->graphic->changeActPoints(2, this->players_tab[playerNumber]->getActPoints());
       this->players_tab[playerNumber]->removeLetters(this->insertions);  //to usun te litery, które zostały wykorzystane
       this->players_tab[playerNumber]->addLetters(this->insertions.size());
       this->map->clearModAndBonus(); 
       this->map->tmp_sum = 0;
       this->insertions.clear();
- }
+    }
+
   if(this->players_tab[playerNumber]->getLettersAmount() == 0)
     this->endOfGame();
 
   this->history.push_back(History(this->map, this->sack, this->players_tab));
-
+  this->graphic->changebackButton(this->history.size());
 
   this->playerNumber++;
 
@@ -174,11 +191,11 @@ void Game::checkifProcess()
 	{
 	  this->map->getAllInsertions(false, this->insertions);
 	  
-	  dialogMessage = this->graphic->createDialogMessage("BŁEDNY RUCH", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
-	  while (gtk_events_pending())
-	    gtk_main_iteration();
-	  sleep(1.5);
-	  gtk_widget_destroy(dialogMessage);
+	  // dialogMessage = this->graphic->createDialogMessage("BŁEDNY RUCH", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
+	  // while (gtk_events_pending())
+	  //   gtk_main_iteration();
+	  // sleep(1.5);
+	  // gtk_widget_destroy(dialogMessage);
 
 	  static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
 	  this->map->clearFields();
@@ -203,11 +220,11 @@ void Game::checkifProcess()
     }
   else //jesli jest w pamięci litera
     {
-      dialogMessage = this->graphic->createDialogMessage("W pamięci jest litera!\n Umieść ją na planszy lub w swoim pudełku liter!", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE); 
-      while (gtk_events_pending())
-	gtk_main_iteration();
-      sleep(1.5);
-      gtk_widget_destroy(dialogMessage);
+      // dialogMessage = this->graphic->createDialogMessage("W pamięci jest litera!\n Umieść ją na planszy lub w swoim pudełku liter!", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE); 
+      // while (gtk_events_pending())
+      // 	gtk_main_iteration();
+      // sleep(1.5);
+      // gtk_widget_destroy(dialogMessage);
     }
 }
 
@@ -226,18 +243,16 @@ Game::~Game()
   exit(0);
 }
 
-int Game::getPlNumber()
-{
-  return this->playerNumber;
-}
-
 void Game::backInHistory()
 {
   list <History>::reverse_iterator it;  
  
+  Gtk::tmp_char.backtoStart();
+  this->graphic->changeActLetter(0, "");
+
   this->history.pop_back();
-  // if (this->history.size() == 1)
-  //   this->graphic->changeSensitivity();
+  if (this->history.size() == 1)
+    this->graphic->changebackButton(1);
 
   it = this->history.rbegin();
   this->map->readMap(*((*it).loadMapHist()));
@@ -261,7 +276,7 @@ void Game::endOfGame()
   GtkWidget *message;
   gint result; 
 
-  cout<<"haha"<<endl;
+  Gtk::clockEnd();
 
   for(int i = 0; i < sizeof(players_tab)/sizeof(players_tab[0]); i++)
     if (this->players_tab[i]->getFinalPoints() > maxP)
@@ -272,8 +287,8 @@ void Game::endOfGame()
       }
   sprintf(winner, "WYGRAŁ %s", (char*)this->players_tab[max]->getName().c_str());
   
-  message = this->graphic->createDialogMessage(winner,GTK_DIALOG_MODAL, GTK_BUTTONS_OK);
-  result = gtk_dialog_run(GTK_DIALOG(message));
-  if (result == GTK_RESPONSE_OK)
-    gtk_main_quit();
+  // message = this->graphic->createDialogMessage(winner,GTK_DIALOG_MODAL, GTK_BUTTONS_OK);
+  // result = gtk_dialog_run(GTK_DIALOG(message));
+  // if (result == GTK_RESPONSE_OK)
+  //   gtk_main_quit();
 }  

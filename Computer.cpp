@@ -70,7 +70,9 @@ string Computer::nth_letter(int n, string word)
     }
   return letter;
 }
-bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, int blanc_amount)
+
+
+bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, int blanc_amount, clock_t start, bool &tooLong)
 {
   int j=0;
   string letter="";
@@ -94,7 +96,14 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
 
   for(iter=dict->words.begin(); iter!=dict->words.end(); ++iter)
     {
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	if(((clock()-start)/(double)CLOCKS_PER_SEC) > MAX_TIME)
+	{
+		cout<<"PRZEKROCZONY LIMIT CZASU!!  "<<((clock()-start)/(double)CLOCKS_PER_SEC)<<endl;
+		tooLong=true;
+		return false;
+	}
+
       blanc = blanc_amount;
 
       tmp_letters.clear();
@@ -324,13 +333,16 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
       return false;
 }
 
-bool Computer::findInLine(int RowOrCol, int nr, string &letters, list<int> &distances, int blanc_amount)
+bool Computer::findInLine(int RowOrCol, int nr, string &letters, list<int> &distances, int blanc_amount, clock_t start, bool &tooLong)
 {
   
   while(letters.length()>0)
     {
-      if(this->find(RowOrCol, nr, letters, distances, blanc_amount))
+      if(this->find(RowOrCol, nr, letters, distances, blanc_amount, start, tooLong))
 	return true;
+      else
+	if(tooLong)
+	  return false;
       
       if((int)letters[0]<0)
 	letters=letters.substr(2);
@@ -355,7 +367,7 @@ bool Computer::findWord()
     cout<<"L:"<<(*it).getChar();
   cout<<endl;
 
-  int blanc_amount;
+  int blanc_amount = 0;
   for(list<Character>::iterator list_it = this->letters.begin(); list_it != this->letters.end(); list_it++)
     if((*list_it).getChar() == "_")
       ++blanc_amount;
@@ -364,6 +376,9 @@ bool Computer::findWord()
   srand(time(NULL));
   int r = rand()%4;
   cout<<"RAND:"<<r<<endl;
+
+clock_t start=clock();
+bool tooLong=false;
   
   switch(r)
     {
@@ -372,15 +387,19 @@ bool Computer::findWord()
       for(int i=0; i<this->map->mapHeight(); ++i)
         {
 	  this->map->getLine('r',i,letters,distances);
-	  if(this->findInLine(1,i,letters,distances, blanc_amount))
-	    return true;       
+	  if(this->findInLine(1,i,letters,distances, blanc_amount, start, tooLong))
+	    return true;    
+if(tooLong)
+return false;   
         }
       //dla wszystkich kolumn
       for(int i=0; i<this->map->mapWidth(); ++i)
         {
 	  this->map->getLine('c',i,letters, distances);
-	  if(this->findInLine(2,i,letters,distances, blanc_amount))
+	  if(this->findInLine(2,i,letters,distances, blanc_amount, start, tooLong))
 	    return true;
+if(tooLong)
+return false;   
         }
       break;
 
@@ -389,15 +408,19 @@ bool Computer::findWord()
       for(int i=0; i<this->map->mapWidth(); ++i)
         {
 	  this->map->getLine('c',i,letters, distances);
-	  if(this->findInLine(2,i,letters,distances, blanc_amount))
+	  if(this->findInLine(2,i,letters,distances, blanc_amount, start, tooLong))
 	    return true;
+if(tooLong)
+return false;   
         }
       //dla wszystkich wierszy   
       for(int i=0; i<this->map->mapHeight(); ++i)
         {
 	  this->map->getLine('r',i,letters,distances);
-	  if(this->findInLine(1,i,letters,distances, blanc_amount))
+	  if(this->findInLine(1,i,letters,distances, blanc_amount, start, tooLong))
 	    return true;       
+if(tooLong)
+return false;   
         }
       break;
 
@@ -406,15 +429,19 @@ bool Computer::findWord()
       for(int i=this->map->mapHeight()-1; i>=0; --i)
         {
 	  this->map->getLine('r',i,letters,distances);
-	  if(this->findInLine(1,i,letters,distances, blanc_amount))
+	  if(this->findInLine(1,i,letters,distances, blanc_amount, start, tooLong))
 	    return true;       
+if(tooLong)
+return false;   
         }
       //dla wszystkich kolumn
       for(int i=0; i<this->map->mapWidth(); ++i)
         {
 	  this->map->getLine('c',i,letters, distances);
-	  if(this->findInLine(2,i,letters,distances, blanc_amount))
+	  if(this->findInLine(2,i,letters,distances, blanc_amount, start, tooLong))
 	    return true;
+if(tooLong)
+return false;   
         }
       break;
 
@@ -423,16 +450,20 @@ bool Computer::findWord()
       for(int i=0; i<this->map->mapWidth(); ++i)
         {
 	  this->map->getLine('c',i,letters, distances);
-	  if(this->findInLine(2,i,letters,distances, blanc_amount))
+	  if(this->findInLine(2,i,letters,distances, blanc_amount, start, tooLong))
 	    return true;
+if(tooLong)
+return false;   
         }
       //dla wszystkich wierszy   
       for(int i=this->map->mapHeight()-1; i>=0; --i)
         {
 	  this->map->getLine('r',i,letters,distances);
-	  if(this->findInLine(1,i,letters,distances, blanc_amount))
+	  if(this->findInLine(1,i,letters,distances, blanc_amount, start, tooLong))
 	    return true;       
         }
+if(tooLong)
+return false;   
       break;
     }
   return false;
@@ -538,3 +569,98 @@ void Computer::addLetters(int amount)
   // for(it = this->letters.begin(); it != this->letters.end(); it++)
   //   g_print("After Add:%s\n", (*it).getChar());
 }
+
+
+//tworzy stringa z characters
+string Computer::lettersToStr()
+{
+  string str="";
+  list<Character>::iterator list_iter;
+  for (list_iter=this->letters.begin(); list_iter!=this->letters.end(); ++list_iter)
+	str=str+(*list_iter).getChar();
+  return str;
+}
+
+//sprawdza (gdy plansza jest pusta) wszystkie mozliwe kombinacje z liter komputera
+bool Computer::checkSubset(string subset)
+{
+do {
+	if(static_cast<Dictionary*> (this->dict)->checkWord(subset)) 
+	{
+		cout<<subset<<endl;
+		int begin=1, nr=1, RowOrCol=2;
+
+		int polish=0;
+		for(int i=0; i<(int)subset.length(); ++i)
+			if((int)subset[i]<0)
+				++polish;
+		polish=polish/2;
+
+		if((int)subset.length()-polish>=5)
+		{
+			begin=7-(rand()%((int)subset.length()-polish-4))+1;
+			nr=7;
+			RowOrCol=2;
+		}
+		else
+		{
+			srand(time(NULL));
+			begin=7-(rand()%((int)subset.length()-polish-1))+1;
+			nr=7;
+			RowOrCol=(rand()%2)+1;		
+		}
+
+		if (this->insertWord(subset, begin, nr, RowOrCol))
+		{      
+			bool foundAll = false;
+			list <string> wordsToCheck;
+			list <string>::iterator iter;
+			int cs;
+		      this->map->checkMove(cs);
+		      if(this->map->checkMove(cs))
+		  	{
+		  	  this->map->findWords(&wordsToCheck, RowOrCol);
+		  	  for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++)
+		  	    {
+		  	      if(this->dict->checkWord((*iter))==true)
+		  		foundAll = true;
+		  	      else
+		  		{
+		  		  foundAll = false;
+		  		  break;
+		  		}
+		  	    }
+		  	  if (foundAll)
+		  	    {
+		  	      this->map->drawModFields();
+		  	      this->addPoints(this->map->tmp_sum);
+		  	      return true;
+		  	    }
+		  	  else
+		  	    {
+		  	      this->map->clearFields();
+		  	      this->map->tmp_sum = 0;
+		  	    }
+			}
+		    }
+		  }
+		} while ( next_permutation (subset.begin(),subset.end()) );
+
+	return false;
+}
+
+//wywoluje funkcje sprawdzajaca permutacje dla wszystkich podzbiorow
+bool Computer::findIfEmpty()
+{
+	string word=lettersToStr(), tmp=word+word;
+	int n=(int)word.length();
+	string str;
+
+	for (int k=n; k>1; --k)
+		for(int i=0; i<(int)word.length(); ++i)
+				if (checkSubset(tmp.substr(i,k)) == true)
+					return true;
+	return false;
+}
+
+

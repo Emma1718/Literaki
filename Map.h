@@ -64,6 +64,7 @@ class Map {
   void getLine(char RowOrCol, int i, std::string &letters, std::list<int> &distances);
   void readMap(Map &);
   void drawAfterBack();
+  bool isEmpty();
 };
 
 #endif

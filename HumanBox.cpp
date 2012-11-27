@@ -16,12 +16,13 @@ void HumanBox::loadLetters(list <Character> letters)
 
   this->lettersBox = new HumanChar*[this->length];
 
-  int i;
+  int i = 0;
 
-  for(i=0, iter = letters.begin(); i<this->length, iter != letters.end(); i++, iter++)
+  for(iter = letters.begin();iter != letters.end();iter++)
     {
       this->lettersBox[i] = new HumanChar(this->graphic, this);
       this->lettersBox[i]->insert(*iter);
+      i++;
     }
 }
 
@@ -52,9 +53,6 @@ void HumanBox::disableHumanChars()
     }
   this->graphic->changeSensitivity(this->button_OK, FALSE);
   this->graphic->changeSensitivity(this->giveUpButton, FALSE);
-  this->graphic->changeVisibility(this->button_OK, FALSE);
-  this->graphic->changeVisibility(this->giveUpButton, FALSE);
-  
 }
 
 
@@ -67,8 +65,6 @@ void HumanBox::enableHumanChars()
     }
    this->graphic->changeSensitivity(this->button_OK, TRUE);
    this->graphic->changeSensitivity(this->giveUpButton, TRUE);
-   this->graphic->changeVisibility(this->button_OK, TRUE);
-   this->graphic->changeVisibility(this->giveUpButton, TRUE);
 }
 
 void HumanBox::addLetters(list <Character> letters, int amount)
@@ -106,12 +102,13 @@ HumanBox::~HumanBox()
 
 void HumanBox::drawAfterBack(list <Character> letters)
 {
-  int i;
+  int i = 0;
   list <Character>::iterator iter;
 
-  for(i=0, iter = letters.begin(); i<this->length, iter != letters.end(); i++, iter++)
+  for(iter = letters.begin(); iter != letters.end(); iter++)
     {
       this->lettersBox[i]->insert(*iter);
       this->lettersBox[i]->drawLetter();
+      i++;
     }
 }

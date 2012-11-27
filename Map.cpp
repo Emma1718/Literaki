@@ -357,7 +357,7 @@ bool Map::getAllInsertions(bool check, list <Character> &insertions)//pobierz ws
 void Map::countPoints(int option, int begin, int end, int x)
 {
   int word_multiplier = 1;//ustaw początkowo mnożnik słowa na 0
-  cout<<"Count: "<<begin<<" "<<end<<" "<<x<<endl;
+  
   int sum = 0;
   
   switch(option)
@@ -365,18 +365,15 @@ void Map::countPoints(int option, int begin, int end, int x)
     case 1://jeśli wyraz w wierszu
       for(int j = begin; j <= end; j++)
 	sum+= this->matrix[x][j]->calculate(&word_multiplier);//policz dla każdej komórki, sprawdz czy nie zmienił sie mnożnik słowa
-      cout<<"sum_tmp1:"<<sum<<endl;
 	break;
 
     case 2://jesli w kolumnie
       for(int i = begin; i <= end; i++)
 	sum+= this->matrix[i][x]->calculate(&word_multiplier);
-      cout<<"sum_tmp1:"<<sum<<endl;
      break;
     }
   sum*=word_multiplier;
   this->tmp_sum+=sum;
-  cout<<"Sumapkt:"<<this->tmp_sum<<endl;
 }
 
 void Map::disableMap() //dezaktywuj mapę
@@ -538,13 +535,6 @@ void Map::readMap(Map &mapToRead)
   for(int i = 0; i < this->height; i++)
       for(int j = 0;j < this->width; j++)
 	this->matrix[i][j]->copyData(*mapToRead.matrix[i][j]);
-
- for(int i = 0; i < this->height; i++)
-    {
-      for(int j = 0;j < this->width; j++)
-	cout<<this->matrix[i][j]->getCharacter().getChar();
-      cout<<endl;
-    }
 }
 
 void Map::drawAfterBack()
@@ -553,3 +543,12 @@ void Map::drawAfterBack()
     for(int j = 0; j < this->width; j++)
       this->matrix[i][j]->changeButton();
 } 
+
+bool Map::isEmpty()
+{
+  for(int i = 0; i < this->height; i++)
+    for(int j = 0;j < this->width; j++)
+      if(this->matrix[i][j]->getCharacter().getChar() != "")
+	return false;
+  return true;
+}
