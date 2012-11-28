@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-/* #include "Sack.h" */
+
 #include "Map.h"
 #include "Gtk.h"
 #include "Player.h" 
@@ -12,22 +12,22 @@
 #include <string>
 #include <iostream>
 
-//class History;
-
-/// class Game -
+#define PLAYERS 2
 class Game {
-  // Associations
-  Sack* sack;//wskaźnik na worek
-  Gtk* graphic;//wskaźnik na grafikę
-  Map* map;//wskaźnika na mapę
+
+  Sack* sack;
+  Gtk* graphic;
+  Map* map;
+  Dictionary* dictionary;
+
   int playerNumber; //liczba graczy
-  Player *players_tab[2]; //tablica graczy
-  Dictionary* dictionary;//wskaźnik na słownik
+  Player *players_tab[PLAYERS]; //tablica graczy
+
   std::list <History> history;
   std::list <Character> insertions; //lista z wszystkimi literami wstawionymi podczas danego ruchu
   int option; //opcja - czy głowny wyraz znajduje się w kolumnie czy też w wierszu
-  int leftTurns;
-// Operations
+  int leftTurns;//stracone kolejki
+
  public:
   Game (int argc, char *argv[],std::string filename_matrix, std::string filename_sack, std::string filename_dict); 
   ~Game ();

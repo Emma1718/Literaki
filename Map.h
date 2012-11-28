@@ -11,34 +11,33 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-/// class Map -
-class Map {
-  // Associations
 
-  // Attributes
+class Map {
+
   bool** modified;
   Field*** matrix;
   int ** helpMat;
+ 
   GtkWidget *board;
+  Gtk *graphic;  
+  
   int height;
   int width;
-  Gtk *graphic;
-
-  // Operations
+  
  public:
   int tmp_sum;
 
   Map (Gtk * ,std::string);
   Map(const Map &);
   ~Map ();
+  
+  void loadFromFile(std::string filename);
+  void draw ();
+  
   bool setField (int x, int y, Character c);
   void clearFields ();
   void drawModFields();
-  //-----------Rysowanie-------
-  void draw ();
-  void putField(int x, int y, GtkWidget *button);
-  void loadFromFile(std::string filename);
-  //-----Klikanie------
+
   void modifyField(int ,int, bool);
   bool checkIfModified(int, int);
   //----Sprawdzanie ruchu----
@@ -56,15 +55,17 @@ class Map {
   void countPoints(int, int, int, int);
   void disableMap();
   void enableMap();
-  //----Usuwanie liter--------
+
   bool getAllInsertions(bool, std::list <Character> &);
 
   int mapWidth();
   int mapHeight();
   void getLine(char RowOrCol, int i, std::string &letters, std::list<int> &distances);
+  bool isEmpty();
+
   void readMap(Map &);
   void drawAfterBack();
-  bool isEmpty();
+
 };
 
 #endif

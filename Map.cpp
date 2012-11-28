@@ -2,7 +2,76 @@
 
 using namespace std;
 
-void Map::loadFromFile(string filename)  //załaduj mapę z pliku
+
+Map::Map(Gtk *graphic,string filename)
+{
+  this->graphic = graphic;
+  this->loadFromFile(filename);
+  this->draw();
+  
+  this-> modified=new bool*[this->height];
+
+  for(int i = 0; i<this->height; i++)
+    modified[i]=new bool[this->width];
+
+
+  for(int i=0;i<this->height;i++)
+    for(int j=0;j<this->width;j++)
+      this->modified[i][j] = false;
+}
+
+Map::Map(const Map & copMap)
+{
+  this->height = copMap.height;
+  this->width = copMap.width;
+  
+  this-> matrix=new Field**[this->height];
+  for(int i = 0; i<this->height; i++)
+    matrix[i]=new Field*[this->width];
+
+  for(int i=0;i<this->height;i++)
+    for(int j=0;j<this->width;j++)
+      {
+	switch(copMap.helpMat[i][j])
+	  {
+	  case 0:
+	    this->matrix[i][j] = new Field(*copMap.matrix[i][j]);
+	    break;
+	  case 1:
+	    this->matrix[i][j] = new CharBonus(static_cast<CharBonus&>(*copMap.matrix[i][j]));
+	    break;
+	  case 2:
+	    this->matrix[i][j] = new WordBonus(static_cast<WordBonus&>(*copMap.matrix[i][j]));
+	    break;
+	  }
+      }
+}
+
+Map::~Map()
+{
+  //-------------------
+  for(int i = 0; i < this->height; i++)
+    delete [] this->modified[i];
+
+  delete this->modified;
+  //-------------------
+  for(int i = 0; i < this-> height; i++)
+    for(int j = 0; j < this->width; j++)
+      delete this->matrix[i][j];
+
+  for(int i = 0; i < this->height; i++)
+    delete [] this->matrix[i];
+
+  delete this->matrix;
+  //----------------
+  for(int i = 0; i < this->height; i++)
+    delete [] this->helpMat[i];
+
+  delete this->helpMat;
+  //---------------
+}
+
+void Map::loadFromFile(string filename)  
 {
 
   int option, wh_ch, mp;
@@ -31,7 +100,6 @@ void Map::loadFromFile(string filename)  //załaduj mapę z pliku
 		case 0:
 		  this->matrix[i][j] = new Field(this, this->graphic, i, j);
 		  this->helpMat[i][j] = 0;
-		  // g_print("%d %d \n" ,i, j);
 		  break;
 		case 1:
 		  file>>wh_ch>>mp;
@@ -49,40 +117,24 @@ void Map::loadFromFile(string filename)  //załaduj mapę z pliku
     }
 }
 
-void Map::draw() //narysuj mapę
+void Map::draw() 
 {
   this->board = graphic->createTable(this->width,this->height);
+  
   for(int i=0; i<this->height; i++)
     for(int j=0; j<this->width; j++)
       {
-	graphic->putField(i,j,this->board,this->matrix[i][j]->draw(graphic));
+	this->graphic->putField(i,j,this->board,this->matrix[i][j]->draw(graphic));
       }
   graphic->mapIntoWindow(this->board);
 }
 
-Map::Map(Gtk *graphic,string filename)
-{
-  this->graphic = graphic;
-  this->loadFromFile(filename);
-  this->draw();
-  /*-----Inicjalizacja masek na macierz--------*/
-  this-> modified=new bool*[this->height];
-
-  for(int i = 0; i<this->height; i++)
-    modified[i]=new bool[this->width];
-
-
-  for(int i=0;i<this->height;i++)
-    for(int j=0;j<this->width;j++)
-      this->modified[i][j] = false;
-}
-
-void Map::modifyField(int x, int y, bool mod) //zmodyfikuj pole
+void Map::modifyField(int x, int y, bool mod) 
 {
   this->modified[x][y] = mod;
 }
 
-bool Map::checkIfModified(int x, int y) //sprawdz czy jest zmodyfikowane
+bool Map::checkIfModified(int x, int y) 
 {
   return (this->modified[x][y]);
 }
@@ -104,7 +156,7 @@ bool Map::checkMove(int &cs)  //sprawdz ruch, przekaż informację czy zmodyfiko
 	    mod_amount++;
 	  }
       }
-  if (x<0) return false;  //jesli nie ma zmodyfukowanych to niepoprawny ruch
+  if (x<0) return false;  //jesli nie ma zmodyfikowanych to niepoprawny ruch
   cs = 0;
 
   if (this->checkRow(x) != mod_amount)   //jesli w wierszu nie ma wszsytkich zmodyfikowanych pól
@@ -173,7 +225,7 @@ int Map::checkCol(int y)
   int actual_amount = 0;
   bool interested = false;
 
-   for(int j = 0; j < this->height; j++)
+  for(int j = 0; j < this->height; j++)
     {
       if (interested)
   	{
@@ -241,7 +293,7 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 {
   bool found1 = false;
   int begin, end;
-  string word;// = new char[14];
+  string word;
 
 
 
@@ -260,7 +312,7 @@ void Map::findWords(list <string> *words, int opt)  //znajdz wyrazy i przekaż j
 		  if (begin != end) //jesli wyraz jest co najmniej 2lierowy
 		    {
 		      for(int p = begin; p<=end; p++) //znajdz go
-			    word+=this->matrix[i][p]->getCharacter().getChar();
+			word+=this->matrix[i][p]->getCharacter().getChar();
 		      words->push_back(word); //wrzuc na listę
 		      word.clear();//i wyczyść
 		      this->countPoints(1, begin, end, i); //podlicz punkty
@@ -328,7 +380,6 @@ void Map::clearModAndBonus() //usuń modyfikacje i dostępne bonusy
 
 bool Map::getAllInsertions(bool check, list <Character> &insertions)//pobierz wszystki modyfikacje
 {
-  //  list <Character> insertions;
   bool isBlank = false;
 
   for(int i = 0; i < this->height; i++)
@@ -350,7 +401,7 @@ bool Map::getAllInsertions(bool check, list <Character> &insertions)//pobierz ws
 		  }
 	      }
 	  }
-	}
+      }
   return isBlank;
 }
 
@@ -365,12 +416,12 @@ void Map::countPoints(int option, int begin, int end, int x)
     case 1://jeśli wyraz w wierszu
       for(int j = begin; j <= end; j++)
 	sum+= this->matrix[x][j]->calculate(&word_multiplier);//policz dla każdej komórki, sprawdz czy nie zmienił sie mnożnik słowa
-	break;
+      break;
 
     case 2://jesli w kolumnie
       for(int i = begin; i <= end; i++)
 	sum+= this->matrix[i][x]->calculate(&word_multiplier);
-     break;
+      break;
     }
   sum*=word_multiplier;
   this->tmp_sum+=sum;
@@ -396,7 +447,6 @@ void Map::clearFields()//przywróc pola do stanu początkowego
     for(int j = 0; j < this->width; j++)
       if (this->modified[i][j])
 	{
-	  g_print("clear:%d %d\n", i,j);
 	  this->matrix[i][j]->backToStandart();
 	  this->modified[i][j]=false;
 	}
@@ -405,13 +455,10 @@ void Map::clearFields()//przywróc pola do stanu początkowego
 
 bool Map::setField(int x, int y, Character c)
 {
-  //  this->graphic->setLabel(this->matrix[3][5]->button, "B");
   if (!checkIfSet(x,y))
     {
       this->matrix[x][y]->insert(c);
       this->modified[x][y] = true;
-      //this->matrix[x][y]->changeButton();
-      cout<<"Wstawiam "<<c.getChar()<<" na "<<x<<" "<<y<<endl;
       return true;
     }
   else return false;
@@ -446,7 +493,7 @@ void Map::getLine(char RowOrCol, int i, string &letters, list<int> &distances)
 	    }
 	}
     }
-  else //if(RowOrCol=='c')
+  else
     {
       for(int j=0; j<this->height; ++j)
 	{
@@ -481,63 +528,14 @@ int Map::mapHeight()
   return this->height;
 }
 
-Map::~Map()
+void Map::readMap(Map &mapToRead) //odczytaj mapę (z historii)
 {
   for(int i = 0; i < this->height; i++)
-    delete [] this->modified[i];
-
-  delete this->modified;
-
-  for(int i = 0; i < this-> height; i++)
-    for(int j = 0; j < this->width; j++)
-      delete this->matrix[i][j];
-
-  for(int i = 0; i < this->height; i++)
-    delete [] this->matrix[i];
-
-   delete this->matrix;
-  
-   for(int i = 0; i < this->height; i++)
-     delete [] this->helpMat[i];
-
-   delete this->helpMat;
+    for(int j = 0;j < this->width; j++)
+      this->matrix[i][j]->copyData(*mapToRead.matrix[i][j]);
 }
 
-Map::Map(const Map & copMap)
-{
-  this->height = copMap.height;
-  this->width = copMap.width;
-  
-  this-> matrix=new Field**[this->height];
-  for(int i = 0; i<this->height; i++)
-    matrix[i]=new Field*[this->width];
-
-  for(int i=0;i<this->height;i++)
-    for(int j=0;j<this->width;j++)
-      {
-	switch(copMap.helpMat[i][j])
-	  {
-	  case 0:
-	    this->matrix[i][j] = new Field(*copMap.matrix[i][j]);
-	    break;
-	  case 1:
-	    this->matrix[i][j] = new CharBonus(static_cast<CharBonus&>(*copMap.matrix[i][j]));
-	    break;
-	  case 2:
-	    this->matrix[i][j] = new WordBonus(static_cast<WordBonus&>(*copMap.matrix[i][j]));
-	    break;
-	  }
-      }
-}
-
-void Map::readMap(Map &mapToRead)
-{
-  for(int i = 0; i < this->height; i++)
-      for(int j = 0;j < this->width; j++)
-	this->matrix[i][j]->copyData(*mapToRead.matrix[i][j]);
-}
-
-void Map::drawAfterBack()
+void Map::drawAfterBack()  //przerysuj po odczycie z historii
 {
   for(int i = 0; i < this->height; i++)
     for(int j = 0; j < this->width; j++)

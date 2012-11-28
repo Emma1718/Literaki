@@ -15,7 +15,7 @@ class Field;
 
 class Gtk
 {
-  static Game *game; //wskaźnik na grę  
+  static Game *game;
   /*----Głowne widgety----*/ 
   GtkWidget *window;
   GtkWidget *vbox;
@@ -40,6 +40,7 @@ class Gtk
 public:
 
   Gtk(int argc, char * argv[], Game *);
+  void run();
   
   static Character tmp_char; //tymczasowa litera, która gracz pobrał z planszy/humanboxa
 
@@ -64,12 +65,9 @@ public:
   void humanboxIntoWindow(GtkWidget *, GtkWidget *, GtkWidget *);
   void putField(int x, int y, GtkWidget *button, GtkWidget *board);
   void setLabel(GtkWidget *, std::string);
-  void run();
   void changeSensitivity(GtkWidget * button, gboolean x);
   void chooseLetter(std::string filename, Field*);
   void createDialogMessage(const gchar *);
- //  ~Gtk();
-
 };
 
 #endif

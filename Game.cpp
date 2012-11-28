@@ -59,7 +59,7 @@ void Game::process()
     }
   
 
-  if((this->players_tab[0]->getLettersAmount() == 0) || (this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0]))))
+  if((this->players_tab[0]->getLettersAmount() == 0) || (this->leftTurns == 2*PLAYERS))
     {
       this->endOfGame();
       return;
@@ -79,7 +79,7 @@ void Game::process()
   this->map->tmp_sum = 0; 
 
   this->playerNumber++;
-  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0]))
+  if (this->playerNumber == PLAYERS)
     this->playerNumber = 0; 
   this->automaticMove(); 
 
@@ -93,7 +93,7 @@ void Game::omitMove()
       this->mistake("STRATA KOLEJKI!");
       insertions.clear();
 
-      if(this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0])))
+      if(this->leftTurns == 2*PLAYERS)
 	{
 	  this->endOfGame();
 	  return;
@@ -109,7 +109,8 @@ void Game::omitMove()
       sleep(1.5);
  
       this->playerNumber++;
-      if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
+      if (this->playerNumber == PLAYERS)
+	this->playerNumber = 0;
       this->automaticMove();
     }
   else 
@@ -152,11 +153,11 @@ void Game::automaticMove()
 
   this->playerNumber++;
 
-  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) 
+  if (this->playerNumber == PLAYERS)
     this->playerNumber = 0;
 
 
-   if((this->players_tab[actPl]->getLettersAmount() == 0) || (this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0]))))
+  if((this->players_tab[actPl]->getLettersAmount() == 0) || (this->leftTurns == 2*PLAYERS))
     {
       this->map->enableMap();
       this->endOfGame();
@@ -190,7 +191,7 @@ void Game::checkifProcess()
 	  this->mistake("BŁĘDNY RUCH");
 	  this->insertions.clear(); 
  
-	  if(this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0])))
+	  if(this->leftTurns == 2*PLAYERS)
 	    {
 	      this->endOfGame();
 	      return;
@@ -202,7 +203,7 @@ void Game::checkifProcess()
 	  sleep(1.5);
 	  
 	  this->playerNumber++; 
-	  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0]))
+	  if (this->playerNumber == PLAYERS)
 	    this->playerNumber = 0;
 	  this->automaticMove(); 
 
@@ -261,7 +262,7 @@ void Game::backInHistory()
 
   this->sack->readSack(*(*it).loadSackHist());
 
-  for(int i = 0; i < (int) (sizeof(players_tab)/sizeof(players_tab[0]));i++) 
+  for(int i = 0; i < PLAYERS;i++) 
     {
       this->players_tab[i]->readPlayer(*(*it).loadPlayerHist(i)); 
       this->graphic->changeActPoints(i+1, this->players_tab[i]->getActPoints());
@@ -277,7 +278,7 @@ void Game::endOfGame()
 
   Gtk::clockEnd();
 
-  for(int i = 0; i <(int)(sizeof(players_tab)/sizeof(players_tab[0])); i++)
+  for(int i = 0; i < PLAYERS; i++)
     {
       if (this->players_tab[i]->getFinalPoints() > maxP)
 	{
@@ -287,7 +288,7 @@ void Game::endOfGame()
       this->graphic->changeActPoints(i+1, this->players_tab[i]->getFinalPoints());
     }
 
-  if(this->leftTurns == 2*(int)(sizeof(players_tab)/sizeof(players_tab[0])))
+  if(this->leftTurns == 2*PLAYERS)
     sprintf(winner, "GRACZE OMINĘLI PO 2 KOLEJKI\nWYGRAŁ %s\nZDOBYŁ %d PUNKTÓW\n", (char*)this->players_tab[max]->getName().c_str(), this->players_tab[max]->getFinalPoints());
   else
     sprintf(winner, "BRAK LITER W WORKU I W PUDEŁKU\n JEDNEGO Z GRACZY!\nWYGRAŁ %s\nZDOBYŁ %d PUNKTÓW\n", (char*)this->players_tab[max]->getName().c_str(), this->players_tab[max]->getFinalPoints());
