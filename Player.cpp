@@ -22,7 +22,6 @@ void Player::removeLetters(list <Character> insertions)
       {
 	if((*it).getChar() == (*it2).getChar())
 	  {
-	    cout<<"it2:"<<(*it2).getChar()<<"it:"<<(*it).getChar()<<endl;
 	    if(it==this->letters.begin())
 	      {
 		this->letters.pop_front();
@@ -72,7 +71,6 @@ void Player::removeLetters(list <Character> insertions)
 void Player::addPoints(int sum)
 {
   this->points+=sum;
-  cout<<"ActualPoints:"<<this->points<<endl;
 }
 
 int Player::getActPoints()

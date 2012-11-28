@@ -105,6 +105,11 @@ void HumanBox::drawAfterBack(list <Character> letters)
   int i = 0;
   list <Character>::iterator iter;
 
+  for(i = 0; i < this->length; i++)
+    this->lettersBox[i]->clear();
+
+  i=0;
+
   for(iter = letters.begin(); iter != letters.end(); iter++)
     {
       this->lettersBox[i]->insert(*iter);

@@ -26,6 +26,7 @@ class HumanChar{
   GtkWidget * getButton();
   Character getLetter();
   void insert(Character c);
+  void clear();
   void drawLetter();
   void disableButton();
   void enableButton();

@@ -191,45 +191,38 @@ gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
 
 void Gtk::chooseLetter(string filename, Field *f)  //wyświetlenie okna z literami do wyboru w zamian za blanka, podany plik i wskaznik na pole na którym jest blank
 {
-  // if (!chooseWin)
-  //{
-      int unimp;
+  int unimp;
 
-      chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);  //tworzenie okna
-      gtk_window_set_title (GTK_WINDOW(chooseWin), "Wybierz literę");
-      gtk_window_set_position (GTK_WINDOW(chooseWin), GTK_WIN_POS_CENTER);
-      gtk_widget_set_size_request(chooseWin,370,170);
-      gtk_window_set_resizable(GTK_WINDOW(chooseWin), FALSE);
+  chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);  //tworzenie okna
+  gtk_window_set_title (GTK_WINDOW(chooseWin), "Wybierz literę");
+  gtk_window_set_position (GTK_WINDOW(chooseWin), GTK_WIN_POS_CENTER);
+  gtk_widget_set_size_request(chooseWin,370,170);
+  gtk_window_set_resizable(GTK_WINDOW(chooseWin), FALSE);
 
-      GtkWidget *table = this->createTable(4,8);  //tworzenie tabelki
-      gtk_container_border_width(GTK_CONTAINER(chooseWin), 5);
-      gtk_container_add(GTK_CONTAINER(chooseWin), table);
+  GtkWidget *table = this->createTable(4,8);  //tworzenie tabelki
+  gtk_container_border_width(GTK_CONTAINER(chooseWin), 5);
+  gtk_container_add(GTK_CONTAINER(chooseWin), table);
 
-      ifstream file(filename.c_str(), ifstream::in);
+  ifstream file(filename.c_str(), ifstream::in);
 
 
-      if (file.is_open()) //wczytywanie liter i kolorów
-	{
-	  for(int i = 0; i < 4; i++)
-	    for(int j = 0 ; j < 8; j++)
-	      {
-		string letter;
-		int val;
-		file>>letter>>unimp>>val;
-		GtkWidget * button = this->createButton((char*)letter.c_str(), 38, 38);
-		this->changeColor(button, val);
-		this->putField(i, j, table, button);
-		g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), (gpointer)f);
-	      }
-	}
+  if (file.is_open()) //wczytywanie liter i kolorów
+    {
+      for(int i = 0; i < 4; i++)
+	for(int j = 0 ; j < 8; j++)
+	  {
+	    string letter;
+	    int val;
+	    file>>letter>>unimp>>val;
+	    GtkWidget * button = this->createButton((char*)letter.c_str(), 38, 38);
+	    this->changeColor(button, val);
+	    this->putField(i, j, table, button);
+	    g_signal_connect(button, "clicked", G_CALLBACK(Gtk::letterChosen), (gpointer)f);
+	  }
+    }
 
-      file.close();
-      gtk_widget_show_all(chooseWin);
-  //   }
-  // else 
-  //   {
-  //     gtk_widget_show(chooseWin);
-  //   }
+  file.close();
+  gtk_widget_show_all(chooseWin);
 }
 
 void Gtk::letterChosen(GtkWidget * widget, gpointer data)  //funkcja zwrotna kliknięcia/wyboru litery zamiast blanka
@@ -248,12 +241,12 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)  //funkcja zwrotna kli
   game->process();
 }
 
-void Gtk::createDialogMessage(const gchar *messageText, GtkDialogFlags flag, GtkButtonsType butType)  //tworzenie informacji o błędzie/zapytaniu usera
+void Gtk::createDialogMessage(const gchar *messageText)
 {
   GtkWidget *message;
   gint result;
-  message=gtk_message_dialog_new(GTK_WINDOW(this->window), flag, GTK_MESSAGE_OTHER, butType, messageText);
-  //gtk_widget_set_usize(message,szer,wys);
+  message=gtk_message_dialog_new(GTK_WINDOW(this->window), GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_OK, messageText);
+  gtk_widget_set_usize(message,350,150);
   gtk_widget_show(message);
 
   result = gtk_dialog_run(GTK_DIALOG (message));

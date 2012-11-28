@@ -1,20 +1,22 @@
-#include "Game.h"
+ #include "Game.h"
 
 using namespace std;
 
 Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack, string filename_dict)
 {
-  this->playerNumber = 0;
-  this->graphic = new Gtk(argc, argv,this);//stworzenie grafiki
-  this->map = new Map(this->graphic,filename_matrix);//plansza
+
+  this->graphic = new Gtk(argc, argv,this);
+  this->map = new Map(this->graphic,filename_matrix);
   this->sack = new Sack(filename_sack);
-  this->dictionary = new Dictionary(filename_dict);//wczytanie słów ze słownika
+  this->dictionary = new Dictionary(filename_dict);
   this->players_tab[0] = new Human("Gracz", 0, this->graphic, this->sack, this->map);
   this->players_tab[1] = new Computer("Komputer", 0, this->sack, this->dictionary, this->map, filename_sack);
+
   this->history.push_back(History(this->map, this->sack, this->players_tab));
   this->graphic->changebackButton(this->history.size());
 
   this->leftTurns = 0;
+  this->playerNumber = 0;
 }
 
 void Game::run()
@@ -25,15 +27,13 @@ void Game::run()
 void Game::process()
 {
   bool foundAll = false;
-  GtkWidget *dialogMessage;
-  gint result;
-
+ 
   list <string> wordsToCheck;
   list <string>::iterator iter;
 
-  this->map->findWords(&wordsToCheck, this->option); //znajdz wyrazy
+  this->map->findWords(&wordsToCheck, this->option);
 
-  for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++) //sprawdz je w słowniku
+  for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++) 
     {
       if(this->dictionary->checkWord((*iter))==true)
 	foundAll = true;
@@ -49,92 +49,77 @@ void Game::process()
       this->leftTurns = 0;
       this->players_tab[0]->addPoints(this->map->tmp_sum); //przekaż punkty graczowi
       this->graphic->changeActPoints(1, this->players_tab[0]->getActPoints());
-      this->players_tab[0]->removeLetters(this->insertions);  //to usun te litery, które zostały wykorzystane
-      this->map->clearModAndBonus();                   //usun bonusy i modyfikacje
-      this->players_tab[0]->addLetters(this->insertions.size()); //dodaj nowe litery
+      this->players_tab[0]->removeLetters(this->insertions); 
+      this->map->clearModAndBonus();                  
+      this->players_tab[0]->addLetters(this->insertions.size()); 
     }
-  else //jesli nie
+  else 
     {
-      this->leftTurns++;
-      //      dialogMessage = 
-this->graphic->createDialogMessage((char*)"BŁĘDNY WYRAZ!!!", GTK_DIALOG_MODAL,GTK_BUTTONS_OK);
-      
-      // while (gtk_events_pending())
-      // 	gtk_main_iteration();
-      // sleep(1.5);
-
-      // result = gtk_dialog_run(GTK_DIALOG (dialogMessage));
-      // if(result == GTK_RESPONSE_OK)
-      // 	gtk_widget_destroy(dialogMessage);
-
-      static_cast<Human*>(this->players_tab[0])->returnLetters(this->insertions);  //to "zawróc" litery
-      this->map->clearFields(); //usun je z planszy
+      this->mistake("BŁĘDNY WYRAZ");
     }
   
-  this->insertions.clear(); //wyczysc listę
-
-  this->history.push_back(History(this->map, this->sack, this->players_tab));
-  this->graphic->changebackButton(this->history.size());
 
   if((this->players_tab[0]->getLettersAmount() == 0) || (this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0]))))
     {
       this->endOfGame();
       return;
     }
- 
-  this->map->disableMap();	      //zdezaktywuj mape
-  static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
+
+  this->insertions.clear(); 
+
+  this->history.push_back(History(this->map, this->sack, this->players_tab));
+  this->graphic->changebackButton(this->history.size());
+
+  this->disableHumanPart();
 
   while (gtk_events_pending())
     gtk_main_iteration();
   sleep(1.5);
 
-  Gtk::clockEnd();
   this->map->tmp_sum = 0; 
 
-  this->playerNumber++; //inkrementuj nr zawodnika
+  this->playerNumber++;
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0]))
-    this->playerNumber = 0; //jesli numer jest większy od liczy zawodników, ustaw na 0
-  this->automaticMove(); //przjdz to automatycznego ruchu
+    this->playerNumber = 0; 
+  this->automaticMove(); 
 
 }
 
 void Game::omitMove()
 {
-  this->leftTurns++;
-  cout<<"left turns:"<<leftTurns<<"pl:"<<2*(sizeof(players_tab)/sizeof(players_tab[0]))<<endl;
-  this->map->getAllInsertions(false, this->insertions);
-
-  static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
-  this->map->clearFields();
-
-  insertions.clear();
-
-  if(this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0])))
+  if (Gtk::tmp_char.getChar() == "")
     {
-      cout<<"KONIEC"<<endl;
-      this->endOfGame();
-      return;
+      this->map->getAllInsertions(false, this->insertions);
+      this->mistake("STRATA KOLEJKI!");
+      insertions.clear();
+
+      if(this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0])))
+	{
+	  this->endOfGame();
+	  return;
+	}
+
+      this->history.push_back(History(this->map, this->sack, this->players_tab));
+      this->graphic->changebackButton(this->history.size());
+ 
+      this->disableHumanPart();
+
+      while (gtk_events_pending())
+	gtk_main_iteration();
+      sleep(1.5);
+ 
+      this->playerNumber++;
+      if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
+      this->automaticMove();
     }
-  this->history.push_back(History(this->map, this->sack, this->players_tab));
-  this->graphic->changebackButton(this->history.size());
- 
-  this->map->disableMap();	      
-  static_cast<Human*>(this->players_tab[0])->disableHumanBox(); 
-
-  while (gtk_events_pending())
-    gtk_main_iteration();
-  sleep(1.5);
-
-  Gtk::clockEnd();
- 
-  this->playerNumber++;
-  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) this->playerNumber = 0;
-  this->automaticMove();
+  else 
+    this->graphic->createDialogMessage((char*)"W pamięci jest litera!\nUmieść ją na planszy lub w swoim\npudełku liter!"); 
 }
 
 void Game::automaticMove()
 {
+  int actPl = this->playerNumber;
+
   if (this->playerNumber > 0)
     {
       if(this->map->isEmpty())
@@ -147,16 +132,19 @@ void Game::automaticMove()
       if(this->insertions.size() == 0) 
 	{
 	  this->leftTurns++;
-	  cout<<"left turns:"<<leftTurns<<endl;
-	}      
-      else this->leftTurns = 0;
+	  this->graphic->createDialogMessage((char*)"KOMPUTER PASUJE!!!");
+	}
+      else
+	{
+	  this->leftTurns = 0;
 
-      this->graphic->changeActPoints(2, this->players_tab[playerNumber]->getActPoints());
-      this->players_tab[playerNumber]->removeLetters(this->insertions);  //to usun te litery, które zostały wykorzystane
-      this->players_tab[playerNumber]->addLetters(this->insertions.size());
-      this->map->clearModAndBonus(); 
-      this->map->tmp_sum = 0;
-      this->insertions.clear();
+	  this->graphic->changeActPoints(2, this->players_tab[playerNumber]->getActPoints());
+	  this->players_tab[playerNumber]->removeLetters(this->insertions);  //to usun te litery, które zostały wykorzystane
+	  this->players_tab[playerNumber]->addLetters(this->insertions.size());
+	  this->map->clearModAndBonus(); 
+	  this->map->tmp_sum = 0;
+	  this->insertions.clear();
+	}
     }
 
   this->history.push_back(History(this->map, this->sack, this->players_tab));
@@ -166,74 +154,81 @@ void Game::automaticMove()
 
   if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0])) 
     this->playerNumber = 0;
-  
+
+
+   if((this->players_tab[actPl]->getLettersAmount() == 0) || (this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0]))))
+    {
+      this->map->enableMap();
+      this->endOfGame();
+      return;
+    } 
+
   if (this->playerNumber != 0)
     this->automaticMove();
   else
     {
       this->map->enableMap();
       static_cast<Human*>(this->players_tab[0])->enableHumanBox();
+      this->graphic->changebackButton(2);
       Gtk::clockStart();
     }
-
-  if((this->players_tab[0]->getLettersAmount() == 0) || (this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0]))))
-    {
-      this->endOfGame();
-      return;
-    }
+  
 }
 
 void Game::checkifProcess()
 {
-
-  GtkWidget *dialogMessage;
-
-  if (Gtk::tmp_char.getChar() == "") //jeśli w pamięci nie ma żadnej litery
+  if (Gtk::tmp_char.getChar() == "")
     {
-      if (this->map->checkMove(this->option)) //jeśli poprawny ruch
+      if (this->map->checkMove(this->option)) 
 	{
 	  if(!(this->map->getAllInsertions(true, this->insertions)))
 	    this->process();
-	}  //to pobierz wszystkie wstawione litery,sprawdz czy nie ma blanka,  utworz z nich listę
+	} 
       else
 	{
 	  this->map->getAllInsertions(false, this->insertions);
-	  
-	  // dialogMessage = this->graphic->createDialogMessage("BŁEDNY RUCH", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE);
-	  // while (gtk_events_pending())
-	  //   gtk_main_iteration();
-	  // sleep(1.5);
-	  // gtk_widget_destroy(dialogMessage);
-
-	  static_cast<Human*>(this->players_tab[0])->returnLetters(insertions);
-	  this->map->clearFields();
-
-	  this->insertions.clear(); //wyczysc listę
-
-	  this->map->disableMap();	      //zdezaktywuj mape
-	  static_cast<Human*>(this->players_tab[0])->disableHumanBox();  // i zdezaktywuj HumanBoxa
+	  this->mistake("BŁĘDNY RUCH");
+	  this->insertions.clear(); 
+ 
+	  if(this->leftTurns == 2*(sizeof(players_tab)/sizeof(players_tab[0])))
+	    {
+	      this->endOfGame();
+	      return;
+	    } 
+	  this->disableHumanPart();
 
 	  while (gtk_events_pending())
 	    gtk_main_iteration();
 	  sleep(1.5);
-
-	  Gtk::clockEnd();
 	  
-	  this->playerNumber++; //inkrementuj nr zawodnika
+	  this->playerNumber++; 
 	  if (this->playerNumber == sizeof(players_tab)/sizeof(players_tab[0]))
-	    this->playerNumber = 0; //jesli numer jest większy od liczby zawodników, ustaw na 0
-	  this->automaticMove(); //przjdz to automatycznego ruchu
+	    this->playerNumber = 0;
+	  this->automaticMove(); 
 
 	}
     }
-  else //jesli jest w pamięci litera
+  else 
     {
-      // dialogMessage = this->graphic->createDialogMessage("W pamięci jest litera!\n Umieść ją na planszy lub w swoim pudełku liter!", GTK_DIALOG_MODAL,GTK_BUTTONS_NONE); 
-      // while (gtk_events_pending())
-      // 	gtk_main_iteration();
-      // sleep(1.5);
-      // gtk_widget_destroy(dialogMessage);
+      this->graphic->createDialogMessage((char*)"W pamięci jest litera!\n Umieść ją na planszy\n lub w swoim pudełku liter!"); 
     }
+}
+
+void Game::disableHumanPart()
+{
+  this->map->disableMap();	      
+  static_cast<Human*>(this->players_tab[0])->disableHumanBox(); 
+  this->graphic->changebackButton(1);
+  Gtk::clockEnd();
+}
+
+void Game::mistake(string message)
+{
+  this->leftTurns++;
+  this->graphic->createDialogMessage((char*)message.c_str());
+ 
+  static_cast<Human*>(this->players_tab[0])->returnLetters(this->insertions);
+  this->map->clearFields();
 }
 
 Game::~Game()
@@ -248,7 +243,7 @@ Game::~Game()
   delete this->graphic;
   this->history.clear();
 
-  exit(0);
+  //  exit(0);
 }
 
 void Game::backInHistory()
@@ -268,7 +263,7 @@ void Game::backInHistory()
 
   this->sack->readSack(*(*it).loadSackHist());
 
-  for(int i = 0; i < sizeof(players_tab)/sizeof(players_tab[0]);i++) 
+  for(int i = 0; i < (int) (sizeof(players_tab)/sizeof(players_tab[0]));i++) 
     {
       this->players_tab[i]->readPlayer(*(*it).loadPlayerHist(i)); 
       this->graphic->changeActPoints(i+1, this->players_tab[i]->getActPoints());
@@ -279,24 +274,26 @@ void Game::backInHistory()
 void Game::endOfGame()
 {
   int max;
-  int maxP = 0;
-  char winner[15];
-  GtkWidget *message;
-  gint result; 
+  int maxP = -35;
+  char winner[120];
 
   Gtk::clockEnd();
 
-  for(int i = 0; i < sizeof(players_tab)/sizeof(players_tab[0]); i++)
-    if (this->players_tab[i]->getFinalPoints() > maxP)
-      {
-	max = i;
-	maxP = this->players_tab[i]->getFinalPoints();
-	this->graphic->changeActPoints(i+1, this->players_tab[i]->getFinalPoints());
-      }
-  sprintf(winner, "WYGRAŁ %s", (char*)this->players_tab[max]->getName().c_str());
-  
-  this->graphic->createDialogMessage(winner,GTK_DIALOG_MODAL, GTK_BUTTONS_OK);
-  // result = gtk_dialog_run(GTK_DIALOG(message));
-  // if (result == GTK_RESPONSE_OK)
+  for(int i = 0; i <(int)(sizeof(players_tab)/sizeof(players_tab[0])); i++)
+    {
+      if (this->players_tab[i]->getFinalPoints() > maxP)
+	{
+	  max = i;
+	  maxP = this->players_tab[i]->getFinalPoints();
+	}
+      this->graphic->changeActPoints(i+1, this->players_tab[i]->getFinalPoints());
+    }
+
+  if(this->leftTurns == 2*(int)(sizeof(players_tab)/sizeof(players_tab[0])))
+    sprintf(winner, "GRACZE OMINĘLI PO 2 KOLEJKI\nWYGRAŁ %s\nZDOBYŁ %d PUNKTÓW\n", (char*)this->players_tab[max]->getName().c_str(), this->players_tab[max]->getFinalPoints());
+  else
+    sprintf(winner, "BRAK LITER W WORKU I W PUDEŁKU\n JEDNEGO Z GRACZY!\nWYGRAŁ %s\nZDOBYŁ %d PUNKTÓW\n", (char*)this->players_tab[max]->getName().c_str(), this->players_tab[max]->getFinalPoints());
+
+  this->graphic->createDialogMessage(winner);
      gtk_main_quit();
 }  

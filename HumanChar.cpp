@@ -90,6 +90,10 @@ void HumanChar::insert(Character c)
   this->letter = c;
 }
 
+void HumanChar::clear()
+{
+  this->letter.backtoStart();
+}
 void HumanChar::drawLetter()
 {
   this->graphic->changeColor(this->button, this->letter.getValue());

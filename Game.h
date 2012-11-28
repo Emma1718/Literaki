@@ -38,6 +38,8 @@ class Game {
   void automaticMove(); //wywołanie ruchu automatycznego komputera
   void backInHistory();
   void endOfGame();
+  void disableHumanPart();
+  void mistake(std::string);
 };
 
 #endif

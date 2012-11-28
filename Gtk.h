@@ -67,7 +67,7 @@ public:
   void run();
   void changeSensitivity(GtkWidget * button, gboolean x);
   void chooseLetter(std::string filename, Field*);
-  void createDialogMessage(const gchar *, GtkDialogFlags, GtkButtonsType);
+  void createDialogMessage(const gchar *);
  //  ~Gtk();
 
 };
