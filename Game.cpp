@@ -19,6 +19,20 @@ Game::Game(int argc, char *argv[], string filename_matrix, string filename_sack,
   this->playerNumber = 0;
 }
 
+Game::~Game()
+{
+  this->history.clear();
+  this->insertions.clear();
+
+  for(int i = 0; i < PLAYERS; i++)
+    delete this->players_tab[i];
+
+  delete this->dictionary;
+  delete this->sack;
+  delete this->map;
+  delete this->graphic;
+}
+
 void Game::run()
 {
   this->graphic->run();
@@ -230,19 +244,6 @@ void Game::mistake(string message)
  
   static_cast<Human*>(this->players_tab[0])->returnLetters(this->insertions);
   this->map->clearFields();
-}
-
-Game::~Game()
-{
-  for(int i = 0; i < this->playerNumber; i++)
-    delete this->players_tab[i];
-
-  this->insertions.clear();
-  delete this->dictionary;
-  delete this->sack;
-  delete this->map;
-  delete this->graphic;
-  this->history.clear();
 }
 
 void Game::backInHistory()

@@ -37,9 +37,6 @@ protected:
   void disableButton();
   void enableButton();
   virtual void copyData(Field &);
-
-/* static void Enter(void *, gpointer); */
-  /* void ButtonEnterEvent();  /\* void clear (); *\/ */
 };
 
 #endif

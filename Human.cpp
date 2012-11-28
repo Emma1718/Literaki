@@ -15,14 +15,18 @@ Human::Human(string name, int points, Gtk* graphic, Sack *sack, Map * map)
   this->humanbox = new HumanBox(7, this->letters, graphic);
 }
 
+Human::~Human()
+{
+  this->letters.clear();
+  delete this->humanbox;
+}
+
 void Human::addLetters(int amount)
 {
   list <Character>::iterator it;
 
-int i =  this->sack->getCharacters(&(this->letters) , amount);
- cout<<"AMOUNT:"<<i<<" "<<this->letters.size()<<endl;
- for(it = this->letters.begin(); it != this->letters.end(); it++)
-   g_print("After Add:%s\n", (char*)(*it).getChar().c_str());
+  int i =  this->sack->getCharacters(&(this->letters) , amount);
+
    this->humanbox->addLetters(this->letters, i);
 }
 
@@ -39,13 +43,6 @@ void Human::disableHumanBox()
 void Human::enableHumanBox()
 {
   this->humanbox->enableHumanChars();
-}
-
-Human::~Human()
-{
-  delete this->humanbox;
-  delete this->map;
-  delete this->sack;
 }
 
 void Human::drawAfterBack()

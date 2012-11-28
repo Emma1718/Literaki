@@ -19,11 +19,11 @@ class Game {
   Gtk* graphic;
   Map* map;
   Dictionary* dictionary;
+  std::list <History> history;
 
   int playerNumber; //liczba graczy
   Player *players_tab[PLAYERS]; //tablica graczy
 
-  std::list <History> history;
   std::list <Character> insertions; //lista z wszystkimi literami wstawionymi podczas danego ruchu
   int option; //opcja - czy głowny wyraz znajduje się w kolumnie czy też w wierszu
   int leftTurns;//stracone kolejki
@@ -31,6 +31,7 @@ class Game {
  public:
   Game (int argc, char *argv[],std::string filename_matrix, std::string filename_sack, std::string filename_dict); 
   ~Game ();
+
   void run (); //rozpoczęcie gry
   void process(); //główna funkcja obsługująca ruch gracza
   void checkifProcess(); //sprawdzenie czy można szukać wyrazu

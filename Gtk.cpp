@@ -19,7 +19,7 @@ Gtk::Gtk(int argc, char *argv[], Game* parent)
 {
   gtk_init(&argc, &argv); //inicjacja biblioteki GTK
   /*Pola*/
-  Gtk::game = parent; //wskazznik na gre/rodzica
+  Gtk::game = parent; //wskaznik na gre/rodzica
   Gtk::actual_letter = this->createButton((char*)"", 38, 38); //przycisk z aktualną literą
   /*-----Etykiety z nazwami, czasem i punktami-----*/
   this->nameLabel1 = gtk_label_new("Gracz");
@@ -183,10 +183,9 @@ void Gtk::changebackButton(int x)
   if (x>1)  this->changeSensitivity(this->backButton, TRUE);
 }
 
-gboolean Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
+void Gtk::deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data)
 {
   gtk_main_quit();
-  //exit(0); //potem trzeba przerobic na lagodniejsze
 }
 
 void Gtk::chooseLetter(string filename, Field *f)  //wyświetlenie okna z literami do wyboru w zamian za blanka, podany plik i wskaznik na pole na którym jest blank
@@ -198,6 +197,8 @@ void Gtk::chooseLetter(string filename, Field *f)  //wyświetlenie okna z litera
   gtk_window_set_position (GTK_WINDOW(chooseWin), GTK_WIN_POS_CENTER);
   gtk_widget_set_size_request(chooseWin,370,170);
   gtk_window_set_resizable(GTK_WINDOW(chooseWin), FALSE);
+  gtk_window_activate_focus(GTK_WINDOW(chooseWin));
+
 
   GtkWidget *table = this->createTable(4,8);
   gtk_container_border_width(GTK_CONTAINER(chooseWin), 5);
@@ -230,7 +231,7 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)  //funkcja zwrotna kli
   string l;
   l = gtk_button_get_label(GTK_BUTTON(widget));
    
-  gtk_widget_destroy(chooseWin);  
+  gtk_widget_hide(chooseWin);  
   
   Character x(l,0);
   Field * field = static_cast<Field*>(data);
@@ -287,7 +288,7 @@ guint Gtk::clockCallHuman(gpointer data)   //wywoływana co 1sek funkcja zwrotna
       Gtk::game->omitMove();
     }
 }
-void Gtk::clockStart()  //włączenie zegara, parametr odpowiada za wywołanie właściwego callbacka
+void Gtk::clockStart()  //włączenie zegara
 {
   if(!Gtk::clockWorking)
     {

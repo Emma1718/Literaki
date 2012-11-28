@@ -9,14 +9,6 @@ void Player::removeLetters(list <Character> insertions)
   int s = insertions.size();
   int erased = 0;
 
-  for(it = insertions.begin(); it != insertions.end() ;it++)
-    cout<<"to erase:"<<(*it).getChar()<<endl;
-
-  cout<<"s1: "<<s<<endl;
-
-  for(it = this->letters.begin(); it != this->letters.end() ;it++)
-    cout<<"lista:"<<(*it).getChar()<<endl;
-
   for(it2 = insertions.begin(); it2 != insertions.end(); it2++)
     for(it = this->letters.begin(); it != this->letters.end() ;it++)
       {
@@ -36,7 +28,6 @@ void Player::removeLetters(list <Character> insertions)
 	    break;	
 	  }
       }
-  cout<<"erased:"<<erased<<endl;
 
   while(s != erased)  
     {
@@ -59,8 +50,6 @@ void Player::removeLetters(list <Character> insertions)
 	    }
 	}
     } 
-  for(it = this->letters.begin(); it != this->letters.end() ;it++)
-    cout<<"lista:"<<(*it).getChar()<<endl;
 }
 
  void Player::addLetters(int amount)

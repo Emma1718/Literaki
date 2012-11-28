@@ -8,7 +8,7 @@
 #include "Character.h"
 #include <ctime>
 
-#define DEF_SEC 90  //domyślny czas na ułożenie jednego słowa
+#define DEF_SEC 61  //domyślny czas na ułożenie jednego słowa
 
 class Game;
 class Field;
@@ -34,22 +34,21 @@ class Gtk
   static bool clockWorking;
   static guint clock;
   
-  static gboolean deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data);
-
+  static void deleteEvent(GtkWidget *widget, GdkEvent  *event, gpointer data);
+  static void letterChosen(GtkWidget *, gpointer); 
+  static guint clockCallHuman(gpointer);
+  static void backButtonClicked(GtkWidget *, gpointer);
 
 public:
+  
+  static Character tmp_char; //tymczasowa litera, globalna, która gracz pobrał z planszy/humanboxa
 
   Gtk(int argc, char * argv[], Game *);
   void run();
   
-  static Character tmp_char; //tymczasowa litera, która gracz pobrał z planszy/humanboxa
-
-  /*-----funkcje statyczne, wywoływane na skutek zdarzeń-----*/
   static void buttonOKClicked(GtkWidget *widget, gpointer data);
   static void buttonGupClicked(GtkWidget *widget, gpointer data);
-  static void backButtonClicked(GtkWidget *, gpointer);
-  static void letterChosen(GtkWidget *, gpointer); 
-  static guint clockCallHuman(gpointer);
+  
 
   static void clockStart();
   static void clockEnd();

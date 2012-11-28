@@ -10,7 +10,7 @@ int main(int argc, char * argv[])
     }
   catch(string ex)
     {
-      cout<<"Exeption: "<<ex<<endl;
+      cout<<"Exception: "<<ex<<endl;
     }
   return 0;
 }

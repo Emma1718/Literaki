@@ -10,6 +10,14 @@ HumanBox::HumanBox(int l, list <Character> letters, Gtk* graphic)
   this->draw();
 }
 
+HumanBox::~HumanBox()
+{ 
+  for(int i = 0; i < this->length; i++)
+    delete this->lettersBox[i];
+ 
+  delete this->lettersBox;
+}
+
 void HumanBox::loadLetters(list <Character> letters)
 {
   list <Character>::iterator iter;
@@ -90,16 +98,7 @@ void HumanBox::addLetters(list <Character> letters, int amount)
     }
 }
 
-
-HumanBox::~HumanBox()
-{ 
-  for(int i = 0; i < this->length; i++)
-    delete this->lettersBox[i];
-  delete this->lettersBox;
-
-  delete this->graphic;
-}
-
+ 
 void HumanBox::drawAfterBack(list <Character> letters)
 {
   int i = 0;

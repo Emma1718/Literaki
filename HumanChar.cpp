@@ -10,6 +10,12 @@ HumanChar::HumanChar(Gtk * graphic, HumanBox* hb)
 
 }
 
+
+HumanChar::~HumanChar()
+{
+  
+}
+
 GtkWidget *HumanChar::draw()
 {
   this->button = graphic->createButton((char*)"", 38 ,38);
@@ -94,10 +100,4 @@ void HumanChar::drawLetter()
 {
   this->graphic->changeColor(this->button, this->letter.getValue());
   this->graphic->setLabel(this->button, this->letter.getChar());
-}
-
-HumanChar::~HumanChar()
-{
-  delete this->parent;
-  delete this->graphic;
 }

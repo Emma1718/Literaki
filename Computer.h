@@ -7,14 +7,15 @@
 #include <algorithm>
 #include <time.h>
 
-/// class Computer - 
+#define maxTime 60
+
 class Computer : public Player {
 
   std::list <Character> listOfLetters;
   void loadLettersFromFile(std::string filename);
  public:
   Computer(std::string, int,Sack *,  Dictionary *, Map *, std::string);
-  //~Computer();
+  ~Computer();
 
   bool empty(std::string line);
   char first (std::string line, int &i);
@@ -37,7 +38,7 @@ class Computer : public Player {
   std::string lettersToStr();
   bool findIfEmpty();
   bool checkSubset(std::string subset);
-  bool check(std::string word1, std::list<Character> tmp_letters, std::string letters);
+  bool check(std::string word1, std::list<Character> tmp_letters, std::string letters, int);
 }; 
 
 #endif 

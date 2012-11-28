@@ -71,14 +71,6 @@ int Sack::getCharacters(list <Character> *letters, int amount)
   
   return how_many;
 }
-
-void Sack::show()
-{
-  map<int,Character>::iterator iter;
-  cout<<"sizechar:"<<this->characters.size()<<endl;
-  for ( iter = this->characters.begin() ; iter != this->characters.end(); iter++ )
-    cout << (*iter).first << " => " << (*iter).second.getChar() << endl;
-}
 				    
 Sack::~Sack()
 {
@@ -99,8 +91,5 @@ void Sack::readSack(Sack &s)
 
   for(it = s.characters.begin(); it != s.characters.end(); it++)
     this->characters.insert(*it);
-
-  for(it = characters.begin(); it != characters.end(); it++)
-    cout<<(*it).first<<":"<<(*it).second.getChar()<<endl;
 }
 
