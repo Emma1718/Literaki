@@ -1,5 +1,7 @@
 #include "Computer.h"
 
+#define maxTime 30
+
 using namespace std;
 
 Computer::Computer(string name, int points, Sack * sack, Dictionary *dict, Map * map, string filename)
@@ -97,7 +99,7 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
   for(iter=dict->words.begin(); iter!=dict->words.end(); ++iter)
     {
 
-      if(((clock()-start)/(double)CLOCKS_PER_SEC) > MAX_TIME)
+      if(((clock()-start)/(double)CLOCKS_PER_SEC) >= maxTime)
 	{
 	  tooLong=true;
 	  return false;
@@ -245,7 +247,7 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
 		  ok=true;
 
 
-		  if (right < (*it))
+		  if (right < (int)(*it))
 		    {
 		      //szukanie w comp_letters
 		      ++m; //ominiecie znaku juz wpisanego
@@ -286,8 +288,32 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
 			{
 			  end=begin+(int)word1.length()-1;
 			  cout<<*iter<<" begin:"<<begin<<" end:"<<end<<" i:"<<nr<<" "<<RowOrCol<<endl;
+			  
+			  tmp_letters.clear();
+			  tmp_letters=copy_list();		    
+			  //cout<<"Slowo: "<<word1<<endl;
+			  list_it=tmp_letters.begin();
+			  //cout<<"Litery komputera: ";
+
+			  // while(list_it != tmp_letters.end())
+			  //   {cout<<(*list_it).getChar()<<" "; ++list_it;}
+			  // cout<<endl;
+
+			  try
+			    {
+			      check(word1,tmp_letters,letters);
+			    }
+			  catch (string ex)
+			    {
+			      cout<<"Exeption: "<<ex<<endl;
+			      return false;
+			    }
+
+
 			  if (this->insertWord(*iter, begin, nr, RowOrCol))
 			    {
+			      cout<<"INS!!!"<<endl; //else continue;
+			      
 			      bool foundAll = false;
 			      list <string> wordsToCheck;
 			      list <string>::iterator iter;
@@ -295,6 +321,7 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
 			      
 			      if(this->map->checkMove(cs))
 			  	{
+			  	  cout<<"GOOD MOVE"<<endl;
 				  this->map->findWords(&wordsToCheck, RowOrCol);
 			  	  for(iter = wordsToCheck.begin(); iter != wordsToCheck.end(); iter++)
 			  	    {
@@ -325,7 +352,6 @@ bool Computer::find(int RowOrCol, int nr, string letters, list<int> distances, i
 	    }
 	}
     }
-
   return false;
 }
 
@@ -340,10 +366,8 @@ bool Computer::findInLine(int RowOrCol, int nr, string &letters, list<int> &dist
 	if(tooLong)
 	  return false;
       
-      if((int)letters[0]<0)
-	letters=letters.substr(2);
-      else
-	letters=letters.substr(1);
+	else
+	  letters=letters.substr(1);
 
       distances.pop_front();
     }
@@ -351,7 +375,70 @@ bool Computer::findInLine(int RowOrCol, int nr, string &letters, list<int> &dist
   return false;
 }
 
+bool Computer::check(string word1, list<Character> tmp_letters, string letters)
+{
+  cout<<"na mapie: "<<letters<<endl;
 
+  int j;
+  bool contain;
+  bool canInsert=true;
+  string c;
+  int left, right, prevleft=-1;
+  list<Character>::iterator list_it;
+
+  if(letters == word1)
+    {
+      string ex = "computer created wrong word!";
+      throw ex;
+    }
+
+  for(int i=0; i<(int)word1.length() && canInsert; ++i)
+    {
+      c="";
+      c=c+word1[i];
+      if((int)word1[i]<0)
+	c=c+word1[++i];
+
+      cout<<"litera: "<<c<<endl;
+      j=0;
+      contain=false;
+      list_it=tmp_letters.begin();
+
+      //czy aktualna litera slowa zawiera sie w literach komputera
+      while((!contain) && (list_it != tmp_letters.end()))
+	{
+	  if((*list_it).getChar() == c)
+	    {
+	      contain=true;
+	      tmp_letters.erase(list_it);
+	    }
+	  ++list_it;
+	  ++j;
+	}
+      cout<<c<<" "<<contain<<endl;
+
+      //jezeli nie sprawdzamy, czy jest juz na mapie
+      if(!contain)
+	{
+	  if(this->contain_letter(letters, c, left, right))
+	    {
+	      cout<<left<<" "<<prevleft<<endl;
+	      if(left>prevleft)
+		contain=true;
+	      prevleft=left;
+	    }
+	  cout<<c<<" "<<contain<<endl;
+	}
+
+      if(!contain)
+	{
+	  //return false;
+	  string ex = "computer created wrong word!";
+	  throw ex;
+	}
+    }  
+  return true;
+}
 
 bool Computer::findWord()
 {
@@ -367,10 +454,12 @@ bool Computer::findWord()
   for(list<Character>::iterator list_it = this->letters.begin(); list_it != this->letters.end(); list_it++)
     if((*list_it).getChar() == "_")
       ++blanc_amount;
+  cout<<"blancs:"<<blanc_amount<<endl;
 
   srand(time(NULL));
   int r = rand()%4;
-  
+  cout<<"RAND:"<<r<<endl;
+
   clock_t start=clock();
   bool tooLong=false;
   
@@ -499,7 +588,7 @@ Character Computer::fromStringToCharacter(string l)
 {
   list <Character>::iterator iter;
 
-  for(iter = this->listOfLetters.begin(); iter != this->listOfLetters.end(); iter++)
+  for(iter = listOfLetters.begin(); iter != listOfLetters.end(); iter++)
     {
       if(l == (*iter).getChar())
 	return (*iter);

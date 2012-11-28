@@ -78,6 +78,12 @@ void Map::loadFromFile(string filename)
 
   ifstream file(filename.c_str(),ifstream::in);
 
+  if(file.good() == false)
+    {
+      string ex = "couldn't open file containing map!";
+      throw ex;
+    }
+
   if (file.is_open())
     {
       file>>this->height>>this->width;

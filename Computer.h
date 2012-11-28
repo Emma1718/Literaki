@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <time.h>
 
-#define MAX_TIME 30
 /// class Computer - 
 class Computer : public Player {
 
@@ -35,9 +34,10 @@ class Computer : public Player {
   bool insertWord(std::string, int, int, int);
   void addLetters(int);
 
-std::string lettersToStr();
-bool findIfEmpty();
-bool checkSubset(std::string subset);
-};
+  std::string lettersToStr();
+  bool findIfEmpty();
+  bool checkSubset(std::string subset);
+  bool check(std::string word1, std::list<Character> tmp_letters, std::string letters);
+}; 
 
 #endif 

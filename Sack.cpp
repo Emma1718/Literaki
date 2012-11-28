@@ -7,7 +7,13 @@ Sack::Sack(string filename_sack)
   ifstream read_file(filename_sack.c_str(), ifstream::in);
   
   int amount, value;
-
+  
+  if(read_file.good() ==false)
+    {
+      string ex = "couldn't open file containing sack!";
+      throw ex;
+    } 
+  
   for(int x=0; 1;)
     {
       string letter;  
