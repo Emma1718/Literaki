@@ -32,7 +32,6 @@ GtkWidget * Field::draw(Gtk *graphic)
   this->button = graphic->createButton((char*)"", 38, 38);
   graphic->changeColor(this->button,0);
   g_signal_connect(this->button, "clicked", GTK_SIGNAL_FUNC(Field::clickButton), this);
-  //  g_signal_connect(this->button, "enter", GTK_SIGNAL_FUNC(Field::Enter), this);
   return this->button;
 }
 
@@ -60,9 +59,7 @@ void Field::changeButton()
 }
 
 void Field::buttonClickedEvent()
-{
-  //  g_print("%d %d", this->row_no, this->col_no);
-  
+{ 
   if (Gtk::tmp_char.getChar() == "")  //jeśli w pamięci nie ma żadnej litery
     {
     if ((this->c.getChar() != "") && (this->parent->checkIfModified(this->row_no, this->col_no))) // i jeśli jest litera na polu oraz to pole jest modyfikowalne

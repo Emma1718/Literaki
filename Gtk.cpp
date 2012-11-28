@@ -7,9 +7,9 @@ Character Gtk::tmp_char = Character();
 GtkWidget *Gtk::actual_letter;
 Game *Gtk::game;
 GtkWidget *Gtk::chooseWin;
+
 /*----Mierzenie czasu */
 GtkWidget *Gtk::timeLabel1;
-
 int Gtk::seconds;
 guint Gtk::clock;
 bool Gtk::clockWorking; 
@@ -193,13 +193,13 @@ void Gtk::chooseLetter(string filename, Field *f)  //wyświetlenie okna z litera
 {
   int unimp;
 
-  chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);  //tworzenie okna
+  chooseWin= gtk_window_new(GTK_WINDOW_TOPLEVEL);  
   gtk_window_set_title (GTK_WINDOW(chooseWin), "Wybierz literę");
   gtk_window_set_position (GTK_WINDOW(chooseWin), GTK_WIN_POS_CENTER);
   gtk_widget_set_size_request(chooseWin,370,170);
   gtk_window_set_resizable(GTK_WINDOW(chooseWin), FALSE);
 
-  GtkWidget *table = this->createTable(4,8);  //tworzenie tabelki
+  GtkWidget *table = this->createTable(4,8);
   gtk_container_border_width(GTK_CONTAINER(chooseWin), 5);
   gtk_container_add(GTK_CONTAINER(chooseWin), table);
 
@@ -229,9 +229,8 @@ void Gtk::letterChosen(GtkWidget * widget, gpointer data)  //funkcja zwrotna kli
  {
   string l;
   l = gtk_button_get_label(GTK_BUTTON(widget));
-  g_print("chosen: %s\n", (char*)l.c_str());
-  
-  gtk_widget_hide(chooseWin);  
+   
+  gtk_widget_destroy(chooseWin);  
   
   Character x(l,0);
   Field * field = static_cast<Field*>(data);
@@ -245,6 +244,7 @@ void Gtk::createDialogMessage(const gchar *messageText)
 {
   GtkWidget *message;
   gint result;
+
   message=gtk_message_dialog_new(GTK_WINDOW(this->window), GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_OK, messageText);
   gtk_widget_set_usize(message,350,150);
   gtk_widget_show(message);
@@ -252,9 +252,6 @@ void Gtk::createDialogMessage(const gchar *messageText)
   result = gtk_dialog_run(GTK_DIALOG (message));
   if(result == GTK_RESPONSE_OK)
     gtk_widget_destroy(message);
-
-
-  //return message;
 }
 
 void Gtk::changeActPoints(int which, int actualPoints) //ustawienie odpowiedniej ilości punktów na odpowiedniej etykiecie, 1 - gracz, 2 - komputer
