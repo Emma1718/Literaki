@@ -55,7 +55,7 @@ void Game::process()
     }
   else 
     {
-      this->mistake("BŁĘDNY WYRAZ");
+      this->mistake("NIE MA TAKIEGO WYRAZU!");
     }
   
 
@@ -242,8 +242,6 @@ Game::~Game()
   delete this->map;
   delete this->graphic;
   this->history.clear();
-
-  //  exit(0);
 }
 
 void Game::backInHistory()
