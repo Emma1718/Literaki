@@ -250,7 +250,7 @@ void Game::backInHistory()
   list <History>::reverse_iterator it;  
  
   Gtk::tmp_char.backtoStart();
-  this->graphic->changeActLetter(0, "");
+  this->graphic->changeActLetter();
 
   this->history.pop_back();
   if (this->history.size() == 1)

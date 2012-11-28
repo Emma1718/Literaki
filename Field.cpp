@@ -59,13 +59,13 @@ void Field::changeButton()
 }
 
 void Field::buttonClickedEvent()
-{ 
+{
   if (Gtk::tmp_char.getChar() == "")  //jeśli w pamięci nie ma żadnej litery
     {
     if ((this->c.getChar() != "") && (this->parent->checkIfModified(this->row_no, this->col_no))) // i jeśli jest litera na polu oraz to pole jest modyfikowalne
 	{
-	  this->graphic->changeActLetter(this->c.getValue(), this->c.getChar());
 	  Gtk::tmp_char = this->c;// to pobierz literę z pola i ją zapamięta
+	  this->graphic->changeActLetter();	 
 	  this->backToStandart();
 	  this->parent->modifyField(this->row_no, this->col_no, false); // a także ustaw pole niezmodyfikowanym
 	}
@@ -81,7 +81,7 @@ void Field::buttonClickedEvent()
 	      exchange = this->c;
 	      this->insert(Gtk::tmp_char);  // to zamień litery
 	      Gtk::tmp_char = exchange;
-	      this->graphic->changeActLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
+	      this->graphic->changeActLetter();
 	      this->changeButton();
 	    }
 	}
@@ -90,7 +90,7 @@ void Field::buttonClickedEvent()
 
 	  this->insert(Gtk::tmp_char);  // to wstaw literę
 	  Gtk::tmp_char.backtoStart();
-	  this->graphic->changeActLetter(0, (char*)"");
+	  this->graphic->changeActLetter();
 	  this->changeButton();
 	  this->parent->modifyField(this->row_no, this->col_no, true);
 	}

@@ -27,17 +27,15 @@ void HumanChar::buttonClicked (GtkWidget * widget, gpointer data)
 
 void HumanChar::buttonClickedEvent(GtkWidget * button)
 {
-
-
   if (Gtk::tmp_char.getChar() == "")
     {
       if  (this->letter.getChar() != "")
 	{
-	  this->graphic->changeColor(button, 0);
-	  this->graphic->setLabel(button, (char*)"");
-	  this->graphic->changeActLetter(this->letter.getValue(), this->letter.getChar());
+	
 	  Gtk::tmp_char = this->letter;
-	  this->letter.backtoStart();
+	  this->letter.backtoStart();	  
+	  this->drawLetter();
+	  this->graphic->changeActLetter();
 	}
     }
   else
@@ -50,17 +48,15 @@ void HumanChar::buttonClickedEvent(GtkWidget * button)
 	  this->letter = Gtk::tmp_char;
 	  Gtk::tmp_char = exchange;
 
-	  this->graphic->changeActLetter(Gtk::tmp_char.getValue(), Gtk::tmp_char.getChar());
-	  this->graphic->setLabel(this->button, this->letter.getChar());
-	  this->graphic->changeColor(this->button, this->letter.getValue());
+	  this->graphic->changeActLetter();
+	  this->drawLetter();
 	}
       else
 	{
 	  this->letter = Gtk::tmp_char;
 	  Gtk::tmp_char.backtoStart();
-	  this->graphic->changeActLetter(0, (char*)"");
-	  this->graphic->setLabel(this->button, this->letter.getChar());
-	  this->graphic->changeColor(this->button, this->letter.getValue());
+	  this->graphic->changeActLetter();
+	  this->drawLetter();
 	}
     }
 }
@@ -103,5 +99,5 @@ void HumanChar::drawLetter()
 HumanChar::~HumanChar()
 {
   delete this->parent;
-  delete this->graphic; 
+  delete this->graphic;
 }

@@ -54,7 +54,7 @@ public:
   static void clockStart();
   static void clockEnd();
 
-  void changeActLetter(int, std::string);
+  void changeActLetter();
   void changeActPoints(int, int);
   void changebackButton(int);
 

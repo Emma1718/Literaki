@@ -171,10 +171,10 @@ void Gtk::changeSensitivity(GtkWidget * button, gboolean x) //zmiana aktywności
   gtk_widget_set_sensitive(button, x);
 }
 
-void Gtk::changeActLetter(int color, string letter) //zmiana aktualnie wybranej litery
+void Gtk::changeActLetter() //zmiana aktualnie wybranej litery
 {
-  this->changeColor(Gtk::actual_letter, color);
-  this->setLabel(Gtk::actual_letter, letter);
+  this->changeColor(Gtk::actual_letter, (Gtk::tmp_char).getValue());
+  this->setLabel(Gtk::actual_letter, (Gtk::tmp_char).getChar());
 }
 
 void Gtk::changebackButton(int x)
